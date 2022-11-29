@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model student {
+  id              String        @id @default(uuid())
+  name            String?       @db.VarChar(32)
+  firstname       String        @db.VarChar(32)
+  promotion       promotion?    @relation(references: [id], fields: [promotionId])
+  mail            String?       @unique
+  birthday        DateTime
+  favorite_pastry pastry        @relation(references: [id], fields: [pastryId])
+  promotionId     String?
+  pastryId        String
+  croissanted     croissanted[]
+  login           login[]
+}
+
+model promotion {
+  id           String    @id @default(uuid())
+  name         String?   @db.VarChar(32)
+  year         Int?
+  url_schedule String?
+  url_picture  String?
+  student      student[]
+}
+
+model pastry {
+  id      String    @id @default(uuid())
+  name    String?   @db.VarChar(32)
+  price   Float?
+  student student[]
+}
+
+model croissanted {
+  id        String    @id @default(uuid())
+  date      DateTime? @default(now())
+  student   student   @relation(references: [id], fields: [studentId])
+  bought    Boolean   @default(false)
+  studentId String
+}
+
+model login {
+  id        String  @id @default(uuid())
+  login     String?
+  password  String?
+  student   student @relation(references: [id], fields: [studentId])
+  admin     Boolean @default(false)
+  studentId String
+}
+
+model quote {
+  id     String  @id @default(uuid())
+  quote  String? @unique
+  author String? @default("anon") @db.VarChar(32)
+}
