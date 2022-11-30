@@ -7,6 +7,8 @@ COPY prisma ./prisma/
 
 RUN yarn add glob rimraf
 
+RUN yarn add -D @prisma
+
 RUN yarn --only=development
 
 COPY . .

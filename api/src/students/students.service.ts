@@ -9,7 +9,7 @@ export class StudentsService {
     ) {
     }
 
-    async Student(
+    async student(
         studentWhereUniqueInput: Prisma.studentWhereUniqueInput
     ): Promise<student | null> {
         return await this.prisma.student.findUnique({

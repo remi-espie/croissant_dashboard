@@ -9,7 +9,7 @@ export class PastriesService {
     ) {
     }
 
-    async Pastry(
+    async pastry(
         pastryWhereUniqueInput: Prisma.pastryWhereUniqueInput
     ): Promise<pastry | null> {
         return await this.prisma.pastry.findUnique({
