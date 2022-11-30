@@ -11,17 +11,17 @@ datasource db {
 }
 
 model student {
-  id              String        @id @default(uuid())
-  name            String        @db.VarChar(32)
-  firstname       String        @db.VarChar(32)
-  s_promotion     promotion?    @relation(references: [id], fields: [promotionId])
-  mail            String        @unique
-  birthday        DateTime?
-  favorite_pastry pastry?       @relation(references: [id], fields: [pastryId])
-  promotionId     String?
-  pastryId        String?
-  croissanted     croissanted[]
-  login           login[]
+  id                String        @id @default(uuid())
+  name              String        @db.VarChar(32)
+  firstname         String        @db.VarChar(32)
+  s_promotion       promotion?    @relation(references: [id], fields: [promotionId])
+  mail              String        @unique
+  birthday          DateTime?
+  s_pastry          pastry?       @relation(references: [id], fields: [pastryId])
+  promotionId       String?
+  pastryId          String?
+  croissanted       croissanted[]
+  login             login[]
 }
 
 model promotion {

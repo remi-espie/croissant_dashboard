@@ -16,7 +16,7 @@ export class PastriesController {
     // Get pastry data -> GET /pastry/:id or name
     @Get("/:id")
     async profile(@Param("id") id: string): Promise<pastry> {
-        return this.pastryService.Pastry({ id: String(id) });
+        return this.pastryService.pastry({ id: String(id) });
     }
 
 }

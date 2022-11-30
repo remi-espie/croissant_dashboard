@@ -16,7 +16,7 @@ export class PromotionsController {
     // Get promotion data -> GET /promotion/:id or name
     @Get("/:id")
     async profile(@Param("id") id: string): Promise<promotion> {
-        return this.promotionService.Promotion({ id: String(id) });
+        return this.promotionService.promotion({ id: String(id) });
     }
 
 }
