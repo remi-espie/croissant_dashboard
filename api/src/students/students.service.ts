@@ -17,7 +17,7 @@ export class StudentsService {
         });
     }
 
-    async createUser(data: Prisma.studentCreateInput): Promise<student> {
+    async createStudent(data: Prisma.studentCreateInput): Promise<student> {
         const studentExists = await this.prisma.student.findUnique({
             where: {mail: data.mail},
         });
