@@ -9,11 +9,9 @@ export class PromotionsService {
     ) {
     }
 
-    async promotion(
-        promotionWhereUniqueInput: Prisma.promotionWhereUniqueInput
-    ): Promise<promotion | null> {
-        return await this.prisma.promotion.findUnique({
-            where: promotionWhereUniqueInput,
+    async promotion(id, name): Promise<promotion | null> {
+        return await this.prisma.promotion.findFirst({
+            where: {OR: [{id}, {name}]},
         });
     }
 
