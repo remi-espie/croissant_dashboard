@@ -9,25 +9,45 @@ export class StudentsService {
     ) {
     }
 
-    async student(
-        studentWhereUniqueInput: Prisma.studentWhereUniqueInput
-    ): Promise<student | null> {
-        return await this.prisma.student.findUnique({
-            where: studentWhereUniqueInput,
+    async student(id, name): Promise<student | null> {
+        return await this.prisma.student.findFirst({
+            where: {OR: [{id}, {name}]},
         });
     }
 
     async createStudent(data: Prisma.studentCreateInput): Promise<student> {
-        const studentExists = await this.prisma.student.findUnique({
-            where: {mail: data.mail},
-        });
-        if (studentExists) {
-            throw new HttpException("Student already exists", HttpStatus.CONFLICT);
-        }
         return await this.prisma.student.create({
             data: {
                 ...data
             },
         });
     }
+
+    async updateStudent(data: Prisma.studentUpdateInput): Promise<student> {
+        const studentExists = await this.prisma.student.update({
+            where: {id: String(data.id)},
+            data: {
+                ...data
+            },
+        });
+        if (!studentExists) {
+            throw new HttpException("Student does not exists", HttpStatus.BAD_REQUEST);
+        }
+        return studentExists;
+    }
+
+    async deleteStudent(id: Prisma.studentDeleteArgs): Promise<student> {
+        const studentExists = await this.prisma.student.delete({
+            where: {id: String(id)}
+        });
+        if (!studentExists) {
+            throw new HttpException("Student does not exists", HttpStatus.BAD_REQUEST);
+        }
+        return studentExists;
+    }
+
+    async getAllStudent(){
+        return await this.prisma.student.findMany();
+    }
+
 }

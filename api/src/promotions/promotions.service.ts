@@ -28,4 +28,33 @@ export class PromotionsService {
             },
         });
     }
+
+    async updatePromotion(data: Prisma.promotionUpdateInput): Promise<promotion> {
+        const promotionExists = await this.prisma.promotion.update({
+            where: {id: String(data.id)},
+            data: {
+                ...data
+            },
+        });
+        if (!promotionExists) {
+            throw new HttpException("Promotion does not exists", HttpStatus.BAD_REQUEST);
+        }
+        return promotionExists;
+    }
+
+    async deletePromotion(id: Prisma.promotionDeleteArgs): Promise<promotion> {
+        const promotionExists = await this.prisma.promotion.delete({
+            where: {id: String(id)}
+        });
+        if (!promotionExists) {
+            throw new HttpException("Promotion does not exists", HttpStatus.BAD_REQUEST);
+        }
+        return promotionExists;
+    }
+
+
+    async getAllPromotion(){
+        return await this.prisma.promotion.findMany();
+    }
+
 }

@@ -9,11 +9,9 @@ export class PastriesService {
     ) {
     }
 
-    async pastry(
-        pastryWhereUniqueInput: Prisma.pastryWhereUniqueInput
-    ): Promise<pastry | null> {
-        return await this.prisma.pastry.findUnique({
-            where: pastryWhereUniqueInput,
+    async pastry(id, name): Promise<pastry | null> {
+        return await this.prisma.pastry.findFirst({
+            where: {OR: [{id}, {name}]},
         });
     }
 
@@ -30,4 +28,32 @@ export class PastriesService {
             },
         });
     }
+
+    async updatePastry(data: Prisma.pastryUpdateInput): Promise<pastry> {
+        const pastryExists = await this.prisma.pastry.update({
+            where: {id: String(data.id)},
+            data: {
+                ...data
+            },
+        });
+        if (!pastryExists) {
+            throw new HttpException("Pastry does not exists", HttpStatus.BAD_REQUEST);
+        }
+        return pastryExists;
+    }
+
+    async deletePastry(id: Prisma.pastryDeleteArgs): Promise<pastry> {
+        const pastryExists = await this.prisma.pastry.delete({
+            where: {id: String(id)}
+        });
+        if (!pastryExists) {
+            throw new HttpException("Pastry does not exists", HttpStatus.BAD_REQUEST);
+        }
+        return pastryExists;
+    }
+
+    async getAllPastry(){
+        return await this.prisma.pastry.findMany();
+    }
+
 }
