@@ -1,6 +1,7 @@
 import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
 import {pastry} from "@prisma/client";
 import {PastriesService} from "./pastries.service";
+import {PastriesDto, PastriesDtoId} from "./pastries.dto";
 
 @Controller("pastry")
 export class PastriesController {
@@ -10,8 +11,8 @@ export class PastriesController {
     // Create pastry -> POST /pastry
     @Post()
     async createPromotion(
-        @Body() pastryData: { name: string; price: number; }
-    ): Promise<pastry> {
+        @Body() pastryData: PastriesDto
+    ): Promise<PastriesDto> {
         return this.pastriesService.createPastry(pastryData);
     }
 
@@ -30,8 +31,8 @@ export class PastriesController {
     // Update pastry data -> PUT /pastry/:id
     @Put("/:id")
     async updatePastry(
-        @Body() pastryData: { name: string; price: number; }
-    ): Promise<pastry> {
+        @Body() pastryData: PastriesDtoId
+    ): Promise<PastriesDtoId> {
         return this.pastriesService.updatePastry(pastryData);
     }
 

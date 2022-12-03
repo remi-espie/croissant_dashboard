@@ -1,6 +1,7 @@
 import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
-import {pastry, student, promotion} from "@prisma/client";
+import {student} from "@prisma/client";
 import {StudentsService} from "./students.service";
+import {StudentsDto, StudentsDtoId} from "./students.dto";
 
 @Controller("student")
 export class StudentsController {
@@ -10,8 +11,8 @@ export class StudentsController {
     // Create student -> POST /student
     @Post()
     async createStudent(
-        @Body() studentData: { name: string; firstname: string; birthday: string; mail: string; promotion: promotion; pastry: pastry }
-    ): Promise<student> {
+        @Body() studentData: StudentsDto
+    ): Promise<StudentsDto> {
         return this.studentsService.createStudent(studentData);
     }
 
@@ -30,8 +31,8 @@ export class StudentsController {
     // Update student data -> PUT /student/:id
     @Put("/:id")
     async updateStudent(
-        @Body() studentData: { name: string; firstname: string; birthday: string; mail: string; promotion: promotion; pastry: pastry }
-    ): Promise<student> {
+        @Body() studentData: StudentsDtoId
+    ): Promise<StudentsDtoId> {
         return this.studentsService.updateStudent(studentData);
     }
 
