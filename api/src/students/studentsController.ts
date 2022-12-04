@@ -13,6 +13,7 @@ export class StudentsController {
     async createStudent(
         @Body() studentData: StudentsDto
     ): Promise<StudentsDto> {
+        studentData.birthday = new Date(studentData.birthday)
         return this.studentsService.createStudent(studentData);
     }
 
@@ -33,6 +34,7 @@ export class StudentsController {
     async updateStudent(
         @Body() studentData: StudentsDtoId
     ): Promise<StudentsDtoId> {
+        studentData.birthday = new Date(studentData.birthday)
         return this.studentsService.updateStudent(studentData);
     }
 
