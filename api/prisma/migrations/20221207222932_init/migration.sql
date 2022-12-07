@@ -71,6 +71,9 @@ CREATE UNIQUE INDEX "promotion_name_key" ON "promotion"("name");
 CREATE UNIQUE INDEX "pastry_name_key" ON "pastry"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "login_studentId_key" ON "login"("studentId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "quote_quote_key" ON "quote"("quote");
 
 -- AddForeignKey

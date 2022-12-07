@@ -54,7 +54,7 @@ model login {
   password  String
   student   student @relation(references: [id], fields: [studentId])
   admin     Boolean @default(false)
-  studentId String
+  studentId String  @unique
 }
 
 model quote {
