@@ -23,17 +23,19 @@ export class StudentsService {
         });
     }
 
-    async updateStudent(data: Prisma.studentUpdateInput): Promise<student> {
-        const studentExists = await this.prisma.student.update({
-            where: {id: String(data.id)},
-            data: {
-                ...data
-            },
-        });
-        if (!studentExists) {
-            throw new HttpException("Student does not exists", HttpStatus.BAD_REQUEST);
+    async updateStudent(data: Prisma.studentUncheckedUpdateInput): Promise<student> {
+        try {
+            return await this.prisma.student.update({
+                where: {id: String(data.id)},
+                data: {
+                    ...data
+                },
+            });
+        } catch (e) {
+            console.dir(e)
+            throw new HttpException("Invalid parameters for student : " + Object.values(e.meta)[0], HttpStatus.BAD_REQUEST);
         }
-        return studentExists;
+
     }
 
     async deleteStudent(id: Prisma.studentDeleteArgs): Promise<student> {
@@ -46,7 +48,7 @@ export class StudentsService {
         return studentExists;
     }
 
-    async getAllStudent(){
+    async getAllStudent() {
         return await this.prisma.student.findMany();
     }
 

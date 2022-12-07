@@ -1,4 +1,4 @@
-import {IsDate, IsDateString, IsNotEmpty, IsOptional, IsString} from 'class-validator';
+import {IsDateString, IsNotEmpty, IsOptional, IsString} from 'class-validator';
 
 export class StudentsDto{
     @IsString()
@@ -37,7 +37,7 @@ export class StudentsDtoId{
     @IsNotEmpty()
     public firstname: string
 
-    @IsDate()
+    @IsDateString()
     @IsOptional()
     public birthday: Date
 
