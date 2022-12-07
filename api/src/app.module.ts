@@ -5,13 +5,12 @@ import {StudentsModule} from "./students/students.module";
 import {PastriesModule} from "./pastries/pastries.module";
 import {PromotionsModule} from "./promotions/promotions.module";
 import { CroissantedModule } from './croissanted/croissanted.module';
-import { QuoteService } from './quote/quote.service';
-import { QuoteController } from './quote/quote.controller';
 import { QuoteModule } from './quote/quote.module';
+import { LoginModule } from './login/login.module';
 
 @Module({
-  imports: [StudentsModule, PastriesModule, PromotionsModule, CroissantedModule, QuoteModule],
-  controllers: [AppController, QuoteController],
-  providers: [AppService, QuoteService],
+  imports: [StudentsModule, PastriesModule, PromotionsModule, CroissantedModule, QuoteModule, LoginModule],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
