@@ -1,6 +1,6 @@
 import {HttpException, HttpStatus, Injectable} from "@nestjs/common";
 import {PrismaService} from "../prisma.service";
-import {Prisma, login} from "@prisma/client";
+import {login, Prisma} from "@prisma/client";
 import {PasswordProvider} from "../provider/password";
 
 @Injectable()
@@ -11,12 +11,18 @@ export class LoginService {
     ) {
     }
 
-    async login(id): Promise<login | null> {
+    async login(id, studentId): Promise<login | null> {
         const login = await this.prisma.login.findFirst({
-            where: {id},
+            where: {OR: [{id}, {studentId}]}
         });
         delete login.password;
         return login;
+    }
+
+    async getLogin(id, studentId): Promise<login | null> {
+        return await this.prisma.login.findFirst({
+            where: {OR: [{id}, {studentId}]}
+        });
     }
 
     async createLogin(data: Prisma.loginUncheckedCreateInput): Promise<login> {
