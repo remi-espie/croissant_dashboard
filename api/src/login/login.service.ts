@@ -11,6 +11,14 @@ export class LoginService {
     ) {
     }
 
+    async loginId(id): Promise<login | null> {
+        const login = await this.prisma.login.findFirst({
+            where: {id}
+        });
+        delete login.password;
+        return login;
+    }
+
     async login(id, studentId): Promise<login | null> {
         const login = await this.prisma.login.findFirst({
             where: {OR: [{id}, {studentId}]}

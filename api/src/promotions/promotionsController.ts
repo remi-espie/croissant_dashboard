@@ -1,7 +1,19 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
+import {
+    Body,
+    ClassSerializerInterceptor,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+    UseInterceptors
+} from "@nestjs/common";
 import {promotion} from "@prisma/client";
 import {PromotionsService} from "./promotions.service";
 import {PromotionDto, PromotionDtoId} from "./promotion.dto";
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 
 @Controller("promotion")
 export class PromotionsController {
@@ -30,6 +42,8 @@ export class PromotionsController {
 
     // Update promotion data -> PUT /promotion/:id
     @Put("/:id")
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     async updatePromotion(
         @Body() promotionData: PromotionDtoId
     ): Promise<PromotionDtoId> {
@@ -38,6 +52,8 @@ export class PromotionsController {
 
     // Delete promotion -> DELETE /promotion/:id
     @Delete("/:id")
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     async deletePromotion(@Param("id") id): Promise<promotion> {
         return this.promotionService.deletePromotion(id)
     }

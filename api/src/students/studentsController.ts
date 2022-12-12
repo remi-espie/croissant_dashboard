@@ -1,9 +1,22 @@
-import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put} from "@nestjs/common";
+import {
+    Body, ClassSerializerInterceptor,
+    Controller,
+    Delete,
+    Get,
+    HttpException,
+    HttpStatus,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+    UseInterceptors
+} from "@nestjs/common";
 import {student} from "@prisma/client";
 import {StudentsService} from "./students.service";
 import {StudentsDto, StudentsDtoId, StudentsDtoPassword} from "./students.dto";
 import {LoginService} from "../login/login.service";
 import {PasswordProvider} from "../provider/password";
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 
 @Controller("student")
 export class StudentsController {
@@ -32,36 +45,28 @@ export class StudentsController {
     }
 
     // Update student data -> PUT /student/:id
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     @Put("/:id")
     async updateStudent(
-        @Body() studentData: StudentsDtoPassword
+        @Body() studentData: StudentsDtoId
     ): Promise<StudentsDtoId> {
         try {
             const login = await this.loginService.getLogin(studentData.id, studentData.id);
-            if (await this.passwordProvider.comparePassword(studentData.password, login.password)) {
-                const student = new StudentsDtoId();
-                student.id = studentData.id
-                student.name = studentData.name
-                student.firstname = studentData.firstname
-                student.birthday = new Date(studentData.birthday);
-                student.mail = studentData.mail
-                student.pastryId = studentData.pastryId
-                student.promotionId = studentData.promotionId
-                return this.studentsService.updateStudent(student);
-            } else throw new HttpException("Bad credential", HttpStatus.FORBIDDEN);
+            if (!login) throw new HttpException("Invalid credential", HttpStatus.FORBIDDEN);
+            return this.studentsService.updateStudent(studentData);
         } catch (e) {
             throw new HttpException("Bad informations", HttpStatus.BAD_REQUEST);
         }
     }
 
     // Delete student -> DELETE /student/:id
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     @Delete("/:id")
     async deleteStudent(@Body() password: string, @Param("id") id): Promise<student> {
         try {
-            const student = await this.loginService.getLogin(id, id);
-            if (await this.passwordProvider.comparePassword(password, student.password)) {
-                return this.studentsService.deleteStudent(id)
-            } else throw new HttpException("Bad credential", HttpStatus.FORBIDDEN);
+            return this.studentsService.deleteStudent(id)
         } catch (e) {
             throw new HttpException("Bad informations", HttpStatus.BAD_REQUEST);
         }

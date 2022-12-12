@@ -1,7 +1,18 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
+import {
+    Body,
+    ClassSerializerInterceptor,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put, UseGuards,
+    UseInterceptors
+} from "@nestjs/common";
 import {quote} from "@prisma/client";
 import {QuoteService} from "./quote.service";
 import {QuoteDto, QuoteDtoId} from "./quote.dto";
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 
 @Controller("quote")
 export class QuoteController {
@@ -29,6 +40,8 @@ export class QuoteController {
     }
 
     // Update quote data -> PUT /quote/:id
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     @Put("/:id")
     async updateQuote(
         @Body() quoteData: QuoteDtoId
@@ -37,6 +50,8 @@ export class QuoteController {
     }
 
     // Delete quote -> DELETE /quote/:id
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     @Delete("/:id")
     async deleteQuote(@Param("id") id): Promise<quote> {
         return this.quoteService.deleteQuote(id)

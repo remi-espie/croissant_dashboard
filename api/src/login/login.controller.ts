@@ -1,7 +1,19 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
+import {
+    Body,
+    ClassSerializerInterceptor,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+    UseInterceptors
+} from "@nestjs/common";
 import {login} from "@prisma/client";
 import {LoginService} from "./login.service";
 import {LoginDto, LoginDtoId} from "./login.dto";
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 
 @Controller("login")
 export class LoginController {
@@ -29,6 +41,8 @@ export class LoginController {
     }
 
     // Update login data -> PUT /login/:id
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     @Put("/:id")
     async updateLogin(
         @Body() loginData: LoginDtoId
@@ -37,6 +51,8 @@ export class LoginController {
     }
 
     // Delete login -> DELETE /login/:id
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     @Delete("/:id")
     async deleteLogin(@Param("id") id): Promise<login> {
         return this.loginService.deleteLogin(id)
