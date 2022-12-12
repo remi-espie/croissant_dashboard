@@ -25,8 +25,8 @@ export class AuthService {
         };
     }
 
-    private _createToken({ login }): any {
-        const loginPayload: JwtPayload = { login };
+    private _createToken({ id }): any {
+        const loginPayload: JwtPayload = { id };
         const Authorization = this.jwtService.sign(loginPayload);
         return {
             expiresIn: process.env.EXPIRESIN,
@@ -35,7 +35,7 @@ export class AuthService {
     }
 
     async validateUser(payload: JwtPayload): Promise<any> {
-        const user = await this.loginService.getLoginId(payload);
+        const user = await this.loginService.getLoginId(payload.id);
         if (!user) {
             throw new HttpException("INVALID_TOKEN",
                 HttpStatus.UNAUTHORIZED);

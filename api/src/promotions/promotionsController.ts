@@ -23,6 +23,8 @@ export class PromotionsController {
 
     // Create promotion -> POST /promotion
     @Post()
+    @UseGuards(JwtAuthGuard, AdminGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     async createPromotion(
         @Body() promotionData: PromotionDto
     ): Promise<PromotionDto> {
@@ -46,9 +48,12 @@ export class PromotionsController {
     @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async updatePromotion(
-        @Body() promotionData: PromotionDtoId
-    ): Promise<PromotionDtoId> {
-        return this.promotionService.updatePromotion(promotionData);
+        @Body() promotionData: PromotionDto,
+        @Param("id") id
+    ): Promise<PromotionDto> {
+        const promotion = new PromotionDtoId(promotionData);
+        promotion.id = id;
+        return this.promotionService.updatePromotion(promotion);
     }
 
     // Delete promotion -> DELETE /promotion/:id

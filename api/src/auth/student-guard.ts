@@ -5,7 +5,7 @@ import {Observable} from "rxjs";
 export class StudentGuard implements CanActivate{
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const request = context.switchToHttp().getRequest();
-        const login = request.login;
+        const login = request.user;
         const id = request.params["id"]
         if (login.studentId == id) return true
         else throw new HttpException("Invalid credentials", HttpStatus.UNAUTHORIZED);

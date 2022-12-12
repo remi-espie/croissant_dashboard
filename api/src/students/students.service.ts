@@ -16,11 +16,15 @@ export class StudentsService {
     }
 
     async createStudent(data: Prisma.studentCreateInput): Promise<student> {
-        return await this.prisma.student.create({
-            data: {
-                ...data
-            },
-        });
+        try {
+            return await this.prisma.student.create({
+                data: {
+                    ...data
+                },
+            });
+        }catch (e){
+            throw new HttpException("Invalid parameters for student : " + Object.values(e.meta)[0], HttpStatus.BAD_REQUEST)
+        }
     }
 
     async updateStudent(data: Prisma.studentUncheckedUpdateInput): Promise<student> {

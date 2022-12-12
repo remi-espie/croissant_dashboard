@@ -86,4 +86,4 @@ ALTER TABLE "student" ADD CONSTRAINT "student_pastryId_fkey" FOREIGN KEY ("pastr
 ALTER TABLE "croissanted" ADD CONSTRAINT "croissanted_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "student"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "login" ADD CONSTRAINT "login_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "student"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "login" ADD CONSTRAINT "login_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "student"("id") ON DELETE CASCADE ON UPDATE CASCADE;

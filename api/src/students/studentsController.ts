@@ -1,7 +1,7 @@
 import {
     Body, ClassSerializerInterceptor,
     Controller,
-    Delete, ExecutionContext,
+    Delete,
     Get,
     HttpException,
     HttpStatus,
@@ -47,8 +47,7 @@ export class StudentsController {
     @UseGuards(JwtAuthGuard, StudentGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     @Put("/:id")
-    async updateStudent(context: ExecutionContext,
-        @Body() studentData: StudentsDto,
+    async updateStudent(@Body() studentData: StudentsDto,
         @Param("id") id
     ): Promise<StudentsDto> {
         try {
@@ -63,10 +62,10 @@ export class StudentsController {
     @UseGuards(JwtAuthGuard, StudentGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     @Delete("/:id")
-    async deleteStudent(context: ExecutionContext,
-                        @Param("id") id
+    async deleteStudent(@Param("id") id
     ): Promise<student> {
-        try {return this.studentsService.deleteStudent(id)
+        try {
+            return this.studentsService.deleteStudent(id)
         } catch (e) {
             throw new HttpException("Bad informations", HttpStatus.BAD_REQUEST);
         }

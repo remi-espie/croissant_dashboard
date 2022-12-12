@@ -31,7 +31,7 @@ export class StudentsDtoId extends StudentsDto{
         this.name = student.name
         this.firstname = student.firstname
         this.mail = student.mail
-        this.birthday = student.birthday
+        this.birthday = new Date(student.birthday)
         this.pastryId = student.pastryId
         this.promotionId = student.promotionId
     }

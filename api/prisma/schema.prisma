@@ -21,7 +21,7 @@ model student {
   promotionId       String?
   pastryId          String?
   croissanted       croissanted[]
-  login             login[]
+  login             login?
 }
 
 model promotion {
@@ -52,7 +52,7 @@ model login {
   id        String  @id @default(uuid())
   login     String
   password  String
-  student   student @relation(references: [id], fields: [studentId])
+  student   student @relation(references: [id], fields: [studentId], onDelete: Cascade)
   admin     Boolean @default(false)
   studentId String  @unique
 }

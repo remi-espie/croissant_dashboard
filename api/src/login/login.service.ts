@@ -24,14 +24,14 @@ export class LoginService {
         if (await this.passwordProvider.comparePassword(loginDto.password, loginStudent.password)) {
             delete loginStudent.password;
             return loginStudent;
-        }
-        else throw new HttpException('Invalid credential', HttpStatus.UNAUTHORIZED)
+        } else throw new HttpException('Invalid credential', HttpStatus.UNAUTHORIZED)
     }
 
     async getLogin(id, studentId): Promise<login | null> {
         const login = await this.prisma.login.findFirst({
             where: {OR: [{id}, {studentId}]}
         });
+        if (!login) throw new HttpException("Invalid credentials", HttpStatus.UNAUTHORIZED)
         delete login.password;
         return login;
     }
@@ -73,13 +73,15 @@ export class LoginService {
     }
 
     async deleteLogin(id: Prisma.loginDeleteArgs): Promise<login> {
-        const loginExists = await this.prisma.login.delete({
-            where: {id: String(id)}
-        });
-        if (!loginExists) {
-            throw new HttpException("Login does not exists", HttpStatus.BAD_REQUEST);
+        try {
+            const login = await this.prisma.login.delete({
+                where: {id: String(id)}
+            });
+            delete login.password
+            return login;
+        } catch (e) {
+            throw new HttpException("Login does not exists", HttpStatus.BAD_REQUEST)
         }
-        return loginExists;
     }
 
     async getAllLogin() {
