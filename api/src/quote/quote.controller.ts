@@ -13,6 +13,7 @@ import {quote} from "@prisma/client";
 import {QuoteService} from "./quote.service";
 import {QuoteDto, QuoteDtoId} from "./quote.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
+import {AdminGuard} from "../auth/admin-guard";
 
 @Controller("quote")
 export class QuoteController {
@@ -50,7 +51,7 @@ export class QuoteController {
     }
 
     // Delete quote -> DELETE /quote/:id
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     @Delete("/:id")
     async deleteQuote(@Param("id") id): Promise<quote> {

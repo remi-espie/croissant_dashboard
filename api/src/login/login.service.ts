@@ -2,6 +2,7 @@ import {HttpException, HttpStatus, Injectable} from "@nestjs/common";
 import {PrismaService} from "../prisma.service";
 import {login, Prisma} from "@prisma/client";
 import {PasswordProvider} from "../provider/password";
+import {LoginDto} from "./login.dto";
 
 @Injectable()
 export class LoginService {
@@ -11,15 +12,23 @@ export class LoginService {
     ) {
     }
 
-    async loginId(id): Promise<login | null> {
-        const login = await this.prisma.login.findFirst({
-            where: {id}
-        });
-        delete login.password;
-        return login;
+    async getLoginId(id): Promise<login | null> {
+        return await this.getLogin(id, id)
     }
 
-    async login(id, studentId): Promise<login | null> {
+    async login(loginDto: LoginDto): Promise<login | null> {
+        const login = loginDto.login
+        const loginStudent = await this.prisma.login.findFirst({
+            where: {login}
+        });
+        if (await this.passwordProvider.comparePassword(loginDto.password, loginStudent.password)) {
+            delete loginStudent.password;
+            return loginStudent;
+        }
+        else throw new HttpException('Invalid credential', HttpStatus.UNAUTHORIZED)
+    }
+
+    async getLogin(id, studentId): Promise<login | null> {
         const login = await this.prisma.login.findFirst({
             where: {OR: [{id}, {studentId}]}
         });
@@ -27,7 +36,7 @@ export class LoginService {
         return login;
     }
 
-    async getLogin(id, studentId): Promise<login | null> {
+    async getLoginPassword(id, studentId): Promise<login | null> {
         return await this.prisma.login.findFirst({
             where: {OR: [{id}, {studentId}]}
         });
@@ -73,7 +82,7 @@ export class LoginService {
         return loginExists;
     }
 
-    async getAllLogin(){
+    async getAllLogin() {
         return await this.prisma.login.findMany();
     }
 

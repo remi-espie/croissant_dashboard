@@ -1,7 +1,20 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
+import {
+    Body,
+    ClassSerializerInterceptor,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+    UseInterceptors
+} from "@nestjs/common";
 import {pastry} from "@prisma/client";
 import {PastriesService} from "./pastries.service";
 import {PastriesDto, PastriesDtoId} from "./pastries.dto";
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
+import {AdminGuard} from "../auth/admin-guard";
 
 @Controller("pastry")
 export class PastriesController {
@@ -30,6 +43,8 @@ export class PastriesController {
 
     // Update pastry data -> PUT /pastry/:id
     @Put("/:id")
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     async updatePastry(
         @Body() pastryData: PastriesDtoId
     ): Promise<PastriesDtoId> {
@@ -38,6 +53,8 @@ export class PastriesController {
 
     // Delete pastry -> DELETE /pastry/:id
     @Delete("/:id")
+    @UseGuards(JwtAuthGuard, AdminGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     async deletePastry(@Param("id") id): Promise<pastry> {
         return this.pastriesService.deletePastry(id)
     }

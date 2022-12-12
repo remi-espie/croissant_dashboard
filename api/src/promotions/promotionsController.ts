@@ -14,6 +14,7 @@ import {promotion} from "@prisma/client";
 import {PromotionsService} from "./promotions.service";
 import {PromotionDto, PromotionDtoId} from "./promotion.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
+import {AdminGuard} from "../auth/admin-guard";
 
 @Controller("promotion")
 export class PromotionsController {
@@ -42,7 +43,7 @@ export class PromotionsController {
 
     // Update promotion data -> PUT /promotion/:id
     @Put("/:id")
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async updatePromotion(
         @Body() promotionData: PromotionDtoId
@@ -52,7 +53,7 @@ export class PromotionsController {
 
     // Delete promotion -> DELETE /promotion/:id
     @Delete("/:id")
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async deletePromotion(@Param("id") id): Promise<promotion> {
         return this.promotionService.deletePromotion(id)

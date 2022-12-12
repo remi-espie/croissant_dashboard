@@ -22,15 +22,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         }
         return user;
     }
-
-    async valideAdmin(payload: JwtPayload): Promise<any> {
-        const user = await this.authService.validateAdmin(payload);
-        if (!user) {
-            throw new HttpException('Invalid token',
-                HttpStatus.UNAUTHORIZED);
-        }
-        return user;
-    }
 }
 
 export interface JwtPayload {

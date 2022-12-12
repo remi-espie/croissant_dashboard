@@ -14,7 +14,7 @@ export class LoginDto{
     admin: boolean
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     studentId: string
 }
 

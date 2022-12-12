@@ -3,7 +3,7 @@ import {PrismaService} from "../prisma.service";
 import {JwtService} from "@nestjs/jwt";
 import {LoginService} from "../login/login.service";
 import {JwtPayload} from "./jwt.strategy";
-import {LoginDtoId} from "../login/login.dto";
+import {LoginDto} from "../login/login.dto";
 
 @Injectable()
 export class AuthService {
@@ -13,13 +13,12 @@ export class AuthService {
         private readonly loginService: LoginService,
     ) {}
 
-
-    async login(loginDto: LoginDtoId): Promise<any> {
-        const user = await this.loginService.loginId(loginDto.id);
+    async login(loginDto: LoginDto): Promise<any> {
+        const user = await this.loginService.login(loginDto);
+        if (!user) throw new HttpException("invalid_credentials", HttpStatus.UNAUTHORIZED);
 
         // generate and sign token
         const token = this._createToken(user);
-
         return {
             ...token,
             data: user
@@ -36,17 +35,11 @@ export class AuthService {
     }
 
     async validateUser(payload: JwtPayload): Promise<any> {
-        const user = await this.loginService.loginId(payload);
+        const user = await this.loginService.getLoginId(payload);
         if (!user) {
             throw new HttpException("INVALID_TOKEN",
                 HttpStatus.UNAUTHORIZED);
         }
         return user;
-    }
-
-    async validateAdmin(payload: JwtPayload): Promise<any> {
-        const user = await this.validateUser(payload)
-        if (user.admin) return user;
-        else throw new HttpException("INVALID_TOKEN", HttpStatus.UNAUTHORIZED);
     }
 }

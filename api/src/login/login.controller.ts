@@ -31,7 +31,7 @@ export class LoginController {
     // Get login data -> GET /login/:id
     @Get("/:id")
     async profile(@Param("id") id: string): Promise<login> {
-        return this.loginService.login(String(id), String(id))
+        return this.loginService.getLogin(String(id), String(id))
     }
 
     // Get all logins data

@@ -1,7 +1,20 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
+import {
+    Body,
+    ClassSerializerInterceptor,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+    UseInterceptors
+} from "@nestjs/common";
 import {croissanted} from "@prisma/client";
 import {CroissantedService} from "./croissanted.service";
 import {CroissantedDto, CroissantedDtoId} from "./croissanted.dto";
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
+import {AdminGuard} from "../auth/admin-guard";
 
 @Controller("croissanted")
 export class CroissantedController {
@@ -10,7 +23,7 @@ export class CroissantedController {
 
     // Create croissanted -> POST /croissanted
     @Post()
-    async createPromotion(
+    async createCroissanted(
         @Body() croissantedData: CroissantedDto
     ): Promise<CroissantedDto> {
         return this.croissantedService.createCroissanted(croissantedData);
@@ -30,6 +43,8 @@ export class CroissantedController {
 
     // Update croissanted data -> PUT /croissanted/:id
     @Put("/:id")
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     async updateCroissanted(
         @Body() croissantedData: CroissantedDtoId
     ): Promise<CroissantedDtoId> {
@@ -38,6 +53,8 @@ export class CroissantedController {
 
     // Delete croissanted -> DELETE /croissanted/:id
     @Delete("/:id")
+    @UseGuards(JwtAuthGuard, AdminGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     async deleteCroissanted(@Param("id") id): Promise<croissanted> {
         return this.croissantedService.deleteCroissanted(id)
     }
