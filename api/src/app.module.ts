@@ -8,9 +8,13 @@ import {CroissantedModule} from './croissanted/croissanted.module';
 import {QuoteModule} from './quote/quote.module';
 import {LoginModule} from './login/login.module';
 import {AuthModule} from './auth/auth.module';
+import {ThrottlerModule} from "@nestjs/throttler";
 
 @Module({
-    imports: [StudentsModule, PastriesModule, PromotionsModule, CroissantedModule, QuoteModule, LoginModule, AuthModule],
+    imports: [ThrottlerModule.forRoot({
+        ttl: 60,
+        limit: 10,
+    }),StudentsModule, PastriesModule, PromotionsModule, CroissantedModule, QuoteModule, LoginModule, AuthModule],
     controllers: [AppController],
     providers: [AppService],
 })
