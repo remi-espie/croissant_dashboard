@@ -51,11 +51,10 @@ model croissanted {
 
 model login {
   id        String  @id @default(uuid())
-  login     String
+  login     String  @unique
   password  String
-  student   student @relation(references: [id], fields: [studentId], onDelete: Cascade)
+  student   student @relation(references: [mail], fields: [login], onDelete: Cascade)
   admin     Boolean @default(false)
-  studentId String  @unique
 }
 
 model quote {

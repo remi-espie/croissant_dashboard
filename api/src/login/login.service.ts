@@ -27,19 +27,13 @@ export class LoginService {
         } else throw new HttpException('Invalid credential', HttpStatus.UNAUTHORIZED)
     }
 
-    async getLogin(id, studentId): Promise<login | null> {
-        const login = await this.prisma.login.findFirst({
-            where: {OR: [{id}, {studentId}]}
+    async getLogin(id, login): Promise<login | null> {
+        const user = await this.prisma.login.findFirst({
+            where: {OR: [{id}, {login}]}
         });
-        if (!login) throw new HttpException("Invalid credentials", HttpStatus.UNAUTHORIZED)
-        delete login.password;
-        return login;
-    }
-
-    async getLoginPassword(id, studentId): Promise<login | null> {
-        return await this.prisma.login.findFirst({
-            where: {OR: [{id}, {studentId}]}
-        });
+        if (!user) throw new HttpException("Invalid credentials", HttpStatus.UNAUTHORIZED)
+        delete user.password;
+        return user;
     }
 
     async createLogin(data: Prisma.loginUncheckedCreateInput): Promise<login> {
