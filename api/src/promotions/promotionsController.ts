@@ -23,7 +23,7 @@ export class PromotionsController {
 
     // Create promotion -> POST /promotion
     @Post()
-    @UseGuards(JwtAuthGuard, AdminGuard)
+    //@UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async createPromotion(
         @Body() promotionData: PromotionDto

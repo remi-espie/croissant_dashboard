@@ -1,16 +1,17 @@
-import {ExtractJwt, Strategy} from 'passport-jwt';
+import {Strategy} from 'passport-jwt';
 import {AuthService} from "./auth.service";
 import {HttpException, HttpStatus, Injectable} from "@nestjs/common";
 import {PassportStrategy} from "@nestjs/passport";
+import {FastifyRequest} from 'fastify'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(private readonly authService: AuthService) {
+        console.log(JwtStrategy.extractJWT)
         super({
-            jwtFromRequest:
-                ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: true,
+            ignoreExpiration: false,
             secretOrKey: process.env.SECRETKEY,
+            jwtFromRequest: JwtStrategy.extractJWT,
         });
     }
 
@@ -22,8 +23,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         }
         return user;
     }
+
+    private static extractJWT(req: FastifyRequest): string | null {
+        console.trace()
+        const data = req?.cookies["auth-cookie"];
+        if (!data) {
+            return null;
+        }
+        return data
+    }
 }
 
 export interface JwtPayload {
     id: string;
 }
+

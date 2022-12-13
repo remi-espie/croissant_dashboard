@@ -23,7 +23,7 @@ export class PastriesController {
 
     // Create pastry -> POST /pastry
     @Post()
-    async createPromotion(
+    async createPastry(
         @Body() pastryData: PastriesDto
     ): Promise<PastriesDto> {
         return this.pastriesService.createPastry(pastryData);
