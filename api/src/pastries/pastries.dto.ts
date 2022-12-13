@@ -10,16 +10,8 @@ export class PastriesDto{
     public price: number
 }
 
-export class PastriesDtoId{
+export class PastriesDtoId extends PastriesDto{
     @IsString()
     @IsNotEmpty()
     public id: string
-
-    @IsString()
-    @IsNotEmpty()
-    public name: string
-
-    @IsNumber()
-    @IsNotEmpty()
-    public price: number
 }

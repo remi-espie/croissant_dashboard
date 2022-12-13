@@ -12,30 +12,10 @@ export class LoginDto{
     @IsBoolean()
     @IsOptional()
     admin: boolean
-
-    @IsString()
-    @IsOptional()
-    studentId: string
 }
 
-export class LoginDtoId{
+export class LoginDtoId extends LoginDto{
     @IsString()
     @IsNotEmpty()
     public id: string
-
-    @IsString()
-    @IsNotEmpty()
-    login: string
-
-    @IsString()
-    @IsNotEmpty()
-    password: string
-
-    @IsBoolean()
-    @IsOptional()
-    admin: boolean
-
-    @IsString()
-    @IsNotEmpty()
-    studentId: string
 }

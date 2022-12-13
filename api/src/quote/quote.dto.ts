@@ -9,16 +9,8 @@ export class QuoteDto{
     public author: string
 }
 
-export class QuoteDtoId{
+export class QuoteDtoId extends QuoteDto{
     @IsString()
     @IsNotEmpty()
     public id: string
-
-    @IsString()
-    @IsNotEmpty()
-    public quote: string
-
-    @IsString()
-    public author: string
-
 }

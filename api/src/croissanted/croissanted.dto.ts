@@ -14,20 +14,8 @@ export class CroissantedDto{
     public bought: boolean
 }
 
-export class CroissantedDtoId{
+export class CroissantedDtoId extends CroissantedDto{
     @IsString()
     @IsNotEmpty()
     public id: string
-
-    @IsDateString()
-    @IsOptional()
-    public date: Date
-
-    @IsString()
-    @IsNotEmpty()
-    public studentId: string
-
-    @IsBoolean()
-    @IsOptional()
-    public bought: boolean
 }
