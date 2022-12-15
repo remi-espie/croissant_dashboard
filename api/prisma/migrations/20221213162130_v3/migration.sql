@@ -93,7 +93,7 @@ ALTER TABLE "login" ADD CONSTRAINT "login_login_fkey" FOREIGN KEY ("login") REFE
 CREATE FUNCTION autocreateLogin()
     RETURNS TRIGGER AS $create$
     BEGIN
-        INSERT INTO "login" ("login", "password") VALUES (NEW."mail", NEW."mail");
+        INSERT INTO "login" ("id", "login", "password") VALUES (gen_random_uuid(), NEW."mail", NEW."mail");
         RETURN NEW;
     END;
 $create$ LANGUAGE plpgsql;
