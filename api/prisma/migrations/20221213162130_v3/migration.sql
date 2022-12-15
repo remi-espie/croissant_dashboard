@@ -1,15 +1,17 @@
 -- CreateTable
-CREATE TABLE "student" (
-    "id" TEXT NOT NULL,
-    "name" VARCHAR(32) NOT NULL,
-    "firstname" VARCHAR(32) NOT NULL,
-    "mail" TEXT NOT NULL,
-    "birthday" TIMESTAMP(3),
+CREATE TABLE "student"
+(
+    "id"          TEXT        NOT NULL,
+    "name"        VARCHAR(32) NOT NULL,
+    "firstname"   VARCHAR(32) NOT NULL,
+    "mail"        TEXT        NOT NULL,
+    "birthday"    TIMESTAMP(3),
     "promotionId" TEXT,
-    "pastryId" TEXT,
+    "pastryId"    TEXT,
 
     CONSTRAINT "student_pkey" PRIMARY KEY ("id")
 );
+
 
 -- CreateTable
 CREATE TABLE "promotion" (
@@ -87,24 +89,26 @@ ALTER TABLE "croissanted" ADD CONSTRAINT "croissanted_studentId_fkey" FOREIGN KE
 -- AddForeignKey
 ALTER TABLE "login" ADD CONSTRAINT "login_login_fkey" FOREIGN KEY ("login") REFERENCES "student"("mail") ON DELETE CASCADE ON UPDATE CASCADE;
 
+-- Procedure auto create login from student create
+CREATE FUNCTION autocreateLogin()
+    RETURNS TRIGGER AS $create$
+    BEGIN
+        INSERT INTO "login" ("login", "password") VALUES (NEW."mail", NEW."mail");
+        RETURN NEW;
+    END;
+$create$ LANGUAGE plpgsql;
+
 -- Trigger auto create login from student create
 CREATE TRIGGER "autocreateLogin" AFTER INSERT ON "student" FOR EACH ROW EXECUTE PROCEDURE autocreateLogin();
 
--- Procedure auto create login from student create
-CREATE PROCEDURE autocreateLogin()
-LANGUAGE SQL
-RETURNS trigger AS $$
-    INSERT INTO "login" ("login", "password") VALUES (NEW."mail", NEW."mail");
-    RETURN NEW;
-$$;
+-- Procedure auto delete login from student delete
+CREATE FUNCTION autodeleteLogin()
+RETURNS TRIGGER AS $delete$
+    BEGIN
+        DELETE FROM "login" WHERE "login" = OLD."mail";
+        RETURN OLD;
+    END;
+$delete$ LANGUAGE plpgsql;
 
 -- Trigger auto delete login from student delete
 CREATE TRIGGER "autodeleteLogin" BEFORE DELETE ON "student" FOR EACH ROW EXECUTE PROCEDURE autodeleteLogin();
-
--- Procedure auto delete login from student delete
-CREATE PROCEDURE autodeleteLogin()
-LANGUAGE SQL
-RETURNS trigger AS $$
-    DELETE FROM "login" WHERE "login" = OLD."mail";
-    RETURN OLD;
-$$;
