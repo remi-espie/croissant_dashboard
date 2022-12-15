@@ -1,19 +1,21 @@
-FROM node:19-alpine As development
+FROM node:19-bullseye As development
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
 COPY prisma ./prisma/
 
-RUN yarn add glob rimraf
-
-RUN yarn add -D @prisma
-
-RUN yarn --only=development
+COPY .env .env
 
 COPY . .
 
-RUN yarn build
+RUN npm i
+
+RUN npm run build
+
+RUN npx prisma generate
+
+CMD ["npm", "run", "start"]
+
 
 FROM node:19-alpine as production
 
@@ -25,9 +27,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-RUN yarn add glob rimraf
-
-RUN yarn --only=production
+RUN npm i glob rimraf
 
 COPY . .
 

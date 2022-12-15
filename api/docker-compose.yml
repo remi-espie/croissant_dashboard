@@ -12,19 +12,15 @@ services:
     ports:
       - "3000:3000"
     expose:
-      - "5555"
-    command: sh -c "npm i && npm run start:dev"
+      - "5432"
+    command: npm run start
     env_file:
       - .env
-    networks:
-      - webnet
     depends_on:
       - postgres
   postgres:
     image: postgres:15-alpine
     container_name: postgres
-    networks:
-      - webnet
     env_file:
       - .env
     expose:
@@ -33,7 +29,5 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-networks:
-  webnet:
 volumes:
   pgdata:
