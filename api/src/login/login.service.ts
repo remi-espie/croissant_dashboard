@@ -24,7 +24,7 @@ export class LoginService {
         if (await this.passwordProvider.comparePassword(loginDto.password, loginStudent.password)) {
             delete loginStudent.password;
             return loginStudent;
-        } else throw new HttpException('Invalid credential', HttpStatus.UNAUTHORIZED)
+        } else throw new HttpException("Invalid credential", HttpStatus.UNAUTHORIZED)
     }
 
     async getLogin(id, login): Promise<login | null> {
@@ -37,7 +37,6 @@ export class LoginService {
     }
 
     async createLogin(data: Prisma.loginUncheckedCreateInput): Promise<login> {
-
         const passwordHashed = await this.passwordProvider.hashPassword(
             data.password
         );
@@ -49,21 +48,28 @@ export class LoginService {
         });
 
         delete login.password;
-
         return login;
     }
 
     async updateLogin(data: Prisma.loginUpdateInput): Promise<login> {
-        const loginExists = await this.prisma.login.update({
-            where: {id: String(data.id)},
-            data: {
-                ...data
-            },
-        });
-        if (!loginExists) {
-            throw new HttpException("Login does not exists", HttpStatus.BAD_REQUEST);
+        try {
+            data.password = await this.passwordProvider.hashPassword(
+                String(data.password)
+            );
+            const loginExists = await this.prisma.login.update({
+                where: {id: String(data.id)},
+                data: {
+                    ...data
+                },
+            });
+            if (!loginExists) {
+                throw new HttpException("Login does not exists", HttpStatus.BAD_REQUEST);
+            }
+            delete loginExists.password
+            return loginExists;
+        } catch (e) {
+            throw new HttpException("Invalid provided informations", HttpStatus.BAD_REQUEST);
         }
-        return loginExists;
     }
 
     async deleteLogin(id: Prisma.loginDeleteArgs): Promise<login> {
@@ -78,8 +84,8 @@ export class LoginService {
         }
     }
 
-    async getAllLogin() {
-        return await this.prisma.login.findMany();
-    }
+    // async getAllLogin() {
+    //     return await this.prisma.login.findMany();
+    // }
 
 }

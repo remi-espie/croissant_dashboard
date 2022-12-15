@@ -3,16 +3,14 @@ import {
     ClassSerializerInterceptor,
     Controller,
     Delete,
-    Get,
     Param,
-    Post,
     Put,
     UseGuards,
     UseInterceptors
 } from "@nestjs/common";
 import {login} from "@prisma/client";
 import {LoginService} from "./login.service";
-import {LoginDto, LoginDtoId} from "./login.dto";
+import {LoginDtoId} from "./login.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 
 @Controller("login")
@@ -20,25 +18,25 @@ export class LoginController {
     constructor(private readonly loginService: LoginService) {
     }
 
-    // Create login -> POST /login
-    @Post()
-    async createLogin(
-        @Body() loginData: LoginDto
-    ): Promise<LoginDto> {
-        return this.loginService.createLogin(loginData);
-    }
-
-    // Get login data -> GET /login/:id
-    @Get("/:id")
-    async profile(@Param("id") id: string): Promise<login> {
-        return this.loginService.getLogin(String(id), String(id))
-    }
-
-    // Get all logins data
-    @Get("/all")
-    async getAllLogin() {
-        return this.loginService.getAllLogin();
-    }
+    // // Create login -> POST /login
+    // @Post()
+    // async createLogin(
+    //     @Body() loginData: LoginDto
+    // ): Promise<LoginDto> {
+    //     return this.loginService.createLogin(loginData);
+    // }
+    //
+    // // Get login data -> GET /login/:id
+    // @Get("/:id")
+    // async profile(@Param("id") id: string): Promise<login> {
+    //     return this.loginService.getLogin(String(id), String(id))
+    // }
+    //
+    // // Get all logins data
+    // @Get("/all")
+    // async getAllLogin() {
+    //     return this.loginService.getAllLogin();
+    // }
 
     // Update login data -> PUT /login/:id
     @UseGuards(JwtAuthGuard)
