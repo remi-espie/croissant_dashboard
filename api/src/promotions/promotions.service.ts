@@ -15,6 +15,15 @@ export class PromotionsService {
         });
     }
 
+    async promotionStudent(id, name): Promise<promotion[] | null> {
+        return await this.prisma.promotion.findMany({
+            where: {OR: [{id}, {name}]},
+            include: {
+                student: true
+            }
+        });
+    }
+
     async createPromotion(data: Prisma.promotionCreateInput): Promise<promotion> {
         const promotionExists = await this.prisma.promotion.findUnique({
             where: {name: data.name}

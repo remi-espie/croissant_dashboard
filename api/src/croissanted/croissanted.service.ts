@@ -15,6 +15,12 @@ export class CroissantedService {
         });
     }
 
+    async croissantedStudent(studentId): Promise<croissanted[] | null> {
+        return await this.prisma.croissanted.findMany({
+            where: {studentId},
+        });
+    }
+
     async createCroissanted(data: Prisma.croissantedUncheckedCreateInput): Promise<croissanted> {
         return await this.prisma.croissanted.create({
             data: {

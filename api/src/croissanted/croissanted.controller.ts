@@ -21,12 +21,12 @@ export class CroissantedController {
     constructor(private readonly croissantedService: CroissantedService) {
     }
 
-    // Create croissanted -> POST /croissanted
-    @Post()
-    async createCroissanted(
-        @Body() croissantedData: CroissantedDto
+    // Create croissanted -> POST /croissanted/:studentId
+    @Post("/:studentId")
+    async createCroissanted(@Param("studentId") studentId: string,
     ): Promise<CroissantedDto> {
-        return this.croissantedService.createCroissanted(croissantedData);
+        const croissanted = new CroissantedDto(studentId);
+        return this.croissantedService.createCroissanted(croissanted);
     }
 
     // Get croissanted data -> GET /croissanted/:id or name
@@ -34,6 +34,14 @@ export class CroissantedController {
     async profile(@Param("id") id: string): Promise<croissanted> {
         return this.croissantedService.croissanted(String(id));
     }
+
+
+    // Get croissanted data of student -> GET /croissanted/student/:id or name
+    @Get("/student/:id")
+    async croissantedStudent(@Param("id") id: string): Promise<croissanted[]> {
+        return this.croissantedService.croissantedStudent(String(id));
+    }
+
 
     // Get all croissanted data
     @Get("/all")
@@ -43,12 +51,14 @@ export class CroissantedController {
 
     // Update croissanted data -> PUT /croissanted/:id
     @Put("/:id")
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async updateCroissanted(
-        @Body() croissantedData: CroissantedDtoId
-    ): Promise<CroissantedDtoId> {
-        return this.croissantedService.updateCroissanted(croissantedData);
+        @Body() croissantedData: CroissantedDto,
+        @Param("id") id
+    ): Promise<CroissantedDto> {
+        const croissanted = new CroissantedDtoId(croissantedData, id);
+        return this.croissantedService.updateCroissanted(croissanted);
     }
 
     // Delete croissanted -> DELETE /croissanted/:id

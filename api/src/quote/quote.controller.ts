@@ -41,13 +41,15 @@ export class QuoteController {
     }
 
     // Update quote data -> PUT /quote/:id
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     @Put("/:id")
     async updateQuote(
-        @Body() quoteData: QuoteDtoId
-    ): Promise<QuoteDtoId> {
-        return this.quoteService.updateQuote(quoteData);
+        @Body() quoteData: QuoteDto,
+        @Param("id") id
+    ): Promise<QuoteDto> {
+        const quote = new QuoteDtoId(quoteData, id);
+        return this.quoteService.updateQuote(quote);
     }
 
     // Delete quote -> DELETE /quote/:id

@@ -10,7 +10,7 @@ import {
 } from "@nestjs/common";
 import {login} from "@prisma/client";
 import {LoginService} from "./login.service";
-import {LoginDtoId} from "./login.dto";
+import {LoginDto, LoginDtoId} from "./login.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 
 @Controller("login")
@@ -43,9 +43,11 @@ export class LoginController {
     @UseInterceptors(ClassSerializerInterceptor)
     @Put("/:id")
     async updateLogin(
-        @Body() loginData: LoginDtoId
-    ): Promise<LoginDtoId> {
-        return this.loginService.updateLogin(loginData);
+        @Body() loginData: LoginDto,
+        @Param("id") id
+    ): Promise<LoginDto> {
+        const login = new LoginDtoId(loginData, id);
+        return this.loginService.updateLogin(login);
     }
 
     // Delete login -> DELETE /login/:id

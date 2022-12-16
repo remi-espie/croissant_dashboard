@@ -11,6 +11,13 @@ export class PastriesDto{
 }
 
 export class PastriesDtoId extends PastriesDto{
+    constructor(pastryData: PastriesDto, id) {
+        super();
+        this.name = pastryData.name;
+        this.price = pastryData.price;
+        this.id = id;
+    }
+
     @IsString()
     @IsNotEmpty()
     public id: string

@@ -15,6 +15,14 @@ export class LoginDto{
 }
 
 export class LoginDtoId extends LoginDto{
+    constructor(login: LoginDto, id) {
+        super();
+        this.login = login.login;
+        this.password = login.password;
+        this.admin = login.admin;
+        this.id = id;
+    }
+
     @IsString()
     @IsNotEmpty()
     public id: string

@@ -10,6 +10,13 @@ export class QuoteDto{
 }
 
 export class QuoteDtoId extends QuoteDto{
+    constructor(quote: QuoteDto, id) {
+        super();
+        this.quote = quote.quote
+        this.author = quote.author
+        this.id = id
+    }
+
     @IsString()
     @IsNotEmpty()
     public id: string

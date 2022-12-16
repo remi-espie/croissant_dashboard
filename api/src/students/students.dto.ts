@@ -25,7 +25,7 @@ export class StudentsDto{
 }
 
 export class StudentsDtoId extends StudentsDto{
-    constructor(id, student: StudentsDto) {
+    constructor(student: StudentsDto, id) {
         super();
         this.id = id
         this.name = student.name

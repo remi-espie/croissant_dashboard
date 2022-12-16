@@ -46,9 +46,11 @@ export class PastriesController {
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async updatePastry(
-        @Body() pastryData: PastriesDtoId
+        @Body() pastryData: PastriesDto,
+        @Param("id") id
     ): Promise<PastriesDtoId> {
-        return this.pastriesService.updatePastry(pastryData);
+        const pastry = new PastriesDtoId(pastryData, id);
+        return this.pastriesService.updatePastry(pastry);
     }
 
     // Delete pastry -> DELETE /pastry/:id

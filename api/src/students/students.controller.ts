@@ -48,10 +48,10 @@ export class StudentsController {
     @UseInterceptors(ClassSerializerInterceptor)
     @Put("/:id")
     async updateStudent(@Body() studentData: StudentsDto,
-        @Param("id") id
+                        @Param("id") id
     ): Promise<StudentsDto> {
         try {
-            const student = new StudentsDtoId(id, studentData)
+            const student = new StudentsDtoId(studentData, id);
             return this.studentsService.updateStudent(student);
         } catch (e) {
             throw new HttpException("Bad informations", HttpStatus.BAD_REQUEST);

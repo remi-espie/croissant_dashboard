@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import {promotion} from "@prisma/client";
 import {PromotionsService} from "./promotions.service";
-import {PromotionDto, PromotionDtoId} from "./promotion.dto";
+import {PromotionsDto, PromotionDtoId} from "./promotions.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {AdminGuard} from "../auth/admin-guard";
 
@@ -26,8 +26,8 @@ export class PromotionsController {
     //@UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async createPromotion(
-        @Body() promotionData: PromotionDto
-    ): Promise<PromotionDto> {
+        @Body() promotionData: PromotionsDto
+    ): Promise<PromotionsDto> {
         return this.promotionService.createPromotion(promotionData);
     }
 
@@ -43,16 +43,21 @@ export class PromotionsController {
         return this.promotionService.getAllPromotion();
     }
 
+    // Get students data of a promotion
+    @Get("/student/:id")
+    async getStudentOf(@Param("id") id: string): Promise<promotion[]> {
+        return this.promotionService.promotionStudent(String(id), String(id));
+    }
+
     // Update promotion data -> PUT /promotion/:id
     @Put("/:id")
     @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async updatePromotion(
-        @Body() promotionData: PromotionDto,
+        @Body() promotionData: PromotionsDto,
         @Param("id") id
-    ): Promise<PromotionDto> {
-        const promotion = new PromotionDtoId(promotionData);
-        promotion.id = id;
+    ): Promise<PromotionsDto> {
+        const promotion = new PromotionDtoId(promotionData, id);
         return this.promotionService.updatePromotion(promotion);
     }
 

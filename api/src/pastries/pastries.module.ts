@@ -1,6 +1,6 @@
 import {Module} from "@nestjs/common";
 import {PrismaService} from "src/prisma.service";
-import {PastriesController} from "./pastriesController";
+import {PastriesController} from "./pastries.controller";
 import {PastriesService} from "./pastries.service";
 
 @Module({

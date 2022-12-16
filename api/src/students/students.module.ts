@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
-import { StudentsController } from "./studentsController";
+import { StudentsController } from "./students.controller";
 import { StudentsService } from "./students.service";
 import {LoginService} from "../login/login.service";
 import {PasswordProvider} from "../provider/password";
