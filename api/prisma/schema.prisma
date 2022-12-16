@@ -12,21 +12,21 @@ datasource db {
 }
 
 model student {
-  id                String        @id @default(uuid())
+  id                String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name              String        @db.VarChar(32)
   firstname         String        @db.VarChar(32)
   s_promotion       promotion?    @relation(references: [id], fields: [promotionId])
   mail              String        @unique
   birthday          DateTime?
   s_pastry          pastry?       @relation(references: [id], fields: [pastryId])
-  promotionId       String?
-  pastryId          String?
+  promotionId       String?       @db.Uuid
+  pastryId          String?       @db.Uuid
   croissanted       croissanted[]
   login             login?
 }
 
 model promotion {
-  id           String    @id @default(uuid())
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name         String    @unique @db.VarChar(32)
   year         Int
   url_schedule String?
@@ -35,22 +35,22 @@ model promotion {
 }
 
 model pastry {
-  id      String    @id @default(uuid())
+  id      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name    String    @unique @db.VarChar(32)
   price   Float
   student student[]
 }
 
 model croissanted {
-  id        String    @id @default(uuid())
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   date      DateTime  @default(now())
   student   student   @relation(references: [id], fields: [studentId])
   bought    Boolean?  @default(false)
-  studentId String
+  studentId String    @db.Uuid
 }
 
 model login {
-  id        String  @id @default(uuid())
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   login     String  @unique
   password  String
   student   student @relation(references: [mail], fields: [login], onDelete: Cascade)
@@ -58,7 +58,7 @@ model login {
 }
 
 model quote {
-  id     String  @id @default(uuid())
+  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   quote  String  @unique
   author String? @default("anon") @db.VarChar(32)
 }

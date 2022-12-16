@@ -1,21 +1,19 @@
 -- CreateTable
-CREATE TABLE "student"
-(
-    "id"          TEXT        NOT NULL,
-    "name"        VARCHAR(32) NOT NULL,
-    "firstname"   VARCHAR(32) NOT NULL,
-    "mail"        TEXT        NOT NULL,
-    "birthday"    TIMESTAMP(3),
-    "promotionId" TEXT,
-    "pastryId"    TEXT,
+CREATE TABLE "student" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "name" VARCHAR(32) NOT NULL,
+    "firstname" VARCHAR(32) NOT NULL,
+    "mail" TEXT NOT NULL,
+    "birthday" TIMESTAMP(3),
+    "promotionId" UUID,
+    "pastryId" UUID,
 
     CONSTRAINT "student_pkey" PRIMARY KEY ("id")
 );
 
-
 -- CreateTable
 CREATE TABLE "promotion" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" VARCHAR(32) NOT NULL,
     "year" INTEGER NOT NULL,
     "url_schedule" TEXT,
@@ -26,7 +24,7 @@ CREATE TABLE "promotion" (
 
 -- CreateTable
 CREATE TABLE "pastry" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" VARCHAR(32) NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
 
@@ -35,17 +33,17 @@ CREATE TABLE "pastry" (
 
 -- CreateTable
 CREATE TABLE "croissanted" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "bought" BOOLEAN DEFAULT false,
-    "studentId" TEXT NOT NULL,
+    "studentId" UUID NOT NULL,
 
     CONSTRAINT "croissanted_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "login" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "login" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "admin" BOOLEAN NOT NULL DEFAULT false,
@@ -55,7 +53,7 @@ CREATE TABLE "login" (
 
 -- CreateTable
 CREATE TABLE "quote" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "quote" TEXT NOT NULL,
     "author" VARCHAR(32) DEFAULT 'anon',
 
@@ -89,11 +87,12 @@ ALTER TABLE "croissanted" ADD CONSTRAINT "croissanted_studentId_fkey" FOREIGN KE
 -- AddForeignKey
 ALTER TABLE "login" ADD CONSTRAINT "login_login_fkey" FOREIGN KEY ("login") REFERENCES "student"("mail") ON DELETE CASCADE ON UPDATE CASCADE;
 
+
 -- Procedure auto create login from student create
 CREATE FUNCTION autocreateLogin()
     RETURNS TRIGGER AS $create$
     BEGIN
-        INSERT INTO "login" ("id", "login", "password") VALUES (gen_random_uuid(), NEW."mail", NEW."mail");
+        INSERT INTO "login" ("login", "password") VALUES (NEW."mail", NEW."mail");
         RETURN NEW;
     END;
 $create$ LANGUAGE plpgsql;
@@ -103,7 +102,7 @@ CREATE TRIGGER "autocreateLogin" AFTER INSERT ON "student" FOR EACH ROW EXECUTE 
 
 -- Procedure auto delete login from student delete
 CREATE FUNCTION autodeleteLogin()
-RETURNS TRIGGER AS $delete$
+    RETURNS TRIGGER AS $delete$
     BEGIN
         DELETE FROM "login" WHERE "login" = OLD."mail";
         RETURN OLD;
