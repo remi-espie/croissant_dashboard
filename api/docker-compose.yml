@@ -1,8 +1,8 @@
 version: '3.7'
 
 services:
-  main:
-    container_name: main
+  api:
+    container_name: api
     build:
       context: .
       target: development
@@ -10,24 +10,50 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - "3000:3000"
-    expose:
-      - "5432"
+      - "127.0.0.1:3000:3000"
+#    expose:
+#      - "5432"
     command: npm run start
     env_file:
       - .env
     depends_on:
       - postgres
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`162.38.112.152`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.api.entrypoints=web"
+
   postgres:
     image: postgres:15-alpine
     container_name: postgres
     env_file:
       - .env
-    expose:
-      - "5432"
-    ports:
-      - "5432:5432"
+#    expose:
+#      - "5432"
+#    ports:
+#      - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    labels:
+      - "traefik.enable=false"
+
+  traefik:
+    restart: unless-stopped
+    image: traefik:v2.9
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "18000:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      - "traefik.enable=false"
+
 volumes:
   pgdata:

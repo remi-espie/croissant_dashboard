@@ -22,6 +22,8 @@ async function bootstrap() {
     await app.register(fastifyCsrf);
     await app.register(helmet)
 
+    app.setGlobalPrefix('api');
+
     app.useGlobalPipes(new ValidationPipe({whitelist: true, transform: true}));
 
     await app.listen(3000, '0.0.0.0');
