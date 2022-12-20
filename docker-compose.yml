@@ -4,18 +4,15 @@ services:
   api:
     container_name: api
     build:
-      context: .
-      target: development
+      context: ./api
     volumes:
-      - .:/usr/src/app
+      - ./api:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - "3000:3000"
-#    expose:
-#      - "5432"
     command: sh -c "npx prisma migrate dev --name init && npm run start"
     env_file:
-      - .env
+      - ./api/.env
     depends_on:
       - postgres
       - traefik
@@ -26,15 +23,32 @@ services:
       - "traefik.http.routers.api.entrypoints=web-secure"
       - "traefik.http.routers.api.tls.certresolver=myresolver"
 
+  client:
+    container_name: client
+    build:
+      context: ./client
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "5173:5173"
+    command: sh -c "npm run start"
+    env_file:
+      - ./client/.env
+    depends_on:
+      - api
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.rule=Host(`croissant.remi-espie.me`)"
+      - "traefik.http.routers.client.entrypoints=web"
+      - "traefik.http.routers.client.entrypoints=web-secure"
+      - "traefik.http.routers.client.tls.certresolver=myresolver"
+
   postgres:
     image: postgres:15-alpine
     container_name: postgres
     env_file:
-      - .env
-#    expose:
-#      - "5432"
-#    ports:
-#      - "127.0.0.1:5432:5432"
+      - ./api/.env
     volumes:
       - pgdata:/var/lib/postgresql/data
     labels:
@@ -44,19 +58,16 @@ services:
     restart: unless-stopped
     image: traefik:v2.9
     command:
-      - "--api.insecure=true"
       - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web-secure.address=:443"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.myresolver.acme.email=remi.espie@etu.umontpellier.fr"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
       - "443:443"
-      - "18000:8080"
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
