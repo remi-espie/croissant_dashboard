@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PromotionComponent from "@/components/promotionComponent.vue";
 </script>
 
 <template>
@@ -13,7 +14,10 @@
 
     <h2 class="title is-2 m-auto">Choose your dashboard !</h2>
 
-    <div id="promotion" class="m-auto is-flex"></div>
+    <div id="promotion" class="m-auto columns">
+      <promotion-component class="column" style="width: 200px;" v-for="promotion in promotions" v-bind="{'id': promotion.id, 'name': promotion.name, 'src': promotion.url_picture, 'year': promotion.year}" :key="promotion.id">
+      </promotion-component>
+    </div>
     <hr class="column is-paddingless is-three-fifths is-offset-one-fifth">
     <h2 class="title is-2 m-auto"> Or
       <router-link to="login">log-in</router-link>
@@ -22,11 +26,7 @@
   </main>
 </template>
 
-<script>
-
-import {createApp} from "vue";
-import router from "@/router";
-import promotionComponent from "@/components/promotionComponent.vue";
+<script lang="ts">
 
 export default {
   name: "HomeView",
@@ -40,22 +40,15 @@ export default {
           .catch(err => console.log(err))
           .then(resp => resp.text())
           .then((json) => {
-                if (json !== "") this.displayPromotions(JSON.parse(json))
+                if (json !== "") this.promotions.push(...JSON.parse(json))
               }
           )
     },
 
-    displayPromotions(promotion) {
-      const div = document.getElementById("promotion")
-      for (const promotionElement of promotion) {
-        const promotionCard = createApp({extends: promotionComponent},
-            {
-              id: promotionElement.id,
-              name: promotionElement.name,
-              year: promotionElement.year
-            })
-        promotionCard.use(router).mount(div)
-      }
+  },
+  data() {
+    return {
+      promotions: []
     }
   }
 }
