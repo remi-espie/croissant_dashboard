@@ -88,11 +88,14 @@ ALTER TABLE "croissanted" ADD CONSTRAINT "croissanted_studentId_fkey" FOREIGN KE
 ALTER TABLE "login" ADD CONSTRAINT "login_login_fkey" FOREIGN KEY ("login") REFERENCES "student"("mail") ON DELETE CASCADE ON UPDATE CASCADE;
 
 
+-- Create pgcrypto in case it don't exists
+CREATE EXTENSION pgcrypto;
+
 -- Procedure auto create login from student create
 CREATE FUNCTION autocreateLogin()
     RETURNS TRIGGER AS $create$
     BEGIN
-        INSERT INTO "login" ("login", "password") VALUES (NEW."mail", NEW."mail");
+        INSERT INTO "login" ("login", "password") VALUES (NEW."mail", crypt(NEW."mail", gen_salt('bf', 11)));
         RETURN NEW;
     END;
 $create$ LANGUAGE plpgsql;
