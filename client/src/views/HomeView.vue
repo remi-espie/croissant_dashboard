@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import PromotionComponent from "@/components/promotionComponent.vue";
 </script>
 
@@ -14,19 +14,23 @@ import PromotionComponent from "@/components/promotionComponent.vue";
 
     <h2 class="title is-2 m-auto">Choose your dashboard !</h2>
 
-    <div id="promotion" class="m-auto columns">
-      <promotion-component class="column" style="width: 200px;" v-for="promotion in promotions" v-bind="{'id': promotion.id, 'name': promotion.name, 'src': promotion.url_picture, 'year': promotion.year}" :key="promotion.id">
+    <div id="promotion" class="m-auto columns is-multiline">
+      <promotion-component class="column is-4" v-for="promotion in promotions"
+                           v-bind="{'id': promotion.id, 'name': promotion.name, 'src': promotion.url_picture, 'year': promotion.year}"
+                           :key="promotion.id">
       </promotion-component>
     </div>
-    <hr class="column is-paddingless is-three-fifths is-offset-one-fifth">
-    <h2 class="title is-2 m-auto"> Or
-      <router-link to="login">log-in</router-link>
-    </h2>
+    <footer>
 
+      <hr class="column is-paddingless is-three-fifths is-offset-one-fifth">
+      <h2 class="title is-2 has-text-centered"> Or
+        <router-link to="login">log-in</router-link>
+      </h2>
+    </footer>
   </main>
 </template>
 
-<script lang="ts">
+<script>
 
 export default {
   name: "HomeView",
@@ -36,7 +40,12 @@ export default {
   methods: {
 
     fetchPromotions() {
-      fetch("https://croissant.remi-espie.me/api/promotion/all")
+      fetch("https://croissant.remi-espie.me/api/promotion/all", {
+        mode: 'cors',
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
+      })
           .catch(err => console.log(err))
           .then(resp => resp.text())
           .then((json) => {
