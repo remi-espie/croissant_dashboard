@@ -14,7 +14,7 @@ Launch the project with `docker compose up` !
 
 #### 👨‍🎓 Each student can create an account (which they can access with their mail for their 1st time), and: 
   - they can choose their favorite pastries (from the ones available at CROUS)
-  - they can create new quotes which will be displayed randomnly on dashboard
+  - they can create new quotes which will be displayed randomly on dashboard
   - they can upload their birthday date to get a custom message on the dashboard
 #### 👩‍🎓 Each promotion willing to participate can create and references themselves:
   - upload a link to a promotion picture to display on dashboard
@@ -23,7 +23,7 @@ Launch the project with `docker compose up` !
 ---
 #### 🚀 Future possible implementation:
 - Multiple pictures by promotions with theme (random, halloween, christmas, ...)
-- CDN (like [MinIO](https://min.io/)) to upload more pictures and stuff
+- CDN (like [MinIO](https://min.io/)) to upload pictures and stuff directly to the dashboard
 - Discord and/or Mattermost webhook to ping all class
 - Quotes with an author displayed on dashboard displayed near the author's head
 
