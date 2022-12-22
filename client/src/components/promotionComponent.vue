@@ -1,6 +1,6 @@
 <template>
 
-  <router-link :to="'/dashboard/' + name">
+  <router-link :to="'/dashboard/' + id">
     <div class="card m-4 p-4">
         <p class="card-header-title is-centered">{{name}}</p>
       <div class="card-image">
