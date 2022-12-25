@@ -15,6 +15,7 @@ import {PastriesService} from "./pastries.service";
 import {PastriesDto, PastriesDtoId} from "./pastries.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {AdminGuard} from "../auth/admin-guard";
+import {isUUID} from "class-validator";
 
 @Controller("pastry")
 export class PastriesController {
@@ -32,7 +33,8 @@ export class PastriesController {
     // Get pastry data -> GET /pastry/:id or name
     @Get("/:id")
     async profile(@Param("id") id: string): Promise<pastry> {
-        return this.pastriesService.pastry(String(id), String(id));
+        if (isUUID(id)) return this.pastriesService.pastryId(id)
+        else return this.pastriesService.pastryName(String(id));
     }
 
     // Get all pastries data

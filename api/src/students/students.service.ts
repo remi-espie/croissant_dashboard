@@ -9,9 +9,9 @@ export class StudentsService {
     ) {
     }
 
-    async student(id, name): Promise<student | null> {
+    async student(id): Promise<student | null> {
         return await this.prisma.student.findFirst({
-            where: {OR: [{id}, {name}]},
+            where: {id},
         });
     }
 

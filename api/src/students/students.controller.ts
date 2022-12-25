@@ -34,7 +34,7 @@ export class StudentsController {
     // Get student data -> GET /student/:id or name
     @Get("/:id")
     async student(@Param("id") id: string): Promise<student> {
-        return this.studentsService.student(String(id), String(id))
+        return this.studentsService.student(id)
     }
 
     // Get all students data

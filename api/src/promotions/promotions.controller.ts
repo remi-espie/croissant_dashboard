@@ -15,6 +15,7 @@ import {PromotionsService} from "./promotions.service";
 import {PromotionsDto, PromotionDtoId} from "./promotions.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {AdminGuard} from "../auth/admin-guard";
+import {isUUID} from "class-validator";
 
 @Controller("promotion")
 export class PromotionsController {
@@ -34,7 +35,8 @@ export class PromotionsController {
     // Get promotion data -> GET /promotion/:id or name
     @Get("/:id")
     async profile(@Param("id") id: string): Promise<promotion> {
-        return this.promotionService.promotion(String(id), String(id))
+        if (isUUID(id)) return this.promotionService.promotionId(id)
+        else return this.promotionService.promotionName(String(id))
     }
 
     // Get all promotions data
@@ -46,7 +48,8 @@ export class PromotionsController {
     // Get students data of a promotion
     @Get("/student/:id")
     async getStudentOf(@Param("id") id: string): Promise<promotion[]> {
-        return this.promotionService.promotionStudent(String(id), String(id));
+        if (isUUID(id)) return this.promotionService.promotionStudentId(id);
+        else if (isUUID(id)) return this.promotionService.promotionStudentName(String(id));
     }
 
     // Update promotion data -> PUT /promotion/:id

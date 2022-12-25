@@ -9,15 +9,30 @@ export class PromotionsService {
     ) {
     }
 
-    async promotion(id, name): Promise<promotion | null> {
+    async promotionId(id): Promise<promotion | null> {
         return await this.prisma.promotion.findFirst({
-            where: {OR: [{id}, {name}]},
+            where: {id},
         });
     }
 
-    async promotionStudent(id, name): Promise<promotion[] | null> {
+    async promotionName(name): Promise<promotion | null> {
+        return await this.prisma.promotion.findFirst({
+            where: {name},
+        });
+    }
+
+    async promotionStudentId(id): Promise<promotion[] | null> {
         return await this.prisma.promotion.findMany({
-            where: {OR: [{id}, {name}]},
+            where: {id},
+            include: {
+                student: true
+            }
+        });
+    }
+
+    async promotionStudentName(name): Promise<promotion[] | null> {
+        return await this.prisma.promotion.findMany({
+            where: {name},
             include: {
                 student: true
             }

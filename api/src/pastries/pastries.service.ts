@@ -9,9 +9,15 @@ export class PastriesService {
     ) {
     }
 
-    async pastry(id, name): Promise<pastry | null> {
+    async pastryId(id): Promise<pastry | null> {
         return await this.prisma.pastry.findFirst({
-            where: {OR: [{id}, {name}]},
+            where: {id},
+        });
+    }
+
+    async pastryName(name): Promise<pastry | null> {
+        return await this.prisma.pastry.findFirst({
+            where: {name},
         });
     }
 
