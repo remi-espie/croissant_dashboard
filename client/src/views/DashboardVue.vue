@@ -1,0 +1,88 @@
+<template>
+
+  <main class="pageloader" v-if="!loaded" v-bind:class="{'is-active' : !loaded}">
+    <span class="title">Loading...</span>
+  </main>
+  <main v-else>
+    <h1 v-if="!promotionExists">Sorry, we could not find this promotion...</h1>
+    <div v-else id="mainDiv" v-bind:style="{ backgroundImage : 'url(' + this.promotionPicture +')' }">
+      <quote-component></quote-component>
+    </div>
+  </main>
+</template>
+
+<script>
+import QuoteComponent from "@/components/quoteComponent.vue";
+
+export default {
+  name: "DashboardVue",
+  components: {QuoteComponent},
+  mounted() {
+    this.fetchPromotion()
+  },
+  methods: {
+
+    fetchPromotion() {
+      fetch("https://croissant.remi-espie.me/api/promotion/" + this.$route.params.id, {
+        mode: 'cors',
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
+      })
+          .catch(err => {
+            console.log(err)
+            this.promotionExists = false
+            this.loaded = true;
+          })
+          .then(resp => {
+            if (resp.status !== 200) {
+              this.promotionExists = false
+              this.loaded = true;
+              return Promise.reject(resp.status)
+            }
+            return resp
+          })
+          .then(resp => resp.text())
+          .then((json) => {
+                if (json !== "") {
+                  json = JSON.parse(json);
+                  this.promotionId = json.id;
+                  this.promotionName = json.name;
+                  this.promotionYear = json.year;
+                  this.promotionPicture = json.url_picture;
+                  this.promotionSchedule = json.url_schedule;
+
+                  this.promotionExists = true
+
+                  document.title = "Croissant Dashboard | " + this.promotionName;
+                } else this.promotionExists = false;
+
+                this.loaded = true;
+              }
+          )
+    },
+
+  },
+  data() {
+    return {
+      loaded: false,
+      promotionExists: Boolean,
+      promotionId: String,
+      promotionName: String,
+      promotionYear: Number,
+      promotionPicture: String,
+      promotionSchedule: String,
+
+    }
+  }
+}
+</script>
+
+<style scoped>
+#mainDiv {
+  background: center no-repeat;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+}
+</style>
