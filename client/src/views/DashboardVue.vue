@@ -6,6 +6,7 @@
   <main v-else>
     <h1 v-if="!promotionExists" class="title has-text-centered is-1">Sorry, we could not find this promotion...</h1>
     <div v-else id="mainDiv" v-bind:style="{ backgroundImage : 'url(' + this.promotionPicture +')' }">
+      <calendar-component :url_schedule="this.promotionSchedule"></calendar-component>
       <birthday-component></birthday-component>
       <quote-component></quote-component>
     </div>
@@ -14,11 +15,12 @@
 
 <script>
 import QuoteComponent from "@/components/quoteComponent.vue";
-import BirthdayComponent from "@/assets/birthdayComponent.vue";
+import BirthdayComponent from "@/components/birthdayComponent.vue";
+import CalendarComponent from "@/components/calendarComponent.vue";
 
 export default {
   name: "DashboardVue",
-  components: {BirthdayComponent, QuoteComponent},
+  components: {CalendarComponent, BirthdayComponent, QuoteComponent},
   mounted() {
     this.fetchPromotion()
   },
@@ -52,7 +54,7 @@ export default {
                   this.promotionName = json.name;
                   this.promotionYear = json.year;
                   this.promotionPicture = json.url_picture;
-                  this.promotionSchedule = json.url_schedule;
+                  this.promotionSchedule = `https://proseconsult.umontpellier.fr/jsp/custom/modules/plannings/direct_cal.jsp?data=58c99062bab31d256bee14356aca3f2423c0f022cb9660eba051b2653be722c41984e67bbcf32a85131abbfce0350104dc5c094f7d1a811b903031bde802c7f5b399f9e7c3bba8f521c90cbeee2cb06b969dc7dae33d5165dfd2e1d1262ac603b4ff382a63e0b21f5f1fc201eebb7689395784b012b9633f044f8bfdf38531c1,1` //json.url_schedule;
 
                   this.promotionExists = true
 
@@ -74,7 +76,6 @@ export default {
       promotionYear: Number,
       promotionPicture: String,
       promotionSchedule: String,
-
     }
   }
 }
