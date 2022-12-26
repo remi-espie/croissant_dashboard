@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div v-for="course in this.courses" :key="courses.uid" class="has-text-centered courses">
+    <div v-for="course in this.courses" :key="course.uid" class="has-text-centered courses">
       <course-component :course="course"></course-component>
     </div>
 
@@ -3752,7 +3752,7 @@ export default {
       nextCourse = nextCourse.sort((a, b) => {
         return a.start - b.start
       })
-      nextCourse = nextCourse.slice(0, 1)
+      nextCourse = nextCourse.slice(0, 5)
 
       for (const nextCourseElement of nextCourse) {
         let description = nextCourseElement.description.split("\n")
@@ -3766,7 +3766,7 @@ export default {
       }
 
       this.courses = nextCourse
-    }
+    },
   }
 }
 </script>
@@ -3780,5 +3780,6 @@ export default {
   right: 10px;
   padding: 0;
   overflow: hidden;
+  display: flex;
 }
 </style>
