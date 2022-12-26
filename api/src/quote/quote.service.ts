@@ -15,11 +15,11 @@ export class QuoteService {
         });
     }
 
-    async getRandomQuote(): Promise<quote |null>{
+    async getRandomQuote(): Promise<quote[] |null>{
         const count = await this.prisma.quote.count();
         const skip = Math.floor(Math.random() * count);
         return await this.prisma.quote.findMany({
-            take: 5,
+            take: 1,
             skip: skip,
         });
     }
