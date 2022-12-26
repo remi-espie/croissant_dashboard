@@ -40,6 +40,12 @@ export class QuoteController {
         return this.quoteService.getAllQuote();
     }
 
+    // Get random quote's data
+    @Get("/random")
+    async getRandomQuote() {
+        return this.quoteService.getRandomQuote();
+    }
+
     // Update quote data -> PUT /quote/:id
     @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
