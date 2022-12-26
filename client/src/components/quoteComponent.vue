@@ -10,9 +10,13 @@ export default {
   mounted() {
     setTimeout(this.displayQuote, 6000)
   },
+  unmounted() {
+    clearTimeout(this.timeoutId)
+  },
   data() {
     return {
       quote: '',
+      timeoutId: Number
     }
   },
   methods: {
@@ -38,22 +42,25 @@ export default {
           })
           .then(resp => resp.text())
           .then((json) => {
-            json = JSON.parse(json)
+            json = JSON.parse(json)[0]
             this.quote = json.quote + " - " + json.author
           }).then(() => {
-        this.$refs.quoteBox.classList.remove("invisible")
+        if (this.$refs.quoteBox) this.$refs.quoteBox.classList.remove("invisible")
         // dynamically change the animation duration in relation to the distance the quote will travel
-        const duration = (this.$refs.quote.clientWidth + 300) * 1000 / 20
-        this.$refs.quote.style.animationDuration = duration + 'ms'
-        this.$refs.quote.classList.add("animate")
+        let duration = 10000
+        if (this.$refs.quote) {
+          duration = (this.$refs.quote.clientWidth + 300) * 1000 / 20
+          this.$refs.quote.style.animationDuration = duration + 'ms'
+          this.$refs.quote.classList.add("animate")
+        }
 
         setTimeout(() => {
-          this.$refs.quoteBox.classList.add("invisible")
+          if (this.$refs.quoteBox) this.$refs.quoteBox.classList.add("invisible")
         }, duration)
 
         //restart a quote display after a minute
-        setTimeout(() => {
-          this.$refs.quote.classList.remove("animate")
+        this.timeoutId = setTimeout(() => {
+          if (this.$refs.quote) this.$refs.quote.classList.remove("animate")
           this.displayQuote()
         }, duration + 6000)
       })
