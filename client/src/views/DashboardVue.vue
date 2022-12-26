@@ -1,11 +1,12 @@
 <template>
 
   <main class="pageloader" v-if="!loaded" v-bind:class="{'is-active' : !loaded}">
-    <span class="title">Loading...</span>
+    <span class="title has-text-centered is-1">Loading...</span>
   </main>
   <main v-else>
-    <h1 v-if="!promotionExists">Sorry, we could not find this promotion...</h1>
+    <h1 v-if="!promotionExists" class="title has-text-centered is-1">Sorry, we could not find this promotion...</h1>
     <div v-else id="mainDiv" v-bind:style="{ backgroundImage : 'url(' + this.promotionPicture +')' }">
+      <birthday-component></birthday-component>
       <quote-component></quote-component>
     </div>
   </main>
@@ -13,10 +14,11 @@
 
 <script>
 import QuoteComponent from "@/components/quoteComponent.vue";
+import BirthdayComponent from "@/assets/birthdayComponent.vue";
 
 export default {
   name: "DashboardVue",
-  components: {QuoteComponent},
+  components: {BirthdayComponent, QuoteComponent},
   mounted() {
     this.fetchPromotion()
   },
