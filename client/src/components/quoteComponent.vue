@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     displayQuote() {
-      fetch("https://croissant.remi-espie.me/api/quote/all", {
+      fetch("https://croissant.remi-espie.me/api/quote/random", {
         mode: 'cors',
         headers: {
           'Access-Control-Allow-Origin': '*'
@@ -39,8 +39,7 @@ export default {
           .then(resp => resp.text())
           .then((json) => {
             json = JSON.parse(json)
-            const rand = Math.floor(Math.random() * (json.length))
-            this.quote = json[rand].quote + " - " + json[rand].author
+            this.quote = json.quote + " - " + json.author
           }).then(() => {
         this.$refs.quoteBox.classList.remove("invisible")
         // dynamically change the animation duration in relation to the distance the quote will travel
