@@ -21,15 +21,19 @@ export class QuoteService {
         return await this.prisma.quote.findMany({
             take: 1,
             skip: skip,
-        });
+        })[0];
     }
 
     async createQuote(data: Prisma.quoteCreateInput): Promise<quote> {
-        return await this.prisma.quote.create({
+        const quoteExists = await this.prisma.quote.create({
             data: {
                 ...data
             },
         });
+        if (!quoteExists) {
+            throw new HttpException("Quote does not exists", HttpStatus.BAD_REQUEST);
+        }
+        return quoteExists;
     }
 
     async updateQuote(data: Prisma.quoteUpdateInput): Promise<quote> {
