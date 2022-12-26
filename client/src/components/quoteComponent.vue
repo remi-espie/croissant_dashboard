@@ -43,6 +43,7 @@ export default {
           .then(resp => resp.text())
           .then((json) => {
             json = JSON.parse(json)[0]
+            if (json.author == null) json.author = "anonymous"
             this.quote = json.quote + " - " + json.author
           }).then(() => {
         if (this.$refs.quoteBox) this.$refs.quoteBox.classList.remove("invisible")
