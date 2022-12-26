@@ -12,7 +12,13 @@ import PromotionComponent from "@/components/promotionComponent.vue";
   </header>
   <main class="center is-fullwidth is-flex is-flex-direction-column m-auto">
 
-    <h2 class="title is-2 m-auto">Choose your dashboard !</h2>
+    <h2 class="title is-2 has-text-centered">
+      <router-link to="login">Log-in</router-link>
+    </h2>
+
+    <hr class="column is-paddingless is-three-fifths is-offset-one-fifth">
+
+    <h2 class="title is-2 m-auto">Or choose a dashboard !</h2>
 
     <div id="promotion" class="m-auto columns is-multiline">
       <promotion-component class="column is-4" v-for="promotion in promotions"
@@ -20,13 +26,7 @@ import PromotionComponent from "@/components/promotionComponent.vue";
                            :key="promotion.id">
       </promotion-component>
     </div>
-    <footer>
 
-      <hr class="column is-paddingless is-three-fifths is-offset-one-fifth">
-      <h2 class="title is-2 has-text-centered"> Or
-        <router-link to="login">log-in</router-link>
-      </h2>
-    </footer>
   </main>
 </template>
 
