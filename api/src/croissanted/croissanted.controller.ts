@@ -24,8 +24,9 @@ export class CroissantedController {
     // Create croissanted -> POST /croissanted/:studentId
     @Post("/:studentId")
     async createCroissanted(@Param("studentId") studentId: string,
+                            @Body() croissantedData: CroissantedDto
     ): Promise<CroissantedDto> {
-        const croissanted = new CroissantedDto(studentId);
+        const croissanted = new CroissantedDto(studentId, croissantedData);
         return this.croissantedService.createCroissanted(croissanted);
     }
 
