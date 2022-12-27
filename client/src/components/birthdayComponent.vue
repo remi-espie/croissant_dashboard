@@ -17,19 +17,21 @@ export default {
   data() {
     return {
       birthdayList: [],
-      intervalId: Number
+      interval: Number,
+      timeout: Number
     }
   },
   mounted() {
-    setTimeout(() => this.fetchStudentList(), 1000)
+    this.timeout = setTimeout(() => this.fetchStudentList(), 5000)
   },
   unmounted() {
     confetti.reset()
-    clearInterval(this.intervalId)
+    clearInterval(this.interval)
+    clearTimeout(this.timeout)
   },
   methods: {
     fetchStudentList() {
-      fetch("https://croissant.remi-espie.me/api/promotion/student/" + this.$route.params.id, {
+      fetch("https://croissant.remi-espie.me/api/promotion/" + this.$route.params.id + "/student", {
         mode: 'cors',
         headers: {
           'Access-Control-Allow-Origin': '*'
@@ -60,7 +62,7 @@ export default {
                 if (date.getMonth() === birthday.getMonth() && date.getDate() === birthday.getDate()) {
                   if (this.birthdayList.length === 0) {
                     setTimeout(() => this.fireRandom(500), 500)
-                    this.intervalId = setInterval(() => this.fireRandom(250), 600000)
+                    this.interval = setInterval(() => this.fireRandom(250), 600000)
                   }
                   this.birthdayList.push(student)
                   this.$refs.birthday.classList.remove("invisible")
@@ -116,7 +118,8 @@ export default {
 
 
 .has-text-shadow {
-  text-shadow: 1px 1px white, -1px -1px white, 1px -1px white, -1px 1px white;
+  color: whitesmoke;
+  -webkit-text-stroke: 1px darkslategray;
 }
 
 </style>

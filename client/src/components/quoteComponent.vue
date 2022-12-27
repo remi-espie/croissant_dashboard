@@ -11,12 +11,14 @@ export default {
     setTimeout(this.displayQuote, 6000)
   },
   unmounted() {
-    clearTimeout(this.timeoutId)
+    clearTimeout(this.timeoutQuote)
+    clearTimeout(this.timeoutAnim)
   },
   data() {
     return {
       quote: '',
-      timeoutId: Number
+      timeoutQuote: Number,
+      timeoutAnim: Number,
     }
   },
   methods: {
@@ -55,12 +57,12 @@ export default {
           this.$refs.quote.classList.add("animate")
         }
 
-        setTimeout(() => {
+        this.timeoutAnim = setTimeout(() => {
           if (this.$refs.quoteBox) this.$refs.quoteBox.classList.add("invisible")
         }, duration)
 
         //restart a quote display after a minute
-        this.timeoutId = setTimeout(() => {
+        this.timeoutQuote = setTimeout(() => {
           if (this.$refs.quote) this.$refs.quote.classList.remove("animate")
           this.displayQuote()
         }, duration + 6000)
