@@ -37,7 +37,7 @@ export class CroissantedController {
 
 
     // Get croissanted data of student -> GET /croissanted/student/:id or name
-    @Get("/student/:id")
+    @Get("/:id/student")
     async croissantedStudent(@Param("id") id: string): Promise<croissanted[]> {
         return this.croissantedService.croissantedStudent(String(id));
     }
@@ -47,6 +47,12 @@ export class CroissantedController {
     @Get("/all")
     async getAllCroissanted() {
         return this.croissantedService.getAllCroissanted();
+    }
+
+    // Get scoreboard of croissanted data
+    @Get("/scoreboard")
+    async getScoreboardCroissanted() {
+        return this.croissantedService.getScoreboardCroissanted();
     }
 
     // Update croissanted data -> PUT /croissanted/:id

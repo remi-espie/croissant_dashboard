@@ -56,4 +56,21 @@ export class CroissantedService {
         return await this.prisma.croissanted.findMany();
     }
 
+    async getScoreboardCroissanted(){
+        return await (await this.prisma.croissanted.groupBy({
+            by: ['studentId'],
+            _count: {
+                studentId: true
+            },
+            orderBy: {
+                _count: {
+                    studentId: "desc"
+                }
+            },
+        })).map(async (d) => {
+            const student = await this.prisma.student.findFirst({where: {id: d.studentId}})
+            return {...d, student}
+        });
+    }
+
 }
