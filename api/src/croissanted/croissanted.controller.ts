@@ -37,7 +37,7 @@ export class CroissantedController {
     }
 
 
-    // Get croissanted data of student -> GET /croissanted/student/:id or name
+    // Get croissanted data of student -> GET /croissanted/:id/student or name
     @Get("/:id/student")
     async croissantedStudent(@Param("id") id: string): Promise<croissanted[]> {
         return this.croissantedService.croissantedStudent(String(id));

@@ -1,10 +1,10 @@
 import {IsBoolean, IsDateString, IsNotEmpty, IsOptional, IsString} from 'class-validator';
 
 export class CroissantedDto{
-    constructor(studentId: string, croissantedDto) {
+    constructor(studentId: string, croissantedData: CroissantedDto) {
         this.studentId = studentId;
-        this.bought = croissantedDto.bought;
-        this.date = croissantedDto.date;
+        this.bought = croissantedData.bought;
+        this.date = croissantedData.date;
     }
 
     @IsDateString()
@@ -22,7 +22,7 @@ export class CroissantedDto{
 
 export class CroissantedDtoId extends CroissantedDto{
     constructor(croissanted: CroissantedDto, id) {
-        super(croissanted.studentId, CroissantedDto);
+        super(croissanted.studentId, croissanted);
         this.id = id
     }
 
