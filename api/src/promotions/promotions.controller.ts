@@ -46,10 +46,24 @@ export class PromotionsController {
     }
 
     // Get students data of a promotion
-    @Get("/student/:id")
+    @Get("/:id/student")
     async getStudentOf(@Param("id") id: string): Promise<promotion[]> {
         if (isUUID(id)) return this.promotionService.promotionStudentId(id);
-        else if (isUUID(id)) return this.promotionService.promotionStudentName(String(id));
+        else return this.promotionService.promotionStudentName(String(id));
+    }
+
+    // Get croissanted data of a promotion
+    @Get("/:id/croissanted")
+    async getCroissantedOf(@Param("id") id: string): Promise<promotion[]> {
+        if (isUUID(id)) return this.promotionService.promotionCroissantedId(id);
+        else return this.promotionService.promotionCroissantedName(String(id));
+    }
+
+    // Get all croissanted (even bought ones) data of a promotion
+    @Get("/:id/croissanted/all")
+    async getAllCroissantedOf(@Param("id") id: string): Promise<promotion[]> {
+        if (isUUID(id)) return this.promotionService.promotionCroissantedAllId(id);
+        else return this.promotionService.promotionCroissantedAllName(String(id));
     }
 
     // Update promotion data -> PUT /promotion/:id

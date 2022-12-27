@@ -39,6 +39,62 @@ export class PromotionsService {
         });
     }
 
+    async promotionCroissantedId(id): Promise<promotion[] | null> {
+        return await this.prisma.promotion.findMany({
+            where: {id},
+            include: {
+                student: {
+                    include: {
+                        croissanted: {
+                            where: {bought: false}
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    async promotionCroissantedName(name): Promise<promotion[] | null> {
+        return await this.prisma.promotion.findMany({
+            where: {name},
+            include: {
+                student: {
+                    include: {
+                        croissanted: {
+                            where: {bought: false}
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    async promotionCroissantedAllId(id): Promise<promotion[] | null> {
+        return await this.prisma.promotion.findMany({
+            where: {id},
+            include: {
+                student: {
+                    include: {
+                        croissanted: true
+                    }
+                }
+            }
+        });
+    }
+
+    async promotionCroissantedAllName(name): Promise<promotion[] | null> {
+        return await this.prisma.promotion.findMany({
+            where: {name},
+            include: {
+                student: {
+                    include: {
+                        croissanted: true
+                    }
+                }
+            }
+        });
+    }
+
     async createPromotion(data: Prisma.promotionCreateInput): Promise<promotion> {
         const promotionExists = await this.prisma.promotion.findUnique({
             where: {name: data.name}
