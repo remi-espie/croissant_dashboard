@@ -28,13 +28,10 @@ services:
     build:
       context: ./client
     volumes:
-      - ./client:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./client:/usr/src/app/dist
     ports:
       - "5173:5173"
-    command: sh -c "npm run start"
-    env_file:
-      - ./client/.env
+    command: sh -c "npm run preview"
     depends_on:
       - api
     labels:
