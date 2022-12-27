@@ -6,7 +6,7 @@
   <main v-else>
     <h1 v-if="!promotionExists" class="title has-text-centered is-1">Sorry, we could not find this promotion...</h1>
     <div v-else id="mainDiv" v-bind:style="{ backgroundImage : 'url(' + this.promotionPicture +')' }">
-      <calendar-component :url_schedule="this.promotionSchedule"></calendar-component>
+      <schedule-component :url_schedule="this.promotionSchedule"></schedule-component>
       <birthday-component></birthday-component>
       <quote-component></quote-component>
     </div>
@@ -16,11 +16,11 @@
 <script>
 import QuoteComponent from "@/components/quoteComponent.vue";
 import BirthdayComponent from "@/components/birthdayComponent.vue";
-import CalendarComponent from "@/components/calendarComponent.vue";
+import scheduleComponent from "@/components/scheduleComponent.vue";
 
 export default {
   name: "DashboardVue",
-  components: {CalendarComponent, BirthdayComponent, QuoteComponent},
+  components: {scheduleComponent, BirthdayComponent, QuoteComponent},
   mounted() {
     this.fetchPromotion()
   },

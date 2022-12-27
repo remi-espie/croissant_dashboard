@@ -1,10 +1,12 @@
 <template>
-  <div class="has-text-centered schedule" ref="schedule">
+  <div class="has-text-centered schedule"
+  :style="{height: this.hours ? (this.hours[this.hours.length - 1] - this.hours[0]) / 60 / 60 / 1000 * 4 + 4.5 + 'em' : '0em'}"
+  >
     <p class="timeday">{{ course.start.toLocaleDateString('en-GB') }}</p>
     <hr>
     <div class="hours">
         <p v-for="hour in courseHours" :key="hour"
-      class="hourstamp timestamp" :style="{marginTop: (hour - hours[0])/60/60/1000 * 4.5 + 'em' }">
+      class="hourstamp timestamp" :style="{ marginTop: (hour - hours[0])/60/60/1000 * 4.5 + 'em' }">
         {{
           hour.toLocaleTimeString('en-GB', {
             hour: '2-digit',
@@ -23,7 +25,7 @@
         }}</p>
     </div>
     <div class="course"
-         :style="{marginTop: (courseHours[0] - hours[0])/60/60/1000 * 4 + 0.85 + 'em', height: (courseHours[1] - courseHours[0])/60/60/1000 * 4 + 1 + 'em'}"
+         :style="{marginTop: 'calc(' + (courseHours[0] - hours[0])/60/60/1000 * 4.5 + 'em + 14px)', height: (courseHours[1] - courseHours[0])/60/60/1000 * 4.5  + 'em'}"
     >
       <h6 class="title is-6">{{ course.summary }}</h6>
       <h6 class="subtitle is-6" v-for="description in course.description" :key="description">{{ description }}</h6>
@@ -61,9 +63,6 @@ export default {
       this.hours.sort((a, b) => {
         return a - b
       })
-
-      this.$refs.schedule.style.height = (this.hours[this.hours.length - 1] - this.hours[0]) / 60 / 60 / 1000 * 4 + 4.5 + "em";
-
     }
   }
 }
@@ -74,31 +73,24 @@ export default {
 .hours {
   position: absolute;
   z-index: -1;
-  margin-right: 0.25em;
 }
 
 .hourstamp {
   position: relative;
-  padding-right: 10px;
   text-align: start !important;
-  left: 5px;
+  left: 0.5em;
   overflow: hidden;
-  width: 15vw;
-  margin-right: 0.25em;
+  width: calc(20vw - 1em);
 }
 
 .hourstamp:after {
   content: "";
   display: inline-block;
-  height: 0.7em;
-  vertical-align: bottom;
-  width: 76%;
+  vertical-align: middle;
+  width: 100%;
   margin-right: -100%;
-  margin-left: 10px;
-}
-
-.hourstamp:after {
-  border-top: 1px solid lightgray;
+  margin-left: 0.5em;
+  border-top: 0.1em solid lightgray;
 }
 
 .timestamp{
@@ -106,16 +98,16 @@ export default {
 }
 
 .timestamp:after {
-  border-top: 2px solid black;
+  border-top: 0.2em solid black;
 }
 
 .course {
-  margin-left: 3.25em;
+  margin-left: 3.35em;
   background-color: rgba(255, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  margin-right: 0.25em;
+  margin-right: 0.5em;
 }
 
 .schedule .subtitle {
@@ -127,7 +119,7 @@ export default {
 }
 
 .schedule {
-  width: 15vw;
+  width: 20vw;
 }
 
 </style>
