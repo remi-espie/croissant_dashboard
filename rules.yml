@@ -1,0 +1,10 @@
+http:
+  routers:
+    my-route:
+      rule: "Host(`croissant.remi-espie.me`) && PathPrefix(`/schedule`)"
+      service: schedule
+  services:
+    schedule:
+      loadBalancer:
+        servers:
+          - url: "https://proseconsult.umontpellier.fr/jsp/custom/modules/plannings/direct_cal.jsp"

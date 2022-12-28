@@ -59,6 +59,8 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web-secure.address=:443"
+      - "--providers.file=true"
+      - "--providers.file.filename=/etc/traefik/rules.yml"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=remi.espie@etu.umontpellier.fr"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
@@ -68,6 +70,7 @@ services:
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./rules.yml:/etc/traefik/rules.yml"
     labels:
       - "traefik.enable=false"
 
