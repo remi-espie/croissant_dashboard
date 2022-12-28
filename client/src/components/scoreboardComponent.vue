@@ -100,6 +100,7 @@ export default {
         this.scoreboardLocal = json
         this.scoreboardLocalExists = true
       }
+      else this.scoreboardLocalExists = false
     },
 
     async parseScoreboardGlobal(json) {
@@ -123,6 +124,7 @@ export default {
         this.scoreboardGlobal = json
         this.scoreboardGlobalExists = true
       }
+      else this.scoreboardGlobalExists = false
     },
 
   }
