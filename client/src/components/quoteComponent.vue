@@ -1,5 +1,5 @@
 <template>
-  <div class="box invisible" ref="quoteBox">
+  <div class="box invisible p-2" ref="quoteBox">
     <span id="quote" ref="quote">{{ this.quote }}</span>
   </div>
 </template>
@@ -45,7 +45,7 @@ export default {
           .then(resp => resp.text())
           .then((json) => {
             json = JSON.parse(json)[0]
-            if (json.author == null) json.author = "anonymous"
+            if (json.author === "") json.author = "anonymous"
             this.quote = json.quote + " - " + json.author
           }).then(() => {
         if (this.$refs.quoteBox) this.$refs.quoteBox.classList.remove("invisible")
@@ -80,8 +80,10 @@ export default {
   bottom: 5px;
   left: 5px;
   width: 300px;
+  height: 65px;
   opacity: 1;
   transition: opacity 0.3s;
+  margin: 0;
 }
 
 .invisible {
@@ -90,7 +92,10 @@ export default {
 
 #quote {
   position: absolute;
-  top: 20%;
+  margin: auto 0;
+  top: 0;
+  bottom: 0;
+  height: min-content;
   min-width: min-content;
   white-space: nowrap;
   opacity: 0;
