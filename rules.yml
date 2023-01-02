@@ -1,10 +1,14 @@
 http:
   routers:
-    my-route:
-      rule: "Host(`croissant.remi-espie.me`) && PathPrefix(`/schedule`)"
-      service: schedule
+    router0:
+      entryPoints:
+        - web
+      service: service-foo
+      rule: host(`127.0.0.1`) && Pathprefix(`/schedule`)
+
   services:
-    schedule:
+    service-foo:
       loadBalancer:
         servers:
-          - url: "https://proseconsult.umontpellier.fr/jsp/custom/modules/plannings/direct_cal.jsp"
+          - url: https://proseconsult.umontpellier.fr/jsp/custom/modules/plannings/direct_cal.jsp
+        passHostHeader: true
