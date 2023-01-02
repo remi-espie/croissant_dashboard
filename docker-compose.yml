@@ -90,7 +90,6 @@ services:
       - "traefik.http.routers.reverse-proxy.rule=Host(`croissant.remi-espie.me`) && PathPrefix(`/schedule`)"
       - "traefik.http.routers.reverse-proxy.entrypoints=web"
       - "traefik.http.routers.reverse-proxy.entrypoints=web-secure"
-      - "traefik.http.routers.client.tls.certresolver=myresolver"
 
 volumes:
   pgdata:
