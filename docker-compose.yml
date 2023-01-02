@@ -34,7 +34,6 @@ services:
     command: sh -c "npm run dev"
     depends_on:
       - api
-      - reverse-proxy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.client.rule=Host(`croissant.remi-espie.me`)"
@@ -67,29 +66,11 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     labels:
-      - "traefik.enable=true"
-
-  reverse-proxy:
-    image: httpd:latest
-    container_name: reverse-proxy
-    build:
-      context: ./reverse-proxy
-    depends_on:
-      - traefik
-    ports:
-      - '8081:80'
-    volumes:
-      - "./reverse-proxy/conf:/usr/local/apache2/conf/sites"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.reverse-proxy.rule=Host(`croissant.remi-espie.me`) && PathPrefix(`/schedule`)"
-      - "traefik.http.routers.reverse-proxy.entrypoints=web"
-      - "traefik.http.routers.reverse-proxy.entrypoints=web-secure"
+      - "traefik.enable=false"
 
 volumes:
   pgdata:

@@ -6,7 +6,7 @@ import {
     Get,
     Param,
     Post,
-    Put,
+    Put, Res, StreamableFile,
     UseGuards,
     UseInterceptors
 } from "@nestjs/common";
@@ -16,6 +16,7 @@ import {PromotionsDto, PromotionDtoId} from "./promotions.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {AdminGuard} from "../auth/admin-guard";
 import {isUUID} from "class-validator";
+import {FastifyReply} from "fastify";
 
 @Controller("promotion")
 export class PromotionsController {
@@ -37,6 +38,12 @@ export class PromotionsController {
     async profile(@Param("id") id: string): Promise<promotion> {
         if (isUUID(id)) return this.promotionService.promotionId(id)
         else return this.promotionService.promotionName(String(id))
+    }
+
+    @Get("/:id/schedule")
+    async schedule(@Res({ passthrough: true }) res: FastifyReply, @Param("id") id: string): Promise<StreamableFile> {
+        if (isUUID(id)) return this.promotionService.schedule(res, id)
+        else return this.promotionService.scheduleName(res, String(id))
     }
 
     // Get all promotions data

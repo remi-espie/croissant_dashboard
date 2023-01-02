@@ -56,7 +56,7 @@ export default {
                   this.promotionName = json.name;
                   this.promotionYear = json.year;
                   this.promotionPicture = json.url_picture;
-                  this.promotionSchedule = `https://proseconsult.umontpellier.fr/jsp/custom/modules/plannings/direct_cal.jsp?data=58c99062bab31d256bee14356aca3f2423c0f022cb9660eba051b2653be722c41984e67bbcf32a85131abbfce0350104dc5c094f7d1a811b903031bde802c7f5b399f9e7c3bba8f521c90cbeee2cb06b969dc7dae33d5165dfd2e1d1262ac603b4ff382a63e0b21f5f1fc201eebb7689395784b012b9633f044f8bfdf38531c1,1` //json.url_schedule;
+                  this.promotionSchedule = "https://croissant.remi-espie.me/api/promotion/" + this.promotionId + "/schedule";
 
                   this.promotionExists = true
 
