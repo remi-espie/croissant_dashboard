@@ -1,0 +1,26 @@
+html {
+    overflow: hidden;
+    background: linear-gradient(#821982, #681468);
+    height: 100vh;
+}
+
+.box {
+    background-color: #821982;
+    color: #F2E8F2;
+}
+
+.title {
+    color: #F2E8F2;
+}
+
+a {
+    color: #D9BAD9;
+}
+
+a:hover {
+    color: #E6D1E6;
+}
+
+.subtitle {
+    color: #E6D1E6;
+}
