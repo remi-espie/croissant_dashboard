@@ -27,17 +27,8 @@ services:
     container_name: client
     build:
       context: ./client
-    image: nginx:alpine
-    volumes:
-      - ./client/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./client/dist:/var/www/html
     ports:
-      - "8123:80"
-    environment:
-      - NGINX_HOST=cluster-2022-2.dopolytech.fr
-      - NGINX_PORT=80
-    depends_on:
-      - api
+      - "8081:8081"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.client.rule=Host(`cluster-2022-2.dopolytech.fr`)"
