@@ -26,21 +26,27 @@ export default {
       translate: 0,
       test: 0,
       interval: Number,
+      globalInterval: Number
     }
   },
   mounted() {
     this.fetchCalendar()
+    this.globalInterval = setInterval(() => {
+      this.fetchCalendar()
+    }, 3600000)
   },
   unmounted() {
     if (this.interval) clearInterval(this.interval)
+    if (this.globalInterval()) clearInterval(this.globalInterval())
   },
   methods: {
     fetchCalendar() {
+      this.courses = []
       fetch(this.url_schedule, {
         mode: 'cors',
         headers: {
           'Access-Control-Allow-Origin': '*',
-          'Content-type' : 'text/calendar'
+          'Content-type': 'text/calendar'
         },
       })
           .catch(err => {
@@ -55,7 +61,7 @@ export default {
             }
             return resp
           })
-          .then(resp => resp.data)
+          .then(resp => resp.text())
           .then((resp) => {
                 this.parseCalendar(resp)
                 this.scheduleExists = true
@@ -93,7 +99,7 @@ export default {
 
       this.courses = nextCourse
 
-      setTimeout(()=> this.scheduleExists = true, 10)
+      setTimeout(() => this.scheduleExists = true, 10)
 
       this.interval = setInterval(this.animate, 10000)
     },
