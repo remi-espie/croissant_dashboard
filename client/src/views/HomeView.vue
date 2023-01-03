@@ -20,7 +20,7 @@ import PromotionComponent from "@/components/promotionComponent.vue";
 
     <h2 class="title is-2 m-auto">Or choose a dashboard !</h2>
 
-    <div id="promotion" class="m-auto columns is-multiline">
+    <div id="promotion" class="columns is-multiline is-fullwidth">
       <promotion-component class="column is-4" v-for="promotion in promotions"
                            v-bind="{'id': promotion.id, 'name': promotion.name, 'src': promotion.url_picture, 'year': promotion.year}"
                            :key="promotion.id">
@@ -63,3 +63,11 @@ export default {
 }
 
 </script>
+
+<style scoped>
+
+#promotion {
+  margin: 0 10%;
+}
+
+</style>

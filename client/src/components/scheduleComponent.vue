@@ -37,7 +37,7 @@ export default {
   },
   unmounted() {
     if (this.interval) clearInterval(this.interval)
-    if (this.globalInterval()) clearInterval(this.globalInterval())
+    if (this.globalInterval) clearInterval(this.globalInterval)
   },
   methods: {
     fetchCalendar() {
