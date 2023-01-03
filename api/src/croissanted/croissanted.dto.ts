@@ -10,7 +10,7 @@ export class CroissantedDto{
     public date: Date
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     public studentId: string
 
     @IsBoolean()

@@ -10,6 +10,7 @@
       <birthday-component></birthday-component>
       <quote-component></quote-component>
       <croissanted-component :id="this.promotionId"></croissanted-component>
+      <scoreboard-component :id="this.promotionId"></scoreboard-component>
     </div>
   </main>
 </template>
@@ -19,10 +20,11 @@ import QuoteComponent from "@/components/quoteComponent.vue";
 import BirthdayComponent from "@/components/birthdayComponent.vue";
 import scheduleComponent from "@/components/scheduleComponent.vue";
 import CroissantedComponent from "@/components/croissantedComponent.vue";
+import ScoreboardComponent from "@/components/scoreboardComponent.vue";
 
 export default {
   name: "DashboardVue",
-  components: {CroissantedComponent, scheduleComponent, BirthdayComponent, QuoteComponent},
+  components: {ScoreboardComponent, CroissantedComponent, scheduleComponent, BirthdayComponent, QuoteComponent},
   mounted() {
     this.fetchPromotion()
   },
