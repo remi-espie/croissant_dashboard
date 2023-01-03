@@ -21,6 +21,7 @@ export class LoginService {
         const loginStudent = await this.prisma.login.findFirst({
             where: {login}
         });
+        if (!loginStudent) throw new HttpException("Invalid credentials", HttpStatus.UNAUTHORIZED)
         if (await this.passwordProvider.comparePassword(loginDto.password, loginStudent.password)) {
             delete loginStudent.password;
             return loginStudent;
