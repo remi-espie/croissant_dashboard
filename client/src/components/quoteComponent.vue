@@ -44,9 +44,12 @@ export default {
           })
           .then(resp => resp.text())
           .then((json) => {
-            json = JSON.parse(json)[0]
-            if (json.author === "") json.author = "anonymous"
-            this.quote = json.quote + " - " + json.author
+            json = JSON.parse(json)
+            if (json.length > 0) {
+              json = json[0]
+              if (json.author === "") json.author = "anonymous"
+              this.quote = json.quote + " - " + json.author
+            } else return Promise.reject("No quote found")
           }).then(() => {
         if (this.$refs.quoteBox) this.$refs.quoteBox.classList.remove("invisible")
         // dynamically change the animation duration in relation to the distance the quote will travel

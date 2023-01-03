@@ -54,7 +54,6 @@ export default {
             this.scheduleExists = false
           })
           .then(resp => {
-            console.log(resp)
             if (resp.status !== 200) {
               this.scheduleExists = false
               return Promise.reject(resp.status)
