@@ -75,7 +75,7 @@ export default {
       for (const k in schedule) {
         const event = schedule[k]
         if (event.type === 'VEVENT') {
-          if (event.start >= today) {
+          if (event.end >= today) {
             nextCourse.push(event)
           }
         }

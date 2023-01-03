@@ -1,12 +1,12 @@
 <template>
   <div class="has-text-centered schedule"
-  :style="{height: this.hours ? (this.hours[this.hours.length - 1] - this.hours[0]) / 60 / 60 / 1000 * 4 + 4.5 + 'em' : '0em'}"
+       :style="{height: this.hours ? (this.hours[this.hours.length - 1] - this.hours[0]) / 60 / 60 / 1000 * 4 + 4.5 + 'em' : '0em'}"
   >
     <p class="timeday">{{ course.start.toLocaleDateString('en-GB') }}</p>
     <hr>
     <div class="hours">
-        <p v-for="hour in courseHours" :key="hour"
-      class="hourstamp timestamp" :style="{ marginTop: (hour - hours[0])/60/60/1000 * 4.5 + 'em' }">
+      <p v-for="hour in courseHours" :key="hour"
+         class="hourstamp timestamp" :style="{ marginTop: (hour - hours[0])/60/60/1000 * 4.5 + 'em' }">
         {{
           hour.toLocaleTimeString('en-GB', {
             hour: '2-digit',
@@ -14,9 +14,18 @@
           })
         }}
       </p>
-        <p class="hourstamp" v-for="(hour, index) in hours" :key="hour"
-           :style="{marginTop: hours[index-1] ? '3em' : '0em', visibility: hour.getTime() === courseHours[0].getTime() || hour.getTime() === courseHours[1].getTime() ? 'hidden': ''}"
-        >
+      <p class="hourstamp timestamp hour"
+         :style="{ marginTop: (today - hours[0])/60/60/1000 * 4.5 + 'em' }" v-if="today >= hours[0]">
+        {{
+          today.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit'
+          })
+        }}
+      </p>
+      <p class="hourstamp" v-for="(hour, index) in hours" :key="hour"
+         :style="{marginTop: hours[index-1] ? '3em' : '0em', visibility: hour.getTime() === courseHours[0].getTime() || hour.getTime() === courseHours[1].getTime() ? 'hidden': ''}"
+      >
         {{
           hour.toLocaleTimeString('en-GB', {
             hour: '2-digit',
@@ -43,11 +52,19 @@ export default {
   data() {
     return {
       hours: [],
-      courseHours: []
+      courseHours: [],
+      today: new Date(Date.now()),
+      interval: Number
     }
   },
   mounted() {
     this.timeBetween()
+    this.interval = setInterval(() => {
+      this.today = new Date(Date.now())
+    }, 60000)
+  },
+  unmounted() {
+    if (this.interval) clearInterval(this.interval)
   },
   methods: {
     timeBetween() {
@@ -93,12 +110,21 @@ export default {
   border-top: 0.1em solid lightgray;
 }
 
-.timestamp{
+.timestamp {
   position: absolute;
 }
 
 .timestamp:after {
   border-top: 0.2em solid black;
+}
+
+.hour {
+  background-color: white;
+  color: red;
+}
+
+.hour:after {
+  border-top: 0.2em solid red;
 }
 
 .course {
