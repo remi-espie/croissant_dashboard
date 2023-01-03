@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   api:
+    restart: unless-stopped
     container_name: api
     build:
       context: ./api
@@ -24,19 +25,21 @@ services:
       - "traefik.http.routers.api.tls.certresolver=myresolver"
 
   client:
+    restart: unless-stopped
     container_name: client
     build:
       context: ./client
+    depends_on:
+      - traefik
     ports:
-      - "8081:8081"
+      - "8082:80"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.client.rule=Host(`cluster-2022-2.dopolytech.fr`)"
+      - "traefik.http.routers.client.rule=Host(`localhost`)"
       - "traefik.http.routers.client.entrypoints=web"
-      - "traefik.http.routers.client.entrypoints=web-secure"
-      - "traefik.http.routers.client.tls.certresolver=myresolver"
 
   postgres:
+    restart: unless-stopped
     image: postgres:15-alpine
     container_name: postgres
     env_file:
@@ -51,6 +54,7 @@ services:
     image: traefik:v2.9
     container_name: traefik
     command:
+      - "--api.insecure=true"
       - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
@@ -61,11 +65,12 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "8080:8080"
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     labels:
-      - "traefik.enable=false"
+      - "traefik.enable=true"
 
 volumes:
   pgdata:
