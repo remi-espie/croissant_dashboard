@@ -61,7 +61,7 @@ export default {
         "password" : this.$refs.password.value
       }
 
-      fetch("https://croissant.remi-espie.me/api/auth/login", {
+      fetch("https://cluster-2022-2.dopolytech.fr/api/auth/login", {
         method: 'POST',
         mode: 'cors',
         headers: {

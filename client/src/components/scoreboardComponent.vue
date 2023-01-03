@@ -46,11 +46,11 @@ export default {
     id: String
   },
   mounted() {
-    this.fetchScoreboard("https://croissant.remi-espie.me/api/promotion/" + this.id + "/croissanted/all", this.parseScoreboardLocal)
-    this.fetchScoreboard("https://croissant.remi-espie.me/api/croissanted/scoreboard", this.parseScoreboardGlobal)
+    this.fetchScoreboard("https://cluster-2022-2.dopolytech.fr/api/promotion/" + this.id + "/croissanted/all", this.parseScoreboardLocal)
+    this.fetchScoreboard("https://cluster-2022-2.dopolytech.fr/api/croissanted/scoreboard", this.parseScoreboardGlobal)
 
-    this.intervalLocal = setInterval(() => this.fetchScoreboard("https://croissant.remi-espie.me/api/promotion/" + this.id + "/croissanted/all", this.parseScoreboardLocal), 10000)
-    this.intervalGlobal = setInterval(() =>  this.fetchScoreboard("https://croissant.remi-espie.me/api/croissanted/scoreboard", this.parseScoreboardGlobal), 10000)
+    this.intervalLocal = setInterval(() => this.fetchScoreboard("https://cluster-2022-2.dopolytech.fr/api/promotion/" + this.id + "/croissanted/all", this.parseScoreboardLocal), 10000)
+    this.intervalGlobal = setInterval(() =>  this.fetchScoreboard("https://cluster-2022-2.dopolytech.fr/api/croissanted/scoreboard", this.parseScoreboardGlobal), 10000)
   },
   unmounted() {
     clearInterval(this.intervalLocal)
@@ -107,7 +107,7 @@ export default {
       let fetches = []
       json = json.slice(0, 3)
       for (const jsonElement of json) {
-        fetches.push("https://croissant.remi-espie.me/api/student/" + jsonElement.studentId)
+        fetches.push("https://cluster-2022-2.dopolytech.fr/api/student/" + jsonElement.studentId)
       }
 
       await Promise.all(fetches.map(url => fetch(url)))

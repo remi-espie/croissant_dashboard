@@ -29,7 +29,7 @@ export default {
   methods: {
 
     fetchPromotion() {
-      fetch("https://croissant.remi-espie.me/api/promotion/" + this.$route.params.id, {
+      fetch("https://cluster-2022-2.dopolytech.fr/api/promotion/" + this.$route.params.id, {
         mode: 'cors',
         headers: {
           'Access-Control-Allow-Origin': '*'
@@ -56,7 +56,7 @@ export default {
                   this.promotionName = json.name;
                   this.promotionYear = json.year;
                   this.promotionPicture = json.url_picture;
-                  this.promotionSchedule = "https://croissant.remi-espie.me/api/promotion/" + this.promotionId + "/schedule";
+                  this.promotionSchedule = "https://cluster-2022-2.dopolytech.fr/api/promotion/" + this.promotionId + "/schedule";
 
                   this.promotionExists = true
 

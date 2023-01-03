@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     fetchStudentList() {
-      fetch("https://croissant.remi-espie.me/api/promotion/student/" + this.$route.params.id, {
+      fetch("https://cluster-2022-2.dopolytech.fr/api/promotion/student/" + this.$route.params.id, {
         mode: 'cors',
         headers: {
           'Access-Control-Allow-Origin': '*'

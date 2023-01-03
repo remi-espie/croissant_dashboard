@@ -40,7 +40,7 @@ export default {
   methods: {
 
     fetchPromotions() {
-      fetch("https://croissant.remi-espie.me/api/promotion/all", {
+      fetch("https://cluster-2022-2.dopolytech.fr/api/promotion/all", {
         mode: 'cors',
         headers: {
           'Access-Control-Allow-Origin': '*'
