@@ -2,7 +2,7 @@
   <main class="is-flex is-flex-direction-column">
 
     <div id="title" class="is-flex is-centered mb-6 mt-6">
-      <img alt="Croissant logo" class="image is-128x128 m-5" src="/icon.png"/>
+      <img alt="Croissant logo" class="image is-128x128 m-5" src="@/assets/icon.png"/>
       <h2 class="title is-2 is-align-self-center">Log in to modify your personal information, view your croissanted
         history, and
         even your dynamic shopping list !</h2>
@@ -95,7 +95,7 @@ export default {
         credentials: 'same-origin',
       })
           .catch(err => {
-            console.log(err)
+            console.error(err)
             this.loaded = true;
           })
           .then(async resp => {

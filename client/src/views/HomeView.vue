@@ -6,7 +6,7 @@ import PromotionComponent from "@/components/dashboard/promotionComponent.vue";
 
   <header>
     <div class="center is-fullwidth is-flex is-justify-content-center">
-      <img alt="Croissant logo" class="image is-128x128 m-5" src="/icon.png"/>
+      <img alt="Croissant logo" class="image is-128x128 m-5" src="@/assets/icon.png"/>
       <h1 class="title is-1 is-align-items-center is-flex m-5">Croissant Dashboard !</h1>
     </div>
   </header>
@@ -46,7 +46,7 @@ export default {
           'Access-Control-Allow-Origin': '*'
         }
       })
-          .catch(err => console.log(err))
+          .catch(err => console.error(err))
           .then(resp => resp.text())
           .then((json) => {
                 if (json !== "") this.promotions.push(...JSON.parse(json))

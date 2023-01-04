@@ -65,7 +65,7 @@ export default {
         }
       })
           .catch(err => {
-            console.log(err)
+            console.error(err)
             this.promotionExists = false
             this.loaded = true;
           })
@@ -111,7 +111,7 @@ export default {
       }
 
       await Promise.all(fetches.map(url => fetch(url)))
-          .catch(err => console.log(err))
+          .catch(err => console.error(err))
           .then(responses => Promise.all(responses.map(res => res.text())))
           .then(resp => {
             resp = resp.slice(0, 3)

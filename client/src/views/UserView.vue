@@ -6,7 +6,7 @@
 
     <header>
       <div class="container is-flex is-justify-content-space-evenly is-align-items-center">
-        <img alt="Croissant logo" class="image is-128x128 m-5" src="/icon.png"/>
+        <img alt="Croissant logo" class="image is-128x128 m-5" src="@/assets/icon.png"/>
         <h2 class="title is-2 m-5">
           <router-link to="/">Home</router-link>
         </h2>
@@ -126,7 +126,6 @@ export default {
       fetch('/api/auth/logout', {
         method: 'POST',
       })
-          .then(response => response.json())
           .then(() => {
             this.cookies.remove("authenticated");
             this.$router.replace('/');
