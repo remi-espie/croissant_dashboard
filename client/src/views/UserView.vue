@@ -138,15 +138,13 @@ export default {
           .catch((error) => {
             console.error('Error:', error);
           });
-    }
-    ,
+    },
 
     fetchData() {
       this.fetchAdmin()
       this.fetchScoreboard()
       this.fetchPastry()
-    }
-    ,
+    },
 
     fetchAdmin() {
       fetch('/api/login')
@@ -155,8 +153,7 @@ export default {
             this.admin = json.admin;
             this.fetchUser(json.login);
           })
-    }
-    ,
+    },
 
     fetchUser(id) {
       fetch('/api/student/' + id)
@@ -166,8 +163,7 @@ export default {
             this.fetchStats(json.id)
             this.fetchPromotion(json.promotionId)
           })
-    }
-    ,
+    },
 
     fetchStats(id) {
       fetch('/api/croissanted/' + id + "/student")
@@ -175,8 +171,7 @@ export default {
           .then(json => {
             this.stats = json;
           })
-    }
-    ,
+    },
 
     fetchScoreboard() {
       fetch('/api/croissanted/scoreboard')
@@ -184,8 +179,7 @@ export default {
           .then(json => {
             this.scoreboard = json;
           })
-    }
-    ,
+    },
 
     fetchPastry() {
       fetch('/api/pastry/all')
@@ -193,8 +187,7 @@ export default {
           .then(json => {
             this.pastry = json;
           })
-    }
-    ,
+    },
 
     fetchPromotion(id) {
       fetch('/api/promotion/' + id)
@@ -204,8 +197,7 @@ export default {
             this.loaded = true
           })
     }
-  }
-  ,
+  },
 }
 </script>
 
