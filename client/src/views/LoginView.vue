@@ -69,12 +69,18 @@ export default {
     }
   },
   mounted() {
-    if (!this.cookies.isKey("auth-cookie")) {
-      this.displayCookie = true;
-    }
-    else {
-      this.$router.push("/user");
-    }
+
+    fetch('/api/login')
+        .then(resp => {
+          console.log(resp)
+
+          if (resp.status === 200) {
+            this.$router.push({name: "user"})
+          } else {
+            this.displayCookie = true
+          }
+        })
+
   },
   methods: {
     signIn() {
@@ -104,7 +110,6 @@ export default {
               this.error = true;
               this.errorMessage = "Invalid credentials";
             } else if (resp.status === 201) {
-              this.cookies.set("authenticated", "true");
               this.loaded = true;
               this.$router.replace({name: "user"});
             } else {
