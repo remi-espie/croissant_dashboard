@@ -1,26 +1,31 @@
 html {
     overflow: hidden;
-    background: linear-gradient(#821982, #681468);
+    background: linear-gradient(#f2e8f2, #e6d1e6);
     height: 100vh;
 }
 
-.box {
-    background-color: #821982;
-    color: #F2E8F2;
+hr {
+    color: black;
+    background-color: black;
 }
 
-.title {
-    color: #F2E8F2;
-}
+/*.box {*/
+/*    background-color: #821982;*/
+/*    color: #F2E8F2;*/
+/*}*/
 
-a {
-    color: #D9BAD9;
-}
+/*.title {*/
+/*    color: #F2E8F2;*/
+/*}*/
 
-a:hover {
-    color: #E6D1E6;
-}
+/*a {*/
+/*    color: #D9BAD9;*/
+/*}*/
 
-.subtitle {
-    color: #E6D1E6;
-}
+/*a:hover {*/
+/*    color: #E6D1E6;*/
+/*}*/
+
+/*.subtitle {*/
+/*    color: #E6D1E6;*/
+/*}*/

@@ -11,30 +11,38 @@
 
       <div class="field">
         <label class="label">Email</label>
-        <div class="control">
+        <div class="control has-icons-left has-icons-right">
           <input class="input" type="email" placeholder="firstname.name@etu.umontpellier.fr" ref="login">
+          <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
         </div>
       </div>
 
       <div class="field">
         <label class="label">Password</label>
-        <div class="control">
+        <div class="control has-icons-left has-icons-right">
           <input class="input" type="password" placeholder="********" ref="password">
+          <span class="icon is-small is-left">
+          <i class="fas fa-lock"></i>
+          </span>
         </div>
       </div>
 
       <input type="submit" class="button is-primary" v-on:click="this.signIn" value="Log in">
     </form>
-    <div class="is-flex notificationContainer" v-if="displayCookie">
-      <div class="notification is-info is-flex has-text-centered is-centered is-vcentered m-auto">
+    <div class="modal" v-if="displayCookie" :style="{display: displayCookie ? 'flex' : 'none'}">
+      <div class="modal-background"></div>
+      <div class="modal-content notification is-info">
         <button class="delete" v-on:click="this.displayCookie = false"></button>
         🍪
         Hey ! In order to authenticate you, we need to put a cookie on your computer. Don't worry, it's really small and
         even smells nice !
       </div>
     </div>
-    <div class="is-flex notificationContainer" v-if="error">
-      <div class="notification is-danger is-flex has-text-centered is-centered is-vcentered m-auto">
+    <div class="modal" v-if="error">
+      <div class="modal-background"></div>
+      <div class="modal-content notification is-danger">
         <button class="delete" v-on:click="this.error = false"></button>
         ⚠️
         {{ errorMessage }}
@@ -87,14 +95,14 @@ export default {
             console.log(err)
             this.loaded = true;
           })
-          .then(resp => {
+          .then(async resp => {
             if (resp.status === 401) {
               this.loaded = true;
               this.error = true;
               this.errorMessage = "Invalid credentials";
-            } else if (resp.statusCode === 200) {
+            } else if (resp.status === 201) {
               this.loaded = true;
-              this.$router.replace({name: "HomeView"});
+              this.$router.replace({name: "user"});
             } else {
               this.loaded = true;
               this.error = true;
@@ -119,13 +127,6 @@ main * {
 
 #title {
   width: 60%;
-}
-
-.notificationContainer {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .notification {

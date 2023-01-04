@@ -119,7 +119,7 @@ export default {
 }
 
 .hour {
-  background-color: #821982;
+  /*background-color: #821982;*/
   color: red;
 }
 
