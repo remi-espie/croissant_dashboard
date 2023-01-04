@@ -6,7 +6,7 @@ import {
     HttpException,
     HttpStatus,
     Param, Patch,
-    Post,
+    Post, Req,
     UseGuards,
     UseInterceptors
 } from "@nestjs/common";
@@ -29,6 +29,12 @@ export class StudentsController {
     ): Promise<StudentsDto> {
         studentData.birthday = new Date(studentData.birthday)
         return this.studentsService.createStudent(studentData);
+    }
+
+    // Get student data -> GET /student/:id or name
+    @Get()
+    async studentCookie(@Req() request): Promise<student> {
+        return request.user;
     }
 
     // Get student data -> GET /student/:id or name
