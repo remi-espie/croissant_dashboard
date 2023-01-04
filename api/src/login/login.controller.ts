@@ -4,7 +4,7 @@ import {
     Controller,
     Delete,
     Param,
-    Put,
+    Patch,
     UseGuards,
     UseInterceptors
 } from "@nestjs/common";
@@ -41,7 +41,7 @@ export class LoginController {
     // Update login data -> PUT /login/:id
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
-    @Put("/:id")
+    @Patch("/:id")
     async updateLogin(
         @Body() loginData: LoginDto,
         @Param("id") id

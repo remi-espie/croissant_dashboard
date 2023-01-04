@@ -5,9 +5,8 @@ import {
     Get,
     HttpException,
     HttpStatus,
-    Param,
+    Param, Patch,
     Post,
-    Put,
     UseGuards,
     UseInterceptors
 } from "@nestjs/common";
@@ -16,6 +15,7 @@ import {StudentsService} from "./students.service";
 import {StudentsDto, StudentsDtoId} from "./students.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {StudentGuard} from "../auth/student-guard";
+import {isUUID} from "class-validator";
 
 @Controller("student")
 export class StudentsController {
@@ -34,7 +34,11 @@ export class StudentsController {
     // Get student data -> GET /student/:id or name
     @Get("/:id")
     async student(@Param("id") id: string): Promise<student> {
-        return this.studentsService.student(id)
+        if (isUUID(id)) {
+            return this.studentsService.student(id)
+        } else {
+            return this.studentsService.studentMail(id)
+        }
     }
 
     // Get all students data
@@ -46,7 +50,7 @@ export class StudentsController {
     // Update student data -> PUT /student/:id
     @UseGuards(JwtAuthGuard, StudentGuard)
     @UseInterceptors(ClassSerializerInterceptor)
-    @Put("/:id")
+    @Patch("/:id")
     async updateStudent(@Body() studentData: StudentsDto,
                         @Param("id") id
     ): Promise<StudentsDto> {

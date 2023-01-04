@@ -15,6 +15,12 @@ export class StudentsService {
         });
     }
 
+    async studentMail(mail): Promise<student | null> {
+        return await this.prisma.student.findFirst({
+            where: {mail},
+        });
+    }
+
     async createStudent(data: Prisma.studentCreateInput): Promise<student> {
         try {
             return await this.prisma.student.create({

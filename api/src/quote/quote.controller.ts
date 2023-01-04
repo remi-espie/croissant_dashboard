@@ -5,8 +5,9 @@ import {
     Delete,
     Get,
     Param,
+    Patch,
     Post,
-    Put, UseGuards,
+    UseGuards,
     UseInterceptors
 } from "@nestjs/common";
 import {quote} from "@prisma/client";
@@ -49,7 +50,7 @@ export class QuoteController {
     // Update quote data -> PUT /quote/:id
     @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
-    @Put("/:id")
+    @Patch("/:id")
     async updateQuote(
         @Body() quoteData: QuoteDto,
         @Param("id") id

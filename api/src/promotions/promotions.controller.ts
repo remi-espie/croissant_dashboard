@@ -4,9 +4,9 @@ import {
     Controller,
     Delete,
     Get,
-    Param,
+    Param, Patch,
     Post,
-    Put, Res, StreamableFile,
+    Res, StreamableFile,
     UseGuards,
     UseInterceptors
 } from "@nestjs/common";
@@ -74,7 +74,7 @@ export class PromotionsController {
     }
 
     // Update promotion data -> PUT /promotion/:id
-    @Put("/:id")
+    @Patch("/:id")
     @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async updatePromotion(

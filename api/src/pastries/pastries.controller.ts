@@ -5,8 +5,8 @@ import {
     Delete,
     Get,
     Param,
+    Patch,
     Post,
-    Put,
     UseGuards,
     UseInterceptors
 } from "@nestjs/common";
@@ -44,7 +44,7 @@ export class PastriesController {
     }
 
     // Update pastry data -> PUT /pastry/:id
-    @Put("/:id")
+    @Patch("/:id")
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async updatePastry(
