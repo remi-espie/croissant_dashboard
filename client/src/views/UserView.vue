@@ -75,6 +75,9 @@
 
     <croissanted-component v-if="isActive === 'croissanted'" :promotionId="user.promotionId"></croissanted-component>
 
+    <shopping-component v-if="isActive === 'shopping'" :promotionId="user.promotionId" :studentId="user.id"></shopping-component>
+
+    <stats-component v-if="isActive === 'stats'" :promotionId="user.promotionId" :studentId="user.id"></stats-component>
 
     <admin-component v-if="admin"></admin-component>
   </main>
@@ -85,10 +88,12 @@ import AdminComponent from "@/components/user/adminComponent.vue";
 import {useCookies} from "vue3-cookies";
 import CroissantedComponent from "@/components/user/croissantedComponent.vue";
 import QuoteComponent from "@/components/user/quoteComponent.vue";
+import ShoppingComponent from "@/components/user/shoppingComponent.vue";
+import StatsComponent from "@/components/user/statsComponent.vue";
 
 export default {
   name: "UserView",
-  components: {QuoteComponent, CroissantedComponent, AdminComponent},
+  components: {StatsComponent, ShoppingComponent, QuoteComponent, CroissantedComponent, AdminComponent},
   setup() {
     const {cookies} = useCookies();
     return {cookies};
@@ -106,19 +111,19 @@ export default {
     }
   },
   mounted() {
-    const tabs = ['croissanted', 'quote', 'shopping', 'stats', 'user', 'danger', 'admin'];
-    if (!this.cookies.isKey("authenticated")) {
-      this.$router.replace('/login');
-    } else {
-      if (this.$route.params.tab) {
-        if (tabs.includes(this.$route.params.tab))
-          this.isActive = this.$route.params.tab;
-      }
-      else {
-        this.$router.replace('/user/croissanted');
-      }
-      this.fetchData();
-    }
+    fetch('/api/login')
+        .then(resp => {
+          if (resp.status !== 200) {
+            this.$router.replace('/login')
+          }
+        }).then(() => {
+          const tabs = ['croissanted', 'quote', 'shopping', 'stats', 'user', 'danger', 'admin'];
+          if (this.$route.params.tab) {
+            if (tabs.includes(this.$route.params.tab))
+              this.isActive = this.$route.params.tab;
+          }
+          this.fetchData();
+        })
   },
   methods: {
 
@@ -133,13 +138,15 @@ export default {
           .catch((error) => {
             console.error('Error:', error);
           });
-    },
+    }
+    ,
 
     fetchData() {
       this.fetchAdmin()
       this.fetchScoreboard()
       this.fetchPastry()
-    },
+    }
+    ,
 
     fetchAdmin() {
       fetch('/api/login')
@@ -148,7 +155,8 @@ export default {
             this.admin = json.admin;
             this.fetchUser(json.login);
           })
-    },
+    }
+    ,
 
     fetchUser(id) {
       fetch('/api/student/' + id)
@@ -158,7 +166,8 @@ export default {
             this.fetchStats(json.id)
             this.fetchPromotion(json.promotionId)
           })
-    },
+    }
+    ,
 
     fetchStats(id) {
       fetch('/api/croissanted/' + id + "/student")
@@ -166,7 +175,8 @@ export default {
           .then(json => {
             this.stats = json;
           })
-    },
+    }
+    ,
 
     fetchScoreboard() {
       fetch('/api/croissanted/scoreboard')
@@ -174,7 +184,8 @@ export default {
           .then(json => {
             this.scoreboard = json;
           })
-    },
+    }
+    ,
 
     fetchPastry() {
       fetch('/api/pastry/all')
@@ -182,7 +193,8 @@ export default {
           .then(json => {
             this.pastry = json;
           })
-    },
+    }
+    ,
 
     fetchPromotion(id) {
       fetch('/api/promotion/' + id)
@@ -192,7 +204,8 @@ export default {
             this.loaded = true
           })
     }
-  },
+  }
+  ,
 }
 </script>
 
