@@ -8,6 +8,12 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     host: true,
+    proxy: {
+      '/api': {
+        target: 'https://cluster-2022-2.dopolytech.fr/',
+        changeOrigin: true,
+      },
+    },
   },
   resolve: {
     alias: {

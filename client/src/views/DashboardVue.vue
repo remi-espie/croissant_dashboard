@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import QuoteComponent from "@/components/quoteComponent.vue";
-import BirthdayComponent from "@/components/birthdayComponent.vue";
-import scheduleComponent from "@/components/scheduleComponent.vue";
-import CroissantedComponent from "@/components/croissantedComponent.vue";
-import ScoreboardComponent from "@/components/scoreboardComponent.vue";
+import QuoteComponent from "@/components/dashboard/quoteComponent.vue";
+import BirthdayComponent from "@/components/dashboard/birthdayComponent.vue";
+import scheduleComponent from "@/components/dashboard/scheduleComponent.vue";
+import CroissantedComponent from "@/components/dashboard/croissantedComponent.vue";
+import ScoreboardComponent from "@/components/dashboard/scoreboardComponent.vue";
 
 export default {
   name: "DashboardVue",
@@ -31,7 +31,7 @@ export default {
   methods: {
 
     fetchPromotion() {
-      fetch("https://cluster-2022-2.dopolytech.fr/api/promotion/" + this.$route.params.id, {
+      fetch("/api/promotion/" + this.$route.params.id, {
         mode: 'cors',
         headers: {
           'Access-Control-Allow-Origin': '*'
@@ -58,7 +58,7 @@ export default {
                   this.promotionName = json.name;
                   this.promotionYear = json.year;
                   this.promotionPicture = json.url_picture;
-                  this.promotionSchedule = "https://cluster-2022-2.dopolytech.fr/api/promotion/" + this.promotionId + "/schedule";
+                  this.promotionSchedule = "/api/promotion/" + this.promotionId + "/schedule";
 
                   this.promotionExists = true
 

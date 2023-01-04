@@ -1,5 +1,5 @@
 <script setup>
-import PromotionComponent from "@/components/promotionComponent.vue";
+import PromotionComponent from "@/components/dashboard/promotionComponent.vue";
 </script>
 
 <template>
@@ -40,7 +40,7 @@ export default {
   methods: {
 
     fetchPromotions() {
-      fetch("https://cluster-2022-2.dopolytech.fr/api/promotion/all", {
+      fetch("/api/promotion/all", {
         mode: 'cors',
         headers: {
           'Access-Control-Allow-Origin': '*'

@@ -72,6 +72,9 @@ export default {
     if (!this.cookies.isKey("auth-cookie")) {
       this.displayCookie = true;
     }
+    else {
+      this.$router.push("/user");
+    }
   },
   methods: {
     signIn() {
@@ -81,7 +84,7 @@ export default {
         "password": this.$refs.password.value
       }
 
-      fetch("https://cluster-2022-2.dopolytech.fr/api/auth/login", {
+      fetch("/api/auth/login", {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -101,6 +104,7 @@ export default {
               this.error = true;
               this.errorMessage = "Invalid credentials";
             } else if (resp.status === 201) {
+              this.cookies.set("authenticated", "true");
               this.loaded = true;
               this.$router.replace({name: "user"});
             } else {
