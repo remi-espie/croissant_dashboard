@@ -2,9 +2,9 @@ import {
     Body,
     ClassSerializerInterceptor,
     Controller,
-    Delete,
+    Delete, Get,
     Param,
-    Patch,
+    Patch, Req,
     UseGuards,
     UseInterceptors
 } from "@nestjs/common";
@@ -12,6 +12,7 @@ import {login} from "@prisma/client";
 import {LoginService} from "./login.service";
 import {LoginDto, LoginDtoId} from "./login.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
+import {StudentGuard} from "../auth/student-guard";
 
 @Controller("login")
 export class LoginController {
@@ -26,11 +27,13 @@ export class LoginController {
     //     return this.loginService.createLogin(loginData);
     // }
     //
-    // // Get login data -> GET /login/:id
-    // @Get("/:id")
-    // async profile(@Param("id") id: string): Promise<login> {
-    //     return this.loginService.getLogin(String(id), String(id))
-    // }
+    // Get login data -> GET /login/:id
+    @Get()
+    @UseGuards(JwtAuthGuard, StudentGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    async profile(@Req() request): Promise<login> {
+        return request.user;
+    }
     //
     // // Get all logins data
     // @Get("/all")

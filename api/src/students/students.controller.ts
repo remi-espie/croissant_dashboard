@@ -33,6 +33,8 @@ export class StudentsController {
 
     // Get student data -> GET /student/:id or name
     @Get()
+    @UseGuards(JwtAuthGuard, StudentGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     async studentCookie(@Req() request): Promise<student> {
         return request.user;
     }
