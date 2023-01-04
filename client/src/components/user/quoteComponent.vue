@@ -1,0 +1,126 @@
+<template>
+  <div class="container is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
+
+    <textarea class="textarea mt-5" placeholder="e.g. Hello world" ref="quote"></textarea>
+
+    <div class="mt-5">
+      <label for="selector" class="title is-4 m-0">Add an author ? </label>
+      <input class="checkbox ml-3" type="checkbox" id="selector" v-model="disabled">
+    </div>
+
+    <div class="is-flex is-align-items-center is-justify-content-center mt-5">
+      <div class="select ml-5">
+        <select ref="selector" :disabled="!disabled">
+          <option v-for="student in studentList" :key="student.id">{{ student.name + " " + student.firstname }}</option>
+        </select>
+      </div>
+      <span class="ml-5">...or...</span>
+      <input class="input ml-5" type="text" placeholder="Custom Author" ref="customAuthor" :disabled="!disabled">
+    </div>
+
+    <button class="button is-primary mt-5" v-on:click="addQuote">Add</button>
+
+  </div>
+  <div :class="(sentMessage !== '' ? 'visible' : '') + ' invisible container is-flex is-justify-content-space-evenly'">
+    <div :class="(sent === 201 ? 'is-success' : 'is-danger') + ' notification'"> {{ sentMessage }}</div>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: "croissantedComponent",
+  props: {
+    promotionId: String
+  },
+  data() {
+    return {
+      studentList: [],
+      sent: Number,
+      sentMessage: '',
+      timeout: Number,
+      disabled: true
+    }
+  },
+  mounted() {
+    this.fetchStudents()
+  },
+  unmounted() {
+    clearTimeout(this.timeout)
+  },
+  methods: {
+    fetchStudents() {
+      fetch('/api/student/all', {
+        mode: 'cors',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+          .catch(err => {
+            console.log(err)
+          })
+          .then(resp => {
+            if (resp.status !== 200) {
+              return Promise.reject(resp.status)
+            }
+            return resp
+          })
+          .then(resp => resp.text())
+          .then((resp) => {
+            resp = JSON.parse(resp)
+            this.studentList = resp
+          })
+    },
+
+    addQuote() {
+      const student = this.$refs.selector.value;
+      const customAuthor = this.$refs.customAuthor.value;
+      const quote = this.$refs.quote.value;
+      let author = 'anon'
+      if (customAuthor !== ''){
+        author = customAuthor
+      }
+      else if (!this.disabled){
+        author = student
+      }
+      fetch('/api/quote', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          quote: quote,
+          author: author
+        })
+      }).then(resp => {
+        this.sent = resp.status
+        if (resp.status === 201) {
+          this.sentMessage = 'Quote added !'
+        } else {
+          this.sentMessage = 'Error while adding quote'
+        }
+        this.timeout = setTimeout(() => {
+          this.sentMessage = ''
+        }, 3000)
+      })
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+.invisible {
+  opacity: 0;
+  transform: translateY(1em);
+  transition: all 0.25s;
+}
+
+.visible {
+  opacity: 1;
+  transition: all 0.25s;
+}
+
+</style>
