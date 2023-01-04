@@ -8,14 +8,15 @@
   </div>
     <button class="button is-primary ml-5" v-on:click="reportCroissanted">Add</button>
   </div>
-  <div  :class="(sentMessage !== '' ? 'visible' : '') + ' invisible container is-flex is-justify-content-space-evenly'">
-    <div :class="(sent === 201 ? 'is-success' : 'is-danger') + ' notification'"> {{sentMessage}}</div>
-  </div>
+  <notification-component :sent="sent" :sentMessage="sentMessage"></notification-component>
 </template>
 
 <script>
+import NotificationComponent from "@/components/notificationComponent.vue";
+
 export default {
   name: "croissantedComponent",
+  components: {NotificationComponent},
   props: {
     promotionId: String
   },
@@ -80,16 +81,5 @@ export default {
 </script>
 
 <style scoped>
-
-.invisible{
-  opacity: 0;
-  transform: translateY(1em);
-  transition: all 0.25s;
-}
-
-.visible{
-  opacity: 1;
-  transition: all 0.25s;
-}
 
 </style>
