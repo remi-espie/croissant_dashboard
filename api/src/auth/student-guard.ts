@@ -7,7 +7,7 @@ export class StudentGuard implements CanActivate{
         const request = context.switchToHttp().getRequest();
         const login = request.user;
         const id = request.params["id"]
-        if (login.mail == id) return true
+        if (login.login === id) return true
         else throw new HttpException("Invalid credentials", HttpStatus.UNAUTHORIZED);
     }
 }

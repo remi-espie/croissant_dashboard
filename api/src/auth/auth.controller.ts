@@ -15,4 +15,10 @@ export class AuthController {
         return await this.authService.login(loginDto, res);
     }
 
+    @Post('logout')
+    public async logout(@Res({ passthrough: true }) res: FastifyReply):
+        Promise<any> {
+        res.clearCookie('auth-cookie');
+    }
+
 }

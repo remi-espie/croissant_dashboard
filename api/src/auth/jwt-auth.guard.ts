@@ -10,11 +10,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
         return f
             .then((v) => {
-                console.log(v);
                 return v;
             })
-            .catch((err) => {
-                console.log(err);
+            .catch(() => {
                 return false;
             });
     }

@@ -4,9 +4,9 @@ import {
     Delete,
     Get,
     HttpException,
-    HttpStatus,
+    HttpStatus, NotFoundException,
     Param, Patch,
-    Post, Req,
+    Post,
     UseGuards,
     UseInterceptors
 } from "@nestjs/common";
@@ -32,21 +32,19 @@ export class StudentsController {
     }
 
     // Get student data -> GET /student/:id or name
-    @Get()
-    @UseGuards(JwtAuthGuard, StudentGuard)
-    @UseInterceptors(ClassSerializerInterceptor)
-    async studentCookie(@Req() request): Promise<student> {
-        return request.user;
-    }
-
-    // Get student data -> GET /student/:id or name
     @Get("/:id")
     async student(@Param("id") id: string): Promise<student> {
+        let student: student;
+
         if (isUUID(id)) {
-            return this.studentsService.student(id)
+            student = await this.studentsService.student(id)
         } else {
-            return this.studentsService.studentMail(id)
+            student = await this.studentsService.studentMail(id)
         }
+
+        if (!student) throw new NotFoundException("Student not found");
+
+        return student;
     }
 
     // Get all students data
@@ -56,9 +54,9 @@ export class StudentsController {
     }
 
     // Update student data -> PUT /student/:id
+    @Patch("/:id")
     @UseGuards(JwtAuthGuard, StudentGuard)
     @UseInterceptors(ClassSerializerInterceptor)
-    @Patch("/:id")
     async updateStudent(@Body() studentData: StudentsDto,
                         @Param("id") id
     ): Promise<StudentsDto> {
@@ -71,9 +69,9 @@ export class StudentsController {
     }
 
     // Delete student -> DELETE /student/:id
+    @Delete("/:id")
     @UseGuards(JwtAuthGuard, StudentGuard)
     @UseInterceptors(ClassSerializerInterceptor)
-    @Delete("/:id")
     async deleteStudent(@Param("id") id
     ): Promise<student> {
         try {
