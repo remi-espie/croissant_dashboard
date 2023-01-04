@@ -37,8 +37,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.client.rule=Host(`cluster-2022-2.dopolytech.fr`)"
       - "traefik.http.routers.client.entrypoints=web"
-      - "traefik.http.routers.api.entrypoints=web-secure"
-      - "traefik.http.routers.api.tls.certresolver=myresolver"
+      - "traefik.http.routers.client.entrypoints=web-secure"
+      - "traefik.http.routers.client.tls.certresolver=myresolver"
 
   postgres:
     restart: unless-stopped
