@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     fetchStudentList() {
-      fetch("https://cluster-2022-2.dopolytech.fr/api/promotion/" + this.$route.params.id + "/student", {
+      fetch("/api/promotion/" + this.$route.params.id + "/student", {
         mode: 'cors',
         headers: {
           'Access-Control-Allow-Origin': '*'

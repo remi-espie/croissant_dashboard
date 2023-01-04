@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     displayQuote() {
-      fetch("https://cluster-2022-2.dopolytech.fr/api/quote/random", {
+      fetch("/api/quote/random", {
         mode: 'cors',
         headers: {
           'Access-Control-Allow-Origin': '*'

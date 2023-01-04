@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     fetchCroissanted() {
-      fetch("https://cluster-2022-2.dopolytech.fr/api/promotion/" + this.id + "/croissanted", {
+      fetch("/api/promotion/" + this.id + "/croissanted", {
         mode: 'cors',
         headers: {
           'Access-Control-Allow-Origin': '*',

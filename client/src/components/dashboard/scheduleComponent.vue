@@ -11,7 +11,7 @@
 
 <script>
 import ical from 'ical'
-import CourseComponent from "@/components/courseComponent.vue";
+import CourseComponent from "@/components/dashboard/courseComponent.vue";
 
 export default {
   name: "scheduleComponent",
