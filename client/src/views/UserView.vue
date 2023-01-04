@@ -28,7 +28,6 @@
 
 <script>
 import AdminComponent from "@/components/adminComponent.vue";
-import {a} from "../../dist/assets/index.3c14195b";
 
 export default {
   name: "UserView",
