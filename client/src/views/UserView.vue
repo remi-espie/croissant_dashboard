@@ -55,13 +55,13 @@
             <span>User settings</span>
           </a>
         </li>
-        <li :class="{ 'is-active': isActive === 'danger' }">
+        <li :class="{ 'is-active': isActive === 'danger'}">
           <a v-on:click="isActive = 'danger'; this.$router.push('/user/danger')">
             <span class="icon"><i class="fas fa-cog"></i></span>
             <span>Danger zone</span>
           </a>
         </li>
-        <li v-if="admin" :class="{ 'is-active': isActive === 'admin' }">
+        <li v-if="login.admin" :class="{ 'is-active': isActive === 'admin' }">
           <a v-on:click="isActive = 'admin'; this.$router.push('/user/admin')">
             <span class="icon"><i class="fas fa-user-shield"></i></span>
             <span> Panel </span>
@@ -79,7 +79,11 @@
 
     <stats-component v-if="isActive === 'stats'" :promotionId="user.promotionId" :studentId="user.id"></stats-component>
 
-    <admin-component v-if="admin"></admin-component>
+    <user-component v-if="isActive === 'user'" :student="user"></user-component>
+
+    <danger-component v-if="isActive === 'danger'" :login="login"></danger-component>
+
+    <admin-component v-if="login.admin"></admin-component>
   </main>
 </template>
 
@@ -90,19 +94,23 @@ import CroissantedComponent from "@/components/user/croissantedComponent.vue";
 import QuoteComponent from "@/components/user/quoteComponent.vue";
 import ShoppingComponent from "@/components/user/shoppingComponent.vue";
 import StatsComponent from "@/components/user/statsComponent.vue";
+import UserComponent from "@/components/user/userComponent.vue";
+import DangerComponent from "@/components/user/dangerComponent.vue";
 
 export default {
   name: "UserView",
-  components: {StatsComponent, ShoppingComponent, QuoteComponent, CroissantedComponent, AdminComponent},
+  components: {
+    DangerComponent,
+    UserComponent, StatsComponent, ShoppingComponent, QuoteComponent, CroissantedComponent, AdminComponent},
   setup() {
     const {cookies} = useCookies();
     return {cookies};
   },
   data() {
     return {
-      admin: false,
       loaded: false,
       isActive: 'croissanted',
+      login: [],
       user: [],
       promotion: [],
       pastry: [],
@@ -150,7 +158,7 @@ export default {
       fetch('/api/login')
           .then(resp => resp.json())
           .then(json => {
-            this.admin = json.admin;
+            this.login = json;
             this.fetchUser(json.login);
           })
     },
