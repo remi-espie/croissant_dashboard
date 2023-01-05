@@ -1,7 +1,6 @@
 html {
-    overflow: hidden;
     background: linear-gradient(#f2e8f2, #e6d1e6);
-    height: 100vh;
+    min-height: 100%;
 }
 
 hr {

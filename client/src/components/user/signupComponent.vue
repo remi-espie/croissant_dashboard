@@ -125,7 +125,7 @@ export default {
           })
     },
 
-    fetchPastries(){
+    fetchPastries() {
       fetch("/api/pastry/all", {
         method: 'GET',
         mode: 'cors',
@@ -172,17 +172,11 @@ export default {
             console.error(err)
           })
           .then(async resp => {
-            console.log(resp)
-
             if (resp.status === 401) {
               this.error = true;
               this.errorMessage = "Invalid credentials";
             } else if (resp.status === 201) {
-
-              console.log(resp)
-
               this.signIn()
-
             } else {
               this.error = true;
               this.errorMessage = "Error " + resp.status + " : " + resp.statusText;

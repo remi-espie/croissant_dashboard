@@ -6,7 +6,7 @@
     <div class="columns">
 
       <div class="card column is-one-third m-5">
-        <div class="card-header">
+        <div class="card-content">
           <div class="media">
             <div class="media-left">
               <figure class="image is-48x48">
@@ -34,7 +34,7 @@
       </div>
 
       <div class="card column is-one-third m-5">
-        <div class="card-header">
+        <div class="card-content">
           <div class="media">
             <div class="media-left">
               <figure class="image is-48x48">
@@ -54,9 +54,9 @@
 
             <div class="mt-2" v-for="(croissanted, index) in this.scoreboardPromotion" :key="croissanted.id">
 
-              <span v-if="index === 0">🥇</span>
-              <span v-if="index === 1">🥈</span>
-              <span v-if="index === 2">🥉</span>
+              <span v-if="index === 0">🥇 </span>
+              <span v-if="index === 1">🥈 </span>
+              <span v-if="index === 2">🥉 </span>
               <span>{{ croissanted.firstname }} was croissanted {{ croissanted.croissanted.length }} times !</span>
             </div>
           </div>
@@ -65,7 +65,7 @@
       </div>
 
       <div class="card column is-one-third m-5">
-        <div class="card-header">
+        <div class="card-content">
           <div class="media">
             <div class="media-left">
               <figure class="image is-48x48">
@@ -85,9 +85,9 @@
 
             <div class="mt-2" v-for="(croissanted, index) in this.scoreboardGlobal" :key="croissanted.id">
 
-              <span v-if="index === 0">🥇</span>
-              <span v-if="index === 1">🥈</span>
-              <span v-if="index === 2">🥉</span>
+              <span v-if="index === 0">🥇 </span>
+              <span v-if="index === 1">🥈 </span>
+              <span v-if="index === 2">🥉 </span>
               <span>{{ croissanted.firstname }} was croissanted {{ croissanted._count['studentId'] }} times !</span>
             </div>
           </div>

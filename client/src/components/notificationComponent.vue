@@ -17,7 +17,7 @@ export default {
 <style scoped>
 .invisible {
   opacity: 0;
-  transform: translateY(1em);
+  transform: translateY(-1em);
   transition: all 0.25s;
 }
 
