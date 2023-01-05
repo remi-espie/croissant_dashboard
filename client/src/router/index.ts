@@ -25,12 +25,12 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue')
     },
     {
-      path: '/user/:tab',
+      path: '/user_panel/:tab',
       name: 'userTab',
       component: () => import('../views/UserView.vue')
     },
     {
-      path: '/user/',
+      path: '/user_panel/',
       name: 'user',
       component: () => import('../views/UserView.vue')
     }

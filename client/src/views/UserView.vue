@@ -5,7 +5,8 @@
   <main v-else>
 
     <header>
-      <div class="container is-block-tablet is-flex-desktop is-flex-direction-row is-justify-content-space-evenly is-align-items-center">
+      <div
+          class="container is-block-tablet is-flex-desktop is-flex-direction-row is-justify-content-space-evenly is-align-items-center">
         <img alt="Croissant logo" class="image is-128x128 m-5" src="@/assets/icon.png"/>
         <h2 class="title is-2 m-5">
           <router-link to="/">Home</router-link>
@@ -26,43 +27,43 @@
     <div class="tabs is-large is-toggle is-fullwidth">
       <ul>
         <li :class="{ 'is-active': isActive === 'croissanted' }">
-          <a v-on:click="isActive = 'croissanted'; this.$router.push('/user/croissanted')">
+          <a v-on:click="isActive = 'croissanted'; this.$router.push('/user_panel/croissanted')">
             <span class="icon"><i class="fas fa-concierge-bell"></i></span>
             <span>Post a Croissanted</span>
           </a>
         </li>
         <li :class="{ 'is-active': isActive === 'quote' }">
-          <a v-on:click="isActive = 'quote'; this.$router.push('/user/quote')">
+          <a v-on:click="isActive = 'quote'; this.$router.push('/user_panel/quote')">
             <span class="icon"><i class="fas fa-comment"></i></span>
             <span>Post a Quote</span>
           </a>
         </li>
         <li :class="{ 'is-active': isActive === 'shopping' }">
-          <a v-on:click="isActive = 'shopping'; this.$router.push('/user/shopping')">
+          <a v-on:click="isActive = 'shopping'; this.$router.push('/user_panel/shopping')">
             <span class="icon"><i class="fas fa-store"></i></span>
             <span>Shopping list</span>
           </a>
         </li>
         <li :class="{ 'is-active': isActive === 'stats' }">
-          <a v-on:click="isActive = 'stats'; this.$router.push('/user/stats')">
+          <a v-on:click="isActive = 'stats'; this.$router.push('/user_panel/stats')">
             <span class="icon"><i class="fas fa-chart-line" aria-hidden="true"></i></span>
             <span>Statistics</span>
           </a>
         </li>
         <li :class="{ 'is-active': isActive === 'user' }">
-          <a v-on:click="isActive = 'user'; this.$router.push('/user/user')">
+          <a v-on:click="isActive = 'user'; this.$router.push('/user_panel/user')">
             <span class="icon"><i class="fas fa-user"></i></span>
             <span>User settings</span>
           </a>
         </li>
         <li :class="{ 'is-active': isActive === 'danger'}">
-          <a v-on:click="isActive = 'danger'; this.$router.push('/user/danger')">
+          <a v-on:click="isActive = 'danger'; this.$router.push('/user_panel/danger')">
             <span class="icon"><i class="fas fa-cog"></i></span>
             <span>Danger zone</span>
           </a>
         </li>
         <li v-if="login.admin" :class="{ 'is-active': isActive === 'admin' }">
-          <a v-on:click="isActive = 'admin'; this.$router.push('/user/admin')">
+          <a v-on:click="isActive = 'admin'; this.$router.push('/user_panel/admin')">
             <span class="icon"><i class="fas fa-user-shield"></i></span>
             <span> Admin Panel </span>
           </a>
@@ -75,7 +76,8 @@
 
     <croissanted-component v-if="isActive === 'croissanted'" :promotionId="user.promotionId"></croissanted-component>
 
-    <shopping-component v-if="isActive === 'shopping'" :promotionId="user.promotionId" :studentId="user.id"></shopping-component>
+    <shopping-component v-if="isActive === 'shopping'" :promotionId="user.promotionId"
+                        :studentId="user.id"></shopping-component>
 
     <stats-component v-if="isActive === 'stats'" :promotionId="user.promotionId" :studentId="user.id"></stats-component>
 
@@ -101,7 +103,8 @@ export default {
   name: "UserView",
   components: {
     DangerComponent,
-    UserComponent, StatsComponent, ShoppingComponent, QuoteComponent, CroissantedComponent, AdminComponent},
+    UserComponent, StatsComponent, ShoppingComponent, QuoteComponent, CroissantedComponent, AdminComponent
+  },
   setup() {
     const {cookies} = useCookies();
     return {cookies};
@@ -125,13 +128,13 @@ export default {
             this.$router.replace('/login')
           }
         }).then(() => {
-          const tabs = ['croissanted', 'quote', 'shopping', 'stats', 'user', 'danger', 'admin'];
-          if (this.$route.params.tab) {
-            if (tabs.includes(this.$route.params.tab))
-              this.isActive = this.$route.params.tab;
-          }
-          this.fetchData();
-        })
+      const tabs = ['croissanted', 'quote', 'shopping', 'stats', 'user', 'danger', 'admin'];
+      if (this.$route.params.tab) {
+        if (tabs.includes(this.$route.params.tab))
+          this.isActive = this.$route.params.tab;
+      }
+      this.fetchData();
+    })
   },
   methods: {
 
