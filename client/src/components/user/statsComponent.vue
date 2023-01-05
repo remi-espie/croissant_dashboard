@@ -156,9 +156,14 @@ export default {
           .then(resp => resp.json())
           .then(json => {
             this.scoreboardPromotion = json[0]['student']
+            for (const [index, student] of this.scoreboardPromotion.entries()) {
+              if (student.croissanted.length === 0) delete this.scoreboardPromotion[index]
+            }
+            this.scoreboardPromotion = this.scoreboardPromotion.flat()
             this.scoreboardPromotion = this.scoreboardPromotion.sort((a, b) => {
               return b.croissanted.length - a.croissanted.length
             })
+
             this.scoreboardPromotion = this.scoreboardPromotion.slice(0, 3)
           })
 
