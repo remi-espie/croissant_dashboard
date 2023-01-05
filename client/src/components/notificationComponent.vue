@@ -1,6 +1,6 @@
 <template>
   <div :class="(sentMessage !== '' ? 'visible' : '') + ' invisible container is-flex is-justify-content-space-evenly'">
-    <div :class="(sent === 201 ? 'is-success' : 'is-danger') + ' notification'"> {{ sentMessage }}</div>
+    <div :class="(sent === 201 || sent === 200 ? 'is-success' : 'is-danger') + ' notification'"> {{ sentMessage }}</div>
   </div>
 </template>
 

@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       studentList: [],
-      sent: Number,
+      sent: NaN,
       sentMessage : '',
       timeout: Number
     }
