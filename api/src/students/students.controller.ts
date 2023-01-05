@@ -75,7 +75,8 @@ export class StudentsController {
     async deleteStudent(@Param("id") id
     ): Promise<student> {
         try {
-            return this.studentsService.deleteStudent(id)
+            if (isUUID(id)) return this.studentsService.deleteStudent(id)
+            else return this.studentsService.deleteStudentMail(id)
         } catch (e) {
             throw new HttpException("Bad informations", HttpStatus.BAD_REQUEST);
         }

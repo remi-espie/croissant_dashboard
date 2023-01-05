@@ -58,6 +58,16 @@ export class StudentsService {
         return studentExists;
     }
 
+    async deleteStudentMail(id: Prisma.studentDeleteArgs): Promise<student> {
+        const studentExists = await this.prisma.student.delete({
+            where: {mail: String(id)}
+        });
+        if (!studentExists) {
+            throw new HttpException("Student does not exists", HttpStatus.BAD_REQUEST);
+        }
+        return studentExists;
+    }
+
     async getAllStudent() {
         return await this.prisma.student.findMany();
     }
