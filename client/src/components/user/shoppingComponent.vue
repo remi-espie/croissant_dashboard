@@ -8,9 +8,9 @@
         <h3 class="title is-3 mt-5 mb-5 ml-auto mr-auto">Shopping list</h3>
       </div>
       <div class="card-content">
-        <span v-for="pastries in pastry" :key="pastries" class="is-size-5">
+        <div v-for="pastries in pastry" :key="pastries" class="is-size-5">
           {{ pastries.name }} x {{ shopping[pastries.id] }}
-        </span>
+        </div>
 
       </div>
       <div class="card-footer">
@@ -104,11 +104,14 @@ export default {
                             this.price += pastry.price * this.shopping[pastry.id]
                           }
 
-                          this.pastry = this.pastry.filter((element, index) => {
-                            return this.pastry.indexOf(element) === index;
-                          });
+
                         })
-                  }))
+                  })).then(() => {
+                    this.price = Math.round(this.price * 100 ) / 100
+                    this.pastry = this.pastry.filter((element, index) => {
+                      return this.pastry.indexOf(element) === index;
+                    });
+                  })
                 })
 
 
