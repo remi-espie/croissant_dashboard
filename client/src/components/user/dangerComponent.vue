@@ -1,6 +1,6 @@
 <template>
-<div class="container is-flex is-justify-content-space-evenly">
-  <div class="card">
+<div class="container is-block-mobile is-flex-tablet is-flex-direction-row is-justify-content-center">
+  <div class="card m-5">
     <div class="card-header">
       <p class="card-header-title title is-4">
         Change your password
@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card m-5">
     <div class="card-header">
       <p class="card-header-title title is-4">
         Delete your account

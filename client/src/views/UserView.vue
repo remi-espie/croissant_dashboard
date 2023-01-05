@@ -5,7 +5,7 @@
   <main v-else>
 
     <header>
-      <div class="container is-flex is-justify-content-space-evenly is-align-items-center">
+      <div class="container is-block-tablet is-flex-desktop is-flex-direction-row is-justify-content-space-evenly is-align-items-center">
         <img alt="Croissant logo" class="image is-128x128 m-5" src="@/assets/icon.png"/>
         <h2 class="title is-2 m-5">
           <router-link to="/">Home</router-link>

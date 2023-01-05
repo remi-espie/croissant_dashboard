@@ -8,13 +8,13 @@
       <input class="checkbox ml-3" type="checkbox" id="selector" v-model="disabled">
     </div>
 
-    <div class="is-flex is-align-items-center is-justify-content-center mt-5">
+    <div class="is-block-mobile is-flex-tablet is-flex-direction-row is-justify-content-center mt-5">
       <div class="select ml-5">
         <select ref="selector" :disabled="!disabled">
           <option v-for="student in studentList" :key="student.id">{{ student.name + " " + student.firstname }}</option>
         </select>
       </div>
-      <span class="ml-5">...or...</span>
+      <div class="ml-5 is-flex is-align-items-center">...or...</div>
       <input class="input ml-5" type="text" placeholder="Custom Author" ref="customAuthor" :disabled="!disabled">
     </div>
 
@@ -113,5 +113,9 @@ export default {
 
 <style scoped>
 
+textarea{
+  width: 50%;
+  min-width: 50%;
+}
 
 </style>

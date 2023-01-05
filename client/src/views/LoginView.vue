@@ -1,18 +1,9 @@
 <template>
-  <main class="is-flex is-flex-direction-column">
+  <main class=" is-block-mobile is-flex-tablet is-flex-direction-row is-justify-content-center p-5">
 
 
     <div class="container is-flex">
-      <div id="title" class="is-flex is-centered mr-5 ml-auto mt-auto mb-auto" style="height: min-content">
-        <img alt="Croissant logo" class="image is-128x128 m-5" src="@/assets/icon.png"/>
-        <h2 class="title is-2 is-align-self-center" v-if="isActive === 'login'">Log in to modify your personal
-          information, view your croissanted
-          history, and
-          even your dynamic shopping list !</h2>
 
-        <h2 class="title is-2 is-align-self-center" v-if="isActive === 'signup'">Signup, add your promotion and your
-          birthday to enjoy the app to the fullest !</h2>
-      </div>
       <div class="box m-auto" style="height: min-content">
         <div class="tabs is-large is-toggle">
           <ul>
@@ -46,6 +37,16 @@
           </div>
         </div>
       </div>
+    </div>
+    <div id="title" class="is-centered pl-5 mt-auto mb-auto is-flex is-flex-direction-column" style="height: min-content">
+      <img alt="Croissant logo" class="image is-128x128 m-5" src="@/assets/icon.png"/>
+      <h2 class="title is-2 is-align-self-center" v-if="isActive === 'login'">Log in to modify your personal
+        information, view your croissanted
+        history, and
+        even your dynamic shopping list !</h2>
+
+      <h2 class="title is-2 is-align-self-center" v-if="isActive === 'signup'">Signup, add your promotion and your
+        birthday to enjoy the app to the fullest !</h2>
     </div>
   </main>
 </template>
@@ -96,7 +97,7 @@ export default {
 <style scoped>
 
 main {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
 }
 
@@ -109,12 +110,11 @@ main * {
 }
 
 .notification {
-  width: 30vw;
+  width: 30%;
   margin: auto;
 }
 
 .box {
-  width: 30vw;
   background-color: white;
 }
 

@@ -5,9 +5,11 @@ import PromotionComponent from "@/components/dashboard/promotionComponent.vue";
 <template>
 
   <header>
-    <div class="center is-fullwidth is-flex is-justify-content-center">
-      <img alt="Croissant logo" class="image is-128x128 m-5" src="@/assets/icon.png"/>
-      <h1 class="title is-1 is-align-items-center is-flex m-5">Croissant Dashboard !</h1>
+    <div class="is-center is-block-mobile is-flex-tablet is-flex-direction-row is-justify-content-center">
+      <div class="m-5 is-flex is-align-items-center is-justify-content-center">
+      <img alt="Croissant logo" class="image is-128x128" src="@/assets/icon.png"/>
+      </div>
+      <h1 class="title is-1 is-align-items-center is-justify-content-center is-flex m-5 has-text-centered">Croissant Dashboard !</h1>
     </div>
   </header>
   <main class="center is-fullwidth is-flex is-flex-direction-column m-auto">
@@ -16,9 +18,9 @@ import PromotionComponent from "@/components/dashboard/promotionComponent.vue";
       <router-link to="login">Log-in</router-link>
     </h2>
 
-    <hr class="column is-paddingless is-three-fifths is-offset-one-fifth">
+    <hr style="width: 60%" class="ml-auto mr-auto">
 
-    <h2 class="title is-2 m-auto">Or choose a dashboard !</h2>
+    <h2 class="title is-2 m-auto has-text-centered">Or choose a dashboard !</h2>
 
     <div id="promotion" class="columns is-multiline is-fullwidth">
       <promotion-component class="column is-4" v-for="promotion in promotions"

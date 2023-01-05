@@ -1,12 +1,16 @@
 <template>
-  <div class="container is-flex is-align-items-center is-justify-content-center">
-    <h4 class="title is-4 m-0">Who was croissanted recently ? </h4>
+  <div class="container is-block-mobile is-flex-tablet is-flex-direction-row is-justify-content-center">
+    <div class="is-flex is-align-items-center is-justify-content-center is-center">
+    <h4 class="title is-4 m-0" style="width: max-content">Who was croissanted recently ? </h4>
+    </div>
+    <div class="is-flex is-align-items-center is-justify-content-center">
   <div class="select ml-5">
     <select ref="selector">
       <option v-for="student in studentList" :key="student.id">{{student.name + " " + student.firstname}}</option>
     </select>
   </div>
     <button class="button is-primary ml-5" v-on:click="reportCroissanted">Add</button>
+  </div>
   </div>
   <notification-component :sent="sent" :sentMessage="sentMessage"></notification-component>
 </template>
