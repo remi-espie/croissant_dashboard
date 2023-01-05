@@ -64,7 +64,7 @@
         <li v-if="login.admin" :class="{ 'is-active': isActive === 'admin' }">
           <a v-on:click="isActive = 'admin'; this.$router.push('/user/admin')">
             <span class="icon"><i class="fas fa-user-shield"></i></span>
-            <span> Panel </span>
+            <span> Admin Panel </span>
           </a>
         </li>
 
@@ -79,7 +79,7 @@
 
     <stats-component v-if="isActive === 'stats'" :promotionId="user.promotionId" :studentId="user.id"></stats-component>
 
-    <user-component v-if="isActive === 'user'" :student="user"></user-component>
+    <user-component v-if="isActive === 'user'" :user="user"></user-component>
 
     <danger-component v-if="isActive === 'danger'" :login="login"></danger-component>
 

@@ -61,8 +61,9 @@ export class StudentsController {
                         @Param("id") id
     ): Promise<StudentsDto> {
         try {
-            const student = new StudentsDtoId(studentData, id);
-            return this.studentsService.updateStudent(student);
+            const student = await this.student(id)
+            const studentDataId: StudentsDtoId = new StudentsDtoId(studentData, student.id)
+            return this.studentsService.updateStudent(studentDataId);
         } catch (e) {
             throw new HttpException("Bad informations", HttpStatus.BAD_REQUEST);
         }
