@@ -98,6 +98,8 @@ export default {
 main {
   min-height: 100vh;
   display: flex;
+  width: 80%;
+  margin: auto;
 }
 
 main * {
@@ -105,7 +107,6 @@ main * {
 }
 
 .container{
-  width: 80%;
   margin: auto;
 }
 
@@ -115,6 +116,19 @@ main * {
 
 .box {
   background-color: white;
+}
+
+
+@media (max-width: 768px) {
+  main{
+    width: 80%;
+    margin: 0;
+  }
+
+  .title.is-2 {
+    font-size: 2rem;
+  }
+
 }
 
 </style>
