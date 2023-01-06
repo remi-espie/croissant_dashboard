@@ -94,7 +94,7 @@ export default {
         return b.croissanted.length - a.croissanted.length
       })
 
-      json.slice(0, 3)
+      json = json.slice(0, 3)
 
       if (json.length !== 0) {
         this.scoreboardLocal = json
