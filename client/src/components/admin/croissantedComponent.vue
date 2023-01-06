@@ -17,7 +17,7 @@
           <div class="field has-text-left">
             <label class="label">Date</label>
             <div class="control has-icons-left has-icons-right">
-              <input class="input" type="datetime-local" step="1" v-on:change="coucou" ref="date" :value="croissant.date" required>
+              <input class="input" type="datetime-local" step="1" ref="date" :value="croissant.date" required>
               <span class="icon is-small is-left">
           <i class="fas fa-calendar"></i>
               </span>
@@ -26,7 +26,7 @@
 
           <div class="field has-text-left is-flex is-align-items-center">
             <label class="label mb-0">Bought</label>
-            <input class="checkbox ml-5" type="checkbox" ref="bought" :value="croissant.bought">
+            <input class="checkbox ml-5" type="checkbox" ref="bought" v-model="croissant.bought">
           </div>
 
           <div class="field has-text-left">
@@ -103,7 +103,7 @@ export default {
       const studentId = this.students.find(student => student.name + " " + student.firstname === this.$refs.selectorStudent.value).id;
       const id = {
         "date": date,
-        "bought": this.$refs.bought.value === "true",
+        "bought": this.$refs.bought.checked,
         "studentId": studentId,
       }
 
@@ -138,10 +138,10 @@ export default {
     updateCroissant() {
       let date = this.$refs.date.value ? this.$refs.date.value : "1970-01-01";
       date = new Date(date).toISOString();
-      const studentId = this.students.find(student => student.firstname + " " + student.name === this.$refs.selectorStudent.value).id;
+      const studentId = this.students.find(student => student.name + " " + student.firstname === this.$refs.selectorStudent.value).id;
       const id = {
         "date": date,
-        "bought": this.$refs.bought.value === "true",
+        "bought": this.$refs.bought.checked,
         "studentId": studentId,
       }
 
