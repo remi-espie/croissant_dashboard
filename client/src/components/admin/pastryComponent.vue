@@ -27,14 +27,17 @@
           <div class="field has-text-left">
             <label class="label">Price</label>
             <div class="control has-icons-left has-icons-right">
-              <input class="input" type="number" step="0.01" placeholder="0.60" ref="price" :value="pastry.price" required>
+              <input class="input" type="number" step="0.01" placeholder="0.60" ref="price" :value="pastry.price"
+                     required>
               <span class="icon is-small is-left">
           <i class="fas fa-euro-sign"></i>
               </span>
             </div>
           </div>
-
-          <input type="submit" class="button is-primary" v-on:click="this.updatePastries" value="Save">
+          <div class="is-flex is-justify-content-space-evenly">
+            <input type="submit" class="button is-primary" v-on:click="this.updatePastries" value="Save">
+            <input type="submit" class="button is-danger" v-on:click="this.deletePastries" value="Delete">
+          </div>
         </form>
         <notification-component :sent="sent" :sentMessage="sentMessage"></notification-component>
 
@@ -75,6 +78,44 @@ export default {
       if (this.$refs.selectorPastry.value === "New pastry") {
         this.createPastry();
       } else this.updatePastry();
+    },
+
+    deletePastries() {
+      if (this.$refs.selectorPastry.value !== "New pastry") {
+        this.pastry = this.pastries.find(pastry => pastry.name === this.$refs.selectorPastry.value);
+
+        fetch("/api/pastry/" + this.pastry.id, {
+          method: 'DELETE',
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'same-origin',
+        })
+            .catch(err => {
+              console.error(err)
+            })
+            .then(resp => {
+              if (resp.status === 401) {
+                this.sentMessage = "Invalid credentials";
+              } else if (resp.status === 200) {
+                this.sentMessage = "Pastry deleted !";
+              } else {
+                this.sentMessage = "Error " + resp.status + " : " + resp.statusText;
+              }
+              this.sent = resp.status;
+              this.timeout = setTimeout(() => {
+                this.sentMessage = ''
+              }, 3000)
+            })
+      } else {
+        this.sent = 400;
+        this.sentMessage = "You can't delete a non-existing pastry";
+        this.timeout = setTimeout(() => {
+          this.sentMessage = ''
+        }, 3000)
+      }
     },
 
     createPastry() {

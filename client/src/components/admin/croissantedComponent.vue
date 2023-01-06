@@ -49,7 +49,10 @@
           </div>
 
 
-          <input type="submit" class="button is-primary" v-on:click="this.updateCroissanted" value="Save">
+          <div class="is-flex is-justify-content-space-evenly">
+            <input type="submit" class="button is-primary" v-on:click="this.updateCroissanted" value="Save">
+            <input type="submit" class="button is-danger" v-on:click="this.deleteCroissanted" value="Delete">
+          </div>
         </form>
         <notification-component :sent="sent" :sentMessage="sentMessage"></notification-component>
 
@@ -94,6 +97,44 @@ export default {
       if (this.$refs.selectorCroissanted.value === "New croissanted") {
         this.createCroissanted();
       } else this.updateCroissant();
+    },
+
+    deleteCroissanted() {
+      if (this.$refs.selectorCroissanted.value !== "New croissanted") {
+        this.croissant = this.croissanted.find(croissant => croissant.id === this.$refs.selectorCroissanted.value);
+
+        fetch("/api/croissanted/" + this.croissant.id, {
+          method: 'DELETE',
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'same-origin',
+        })
+            .catch(err => {
+              console.error(err)
+            })
+            .then(resp => {
+              if (resp.status === 401) {
+                this.sentMessage = "Invalid credentials";
+              } else if (resp.status === 200) {
+                this.sentMessage = "Croissanted deleted !";
+              } else {
+                this.sentMessage = "Error " + resp.status + " : " + resp.statusText;
+              }
+              this.sent = resp.status;
+              this.timeout = setTimeout(() => {
+                this.sentMessage = ''
+              }, 3000)
+            })
+      } else {
+        this.sent = 400;
+        this.sentMessage = "You can't delete a non-existing croissanted";
+        this.timeout = setTimeout(() => {
+          this.sentMessage = ''
+        }, 3000)
+      }
     },
 
     createCroissanted() {

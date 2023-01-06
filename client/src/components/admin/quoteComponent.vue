@@ -35,7 +35,10 @@
             </div>
           </div>
 
-          <input type="submit" class="button is-primary" v-on:click="this.updateQuote" value="Save">
+          <div class="is-flex is-justify-content-space-evenly">
+            <input type="submit" class="button is-primary" v-on:click="this.updateQuote" value="Save">
+            <input type="submit" class="button is-danger" v-on:click="this.deleteQuote" value="Delete">
+          </div>
         </form>
         <notification-component :sent="sent" :sentMessage="sentMessage"></notification-component>
 
@@ -76,6 +79,44 @@ export default {
       if (this.$refs.selectorQuote.value === "New quote") {
         this.createquote();
       } else this.updatequote();
+    },
+
+    deleteQuote() {
+      if (this.$refs.selectorQuote.value !== "New quote") {
+        this.quote = this.quotes.find(quote => quote.quote === this.$refs.selectorQuote.value);
+
+      fetch("/api/quote/" + this.quote.id, {
+        method: 'DELETE',
+        mode: 'cors',
+        headers: {
+          'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin',
+      })
+          .catch(err => {
+            console.error(err)
+          })
+          .then(resp => {
+            if (resp.status === 401) {
+              this.sentMessage = "Invalid credentials";
+            } else if (resp.status === 200) {
+              this.sentMessage = "Profile deleted !";
+            } else {
+              this.sentMessage = "Error " + resp.status + " : " + resp.statusText;
+            }
+            this.sent = resp.status;
+            this.timeout = setTimeout(() => {
+              this.sentMessage = ''
+            }, 3000)
+          })
+      } else {
+        this.sent = 400;
+        this.sentMessage = "You can't delete a non-existing quote";
+        this.timeout = setTimeout(() => {
+          this.sentMessage = ''
+        }, 3000)
+      }
     },
 
     createquote() {

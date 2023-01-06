@@ -38,7 +38,7 @@
           <div class="field has-text-left">
             <label class="label">Birthday</label>
             <div class="control has-icons-left has-icons-right">
-              <input class="input" type="date" placeholder="dd-mm-yyyy" ref="birthday" :value="user.birthday" >
+              <input class="input" type="date" placeholder="dd-mm-yyyy" ref="birthday" :value="user.birthday">
               <span class="icon is-small is-left">
           <i class="fas fa-signature"></i>
               </span>
@@ -75,14 +75,18 @@
           <div class="field has-text-left">
             <label class="label">Email</label>
             <div class="control has-icons-left has-icons-right">
-              <input class="input" type="email" placeholder="arthur.dent@etu.umontpellier.fr" ref="mail" :value="user.mail"  required>
+              <input class="input" type="email" placeholder="arthur.dent@etu.umontpellier.fr" ref="mail"
+                     :value="user.mail" required>
               <span class="icon is-small is-left">
           <i class="fas fa-envelope"></i>
         </span>
             </div>
           </div>
 
-          <input type="submit" class="button is-primary" v-on:click="this.updateStudent" value="Save">
+          <div class="is-flex is-justify-content-space-evenly">
+            <input type="submit" class="button is-primary" v-on:click="this.updateStudent" value="Save">
+            <input type="submit" class="button is-danger" v-on:click="this.deleteUser" value="Delete">
+          </div>
         </form>
         <notification-component :sent="sent" :sentMessage="sentMessage"></notification-component>
 
@@ -128,6 +132,43 @@ export default {
       if (this.$refs.selectorStudent.value === "New student") {
         this.createUser();
       } else this.updateUser();
+    },
+
+    deleteUser() {
+      if (this.$refs.selectorStudent.value !== "New student") {
+        this.user = this.students.find(student => student.firstname + " " + student.name === this.$refs.selectorStudent.value);
+        fetch("/api/student/" + this.user.id, {
+          method: 'DELETE',
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'same-origin',
+        })
+            .catch(err => {
+              console.error(err)
+            })
+            .then(resp => {
+              if (resp.status === 401) {
+                this.sentMessage = "Invalid credentials";
+              } else if (resp.status === 200) {
+                this.sentMessage = "Profile deleted !";
+              } else {
+                this.sentMessage = "Error " + resp.status + " : " + resp.statusText;
+              }
+              this.sent = resp.status;
+              this.timeout = setTimeout(() => {
+                this.sentMessage = ''
+              }, 3000)
+            })
+      } else {
+        this.sentMessage = "You can't delete a non-existing profile";
+        this.sent = 400;
+        this.timeout = setTimeout(() => {
+          this.sentMessage = ''
+        }, 3000)
+      }
     },
 
     createUser() {
@@ -182,7 +223,7 @@ export default {
         "pastryId": this.$refs.pastry.value,
       }
 
-      fetch("/api/student/" + this.user.mail, {
+      fetch("/api/student/" + this.user.id, {
         method: 'PATCH',
         mode: 'cors',
         headers: {

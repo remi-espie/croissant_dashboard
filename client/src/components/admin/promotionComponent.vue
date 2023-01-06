@@ -59,7 +59,10 @@
             </div>
           </div>
 
-          <input type="submit" class="button is-primary" v-on:click="this.updatePromotion" value="Save">
+          <div class="is-flex is-justify-content-space-evenly">
+            <input type="submit" class="button is-primary" v-on:click="this.updatePromotion" value="Save">
+            <input type="submit" class="button is-danger" v-on:click="this.deletePromotion" value="Delete">
+          </div>
         </form>
         <notification-component :sent="sent" :sentMessage="sentMessage"></notification-component>
 
@@ -101,6 +104,44 @@ export default {
       if (this.$refs.selectorPromotion.value === "New Promotion") {
         this.createPromotion();
       } else this.updatePromo();
+    },
+
+    deletePromotion() {
+      if (this.$refs.selectorQuote.value !== "New promotion") {
+        this.promo = this.promotions.find(promo => promo.name === this.$refs.selectorPromotion.value);
+
+        fetch("/api/promotion/" + this.promo.id, {
+          method: 'DELETE',
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'same-origin',
+        })
+            .catch(err => {
+              console.error(err)
+            })
+            .then(resp => {
+              if (resp.status === 401) {
+                this.sentMessage = "Invalid credentials";
+              } else if (resp.status === 200) {
+                this.sentMessage = "Promotion deleted !";
+              } else {
+                this.sentMessage = "Error " + resp.status + " : " + resp.statusText;
+              }
+              this.sent = resp.status;
+              this.timeout = setTimeout(() => {
+                this.sentMessage = ''
+              }, 3000)
+            })
+      } else {
+        this.sent = 400;
+        this.sentMessage = "You can't delete a non-existing promotion";
+        this.timeout = setTimeout(() => {
+          this.sentMessage = ''
+        }, 3000)
+      }
     },
 
     createPromotion() {
