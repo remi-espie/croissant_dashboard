@@ -248,7 +248,7 @@ export default {
               this.errorMessage = "Invalid credentials";
             } else if (resp.status === 200) {
 
-              this.$router.replace("/user");
+              this.$router.replace({name: 'user'});
 
 
             } else {

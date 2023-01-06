@@ -8,13 +8,13 @@
         <div class="tabs is-large is-toggle">
           <ul>
             <li :class="{ 'is-active': isActive === 'login' }">
-              <a v-on:click="isActive = 'login'; this.$router.replace('/login/login')">
+              <a v-on:click="isActive = 'login'; this.$router.replace({name: 'loginTab', params: {tab: isActive} })">
                 <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
                 <span>Login</span>
               </a>
             </li>
             <li :class="{ 'is-active': isActive === 'signup' }">
-              <a v-on:click="isActive = 'signup'; this.$router.replace('/login/signup')">
+              <a v-on:click="isActive = 'signup'; this.$router.replace({name: 'loginTab', params: { tab: isActive} })">
                 <span class="icon"><i class="fas fa-user-plus"></i></span>
                 <span>Sign up</span>
               </a>

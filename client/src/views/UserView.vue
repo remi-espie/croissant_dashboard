@@ -125,7 +125,7 @@ export default {
     fetch('/api/login')
         .then(resp => {
           if (resp.status !== 200) {
-            this.$router.replace('/login')
+            this.$router.replace({name: 'login'});
           }
         }).then(() => {
       const tabs = ['croissanted', 'quote', 'shopping', 'stats', 'user', 'danger', 'admin'];
@@ -144,7 +144,7 @@ export default {
       })
           .then(() => {
             this.cookies.remove("authenticated");
-            this.$router.replace('/');
+            this.$router.replace({name: 'home'});
           })
           .catch((error) => {
             console.error('Error:', error);
