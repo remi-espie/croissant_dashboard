@@ -76,7 +76,6 @@ export default {
 
     fetch('/api/login')
         .then(resp => {
-          console.log(resp)
 
           if (resp.status === 200) {
             this.$router.push({name: "user"})

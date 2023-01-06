@@ -13,6 +13,8 @@
 
       <croissanted-component :croissanted="croissanted" :students="students"></croissanted-component>
 
+      <quote-component :quotes="quotes"></quote-component>
+
     </div>
   </div>
 
@@ -23,16 +25,18 @@ import StudentComponent from "@/components/admin/studentComponent.vue";
 import PromotionComponent from "@/components/admin/promotionComponent.vue";
 import PastryComponent from "@/components/admin/pastryComponent.vue";
 import CroissantedComponent from "@/components/admin/croissantedComponent.vue";
+import QuoteComponent from "@/components/admin/quoteComponent.vue";
 
 export default {
   name: "adminComponent",
-  components: {CroissantedComponent, PastryComponent, PromotionComponent, StudentComponent},
+  components: {QuoteComponent, CroissantedComponent, PastryComponent, PromotionComponent, StudentComponent},
   data() {
     return {
       students: [],
       promotions: [],
       pastries: [],
       croissanted: [],
+      quotes: [],
       user: [],
       sent: NaN,
       sentMessage: ''
@@ -43,6 +47,7 @@ export default {
     this.fetchPromotions();
     this.fetchPastries();
     this.fetchCroissanted();
+    this.fetchQuotes();
   },
   methods: {
 
@@ -64,6 +69,24 @@ export default {
             }
 
             this.students = json
+          })
+    },
+
+    fetchQuotes() {
+      fetch("/api/quote/all",
+          {
+            mode: 'cors',
+            headers: {
+              'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/',
+            },
+          })
+          .catch(err => {
+            console.error(err)
+          })
+          .then(resp => resp.json())
+          .then(json => {
+
+            this.quotes = json
           })
     },
 

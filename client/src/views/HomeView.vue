@@ -14,7 +14,9 @@ import PromotionComponent from "@/components/dashboard/promotionComponent.vue";
   </header>
   <main class="center is-fullwidth is-flex is-flex-direction-column m-auto">
 
-    <h2 class="title is-2 has-text-centered">
+    <h2 class="title is-2 has-text-centered" v-if="displayconnect"><router-link to="/user_panel"> Go to your panel</router-link></h2>
+
+    <h2 class="title is-2 has-text-centered" v-else>
       <router-link to="login/login">Log-in</router-link> or <router-link to="login/signup">Sign up</router-link>
     </h2>
 
@@ -38,8 +40,18 @@ export default {
   name: "HomeView",
   mounted() {
     this.fetchPromotions()
+    this.fetchConnected()
   },
   methods: {
+
+    fetchConnected(){
+      fetch('/api/login')
+          .then(resp => {
+            if (resp.status === 200) {
+              this.displayconnect = true
+            }
+          })
+    },
 
     fetchPromotions() {
       fetch("/api/promotion/all", {
@@ -59,7 +71,8 @@ export default {
   },
   data() {
     return {
-      promotions: []
+      promotions: [],
+      displayconnect: false
     }
   }
 }
