@@ -104,12 +104,12 @@ main * {
   margin: 0 auto;
 }
 
-#title {
-  width: 60%;
+.container{
+  width: 80%;
+  margin: auto;
 }
 
 .notification {
-  width: 30%;
   margin: auto;
 }
 

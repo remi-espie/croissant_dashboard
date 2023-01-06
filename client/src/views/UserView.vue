@@ -6,8 +6,10 @@
 
     <header>
       <div
-          class="container is-block-tablet is-flex-desktop is-flex-direction-row is-justify-content-space-evenly is-align-items-center">
+          class="container is-block-mobile is-flex-tablet is-flex-direction-row is-justify-content-space-evenly is-align-items-center has-text-centered">
+        <div class="m-5 is-flex is-align-items-center is-justify-content-center">
         <img alt="Croissant logo" class="image is-128x128 m-5" src="@/assets/icon.png"/>
+        </div>
         <h2 class="title is-2 m-5">
           <router-link to="/">Home</router-link>
         </h2>
@@ -213,5 +215,12 @@ export default {
 </script>
 
 <style scoped>
+
+@media (max-width: 1220px) {
+  .title.is-2 {
+    font-size: 1.8rem;
+  }
+
+}
 
 </style>
