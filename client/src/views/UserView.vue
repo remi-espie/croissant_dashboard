@@ -85,7 +85,7 @@
 
     <danger-component v-if="isActive === 'danger'" :login="login"></danger-component>
 
-    <admin-component v-if="login.admin"></admin-component>
+    <admin-component v-if="login.admin && isActive === 'admin'"></admin-component>
   </main>
 </template>
 

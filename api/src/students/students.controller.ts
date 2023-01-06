@@ -53,7 +53,7 @@ export class StudentsController {
         return this.studentsService.getAllStudent();
     }
 
-    // Update student data -> PUT /student/:id
+    // Update student data -> PATCH /student/:id
     @Patch("/:id")
     @UseGuards(JwtAuthGuard, StudentGuard)
     @UseInterceptors(ClassSerializerInterceptor)

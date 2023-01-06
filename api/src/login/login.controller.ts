@@ -40,7 +40,7 @@ export class LoginController {
     //     return this.loginService.getAllLogin();
     // }
 
-    // Update login data -> PUT /login/:id
+    // Update login data -> PATCH /login/:id
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     @Patch("/:id")
