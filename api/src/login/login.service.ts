@@ -13,7 +13,14 @@ export class LoginService {
     }
 
     async getLoginId(id): Promise<login | null> {
-        return await this.getLogin(id, id)
+        const login = await this.getLogin(id, id)
+
+
+        if (!login) {
+            throw new HttpException("login does not exists", HttpStatus.NOT_FOUND);
+        }
+
+        return login;
     }
 
     async login(loginDto: LoginDto): Promise<login | null> {
@@ -84,9 +91,5 @@ export class LoginService {
             throw new HttpException("Login does not exists", HttpStatus.BAD_REQUEST)
         }
     }
-
-    // async getAllLogin() {
-    //     return await this.prisma.login.findMany();
-    // }
 
 }

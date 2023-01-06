@@ -10,9 +10,16 @@ export class QuoteService {
     }
 
     async quote(id): Promise<quote | null> {
-        return await this.prisma.quote.findFirst({
+        const quote = await this.prisma.quote.findFirst({
             where: {id},
         });
+
+
+        if (!quote) {
+            throw new HttpException("Quote does not exists", HttpStatus.NOT_FOUND);
+        }
+
+        return quote;
     }
 
     async getRandomQuote(): Promise<quote[] |null>{

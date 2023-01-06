@@ -10,15 +10,27 @@ export class StudentsService {
     }
 
     async student(id): Promise<student | null> {
-        return await this.prisma.student.findFirst({
+        const student = await this.prisma.student.findFirst({
             where: {id},
         });
+
+        if (!student) {
+            throw new HttpException("Student does not exists", HttpStatus.NOT_FOUND);
+        }
+
+        return student;
     }
 
     async studentMail(mail): Promise<student | null> {
-        return await this.prisma.student.findFirst({
+        const student = await this.prisma.student.findFirst({
             where: {mail},
         });
+
+        if (!student) {
+            throw new HttpException("Student does not exists", HttpStatus.NOT_FOUND);
+        }
+
+        return student;
     }
 
     async createStudent(data: Prisma.studentCreateInput): Promise<student> {

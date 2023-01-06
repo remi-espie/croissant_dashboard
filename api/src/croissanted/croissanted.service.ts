@@ -10,15 +10,28 @@ export class CroissantedService {
     }
 
     async croissanted(id): Promise<croissanted | null> {
-        return await this.prisma.croissanted.findFirst({
+        const croissantedExists = await this.prisma.croissanted.findFirst({
             where: {id},
         });
+
+        if (!croissantedExists) {
+            throw new HttpException("Croissanted does not exists", HttpStatus.NOT_FOUND);
+        }
+
+        return croissantedExists;
     }
 
     async croissantedStudent(studentId): Promise<croissanted[] | null> {
-        return await this.prisma.croissanted.findMany({
+        const croissantedExists =  await this.prisma.croissanted.findMany({
             where: {studentId},
         });
+
+
+        if (!croissantedExists) {
+            throw new HttpException("Croissanted does not exists", HttpStatus.NOT_FOUND);
+        }
+
+        return croissantedExists;
     }
 
     async createCroissanted(data: Prisma.croissantedUncheckedCreateInput): Promise<croissanted> {
@@ -57,7 +70,7 @@ export class CroissantedService {
     }
 
     async getScoreboardCroissanted(){
-        return await this.prisma.croissanted.groupBy({
+        const croissantedExists = await this.prisma.croissanted.groupBy({
             by: ['studentId'],
             _count: {
                 studentId: true
@@ -68,6 +81,12 @@ export class CroissantedService {
                 }
             },
         });
+
+        if (!croissantedExists) {
+            throw new HttpException("Croissanted does not exists", HttpStatus.NOT_FOUND);
+        }
+
+        return croissantedExists;
     }
 
 }
