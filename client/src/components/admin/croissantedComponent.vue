@@ -88,8 +88,6 @@ export default {
         this.croissant = this.croissanted.find(croissant => croissant.id === this.$refs.selectorCroissanted.value);
         this.student = this.students.find(student => student.id === this.croissant.studentId);
       } else this.croissant = [];
-
-      console.log(this.croissant.date);
     },
 
     updateCroissanted() {
@@ -102,10 +100,10 @@ export default {
       let date = this.$refs.date.value ? this.$refs.date.value : "1970-01-01";
       date = new Date(date).toISOString();
 
-      const studentId = this.students.find(student => student.firstname + " " + student.name === this.$refs.selectorStudent.value).id;
+      const studentId = this.students.find(student => student.name + " " + student.firstname === this.$refs.selectorStudent.value).id;
       const id = {
         "date": date,
-        "bought": this.$refs.bought.value,
+        "bought": this.$refs.bought.value === "true",
         "studentId": studentId,
       }
 
@@ -125,7 +123,7 @@ export default {
           .then(resp => {
             if (resp.status === 401) {
               this.sentMessage = "Invalid credentials";
-            } else if (resp.status === 200) {
+            } else if (resp.status === 201) {
               this.sentMessage = "croissanted created !";
             } else {
               this.sentMessage = "Error " + resp.status + " : " + resp.statusText;
@@ -143,7 +141,7 @@ export default {
       const studentId = this.students.find(student => student.firstname + " " + student.name === this.$refs.selectorStudent.value).id;
       const id = {
         "date": date,
-        "bought": this.$refs.bought.value,
+        "bought": this.$refs.bought.value === "true",
         "studentId": studentId,
       }
 

@@ -106,7 +106,7 @@ export default {
     createPromotion() {
       const id = {
         "name": this.$refs.name.value,
-        "year": this.$refs.year.value,
+        "year": parseInt(this.$refs.year.value),
         "url_schedule": this.$refs.schedule.value,
         "url_picture": this.$refs.picture.value,
       }
@@ -127,7 +127,7 @@ export default {
           .then(resp => {
             if (resp.status === 401) {
               this.sentMessage = "Invalid credentials";
-            } else if (resp.status === 200) {
+            } else if (resp.status === 201) {
               this.sentMessage = "Promotion created !";
             } else {
               this.sentMessage = "Error " + resp.status + " : " + resp.statusText;
@@ -142,7 +142,7 @@ export default {
     updatePromo() {
       const id = {
         "name": this.$refs.name.value,
-        "year": this.$refs.year.value,
+        "year": parseInt(this.$refs.year.value),
         "url_schedule": this.$refs.schedule.value,
         "url_picture": this.$refs.picture.value,
       }

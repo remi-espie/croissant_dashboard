@@ -2,78 +2,88 @@
 
   <div class="container">
 
-    <form v-on:submit.prevent class="box">
+    <div class="columns is-justify-content-center">
 
-      <div class="field">
-        <label class="label">Name</label>
-        <div class="control has-icons-left has-icons-right">
-          <input class="input" type="text" placeholder="Dent" ref="name" :value="user.name" required>
-          <span class="icon is-small is-left">
+      <div class="column">
+
+        <div class="card p-5 ml-5 mr-5">
+
+          <form v-on:submit.prevent>
+
+            <div class="field">
+              <label class="label">Name</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" placeholder="Dent" ref="name" :value="user.name" required>
+                <span class="icon is-small is-left">
           <i class="fas fa-signature"></i>
               </span>
-        </div>
-      </div>
+              </div>
+            </div>
 
-      <div class="field">
-        <label class="label">Firstname</label>
-        <div class="control has-icons-left has-icons-right">
-          <input class="input" type="text" placeholder="Arthur" ref="firstname" :value="user.firstname" required>
-          <span class="icon is-small is-left">
+            <div class="field">
+              <label class="label">Firstname</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" placeholder="Arthur" ref="firstname" :value="user.firstname" required>
+                <span class="icon is-small is-left">
           <i class="fas fa-user"></i>
               </span>
-        </div>
-      </div>
+              </div>
+            </div>
 
-      <div class="field">
-        <label class="label">Birthday</label>
-        <div class="control has-icons-left has-icons-right">
-          <input class="input" type="date" placeholder="dd-mm-yyyy" ref="birthday" :value="birthday" >
-          <span class="icon is-small is-left">
+            <div class="field">
+              <label class="label">Birthday</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="date" placeholder="dd-mm-yyyy" ref="birthday" :value="birthday">
+                <span class="icon is-small is-left">
           <i class="fas fa-signature"></i>
               </span>
-        </div>
-      </div>
+              </div>
+            </div>
 
-      <div class="field">
-        <label class="label">Favorite pastry</label>
-        <div class="control has-icons-left has-icons-right">
-          <select class="input" ref="pastry" :value="user.pastryId" required>
-            <option v-for="pastry in pastries" :key="pastry.id" :value="pastry.id">{{ pastry.name }}
-            </option>
-          </select>
-          <span class="icon is-small is-left">
+            <div class="field">
+              <label class="label">Favorite pastry</label>
+              <div class="control has-icons-left has-icons-right">
+                <select class="input" ref="pastry" :value="user.pastryId" required>
+                  <option v-for="pastry in pastries" :key="pastry.id" :value="pastry.id">{{ pastry.name }}
+                  </option>
+                </select>
+                <span class="icon is-small is-left">
           <i class="fas fa-cookie-bite"></i>
               </span>
-        </div>
-      </div>
+              </div>
+            </div>
 
-      <div class="field">
-        <label class="label">Promotion</label>
-        <div class="control has-icons-left has-icons-right">
-          <select class="input" ref="promotion" :value="user.promotionId" required>
-            <option v-for="promotion in promotions" :key="promotion.id" :value="promotion.id">{{ promotion.name }}
-            </option>
-          </select>
-          <span class="icon is-small is-left">
+            <div class="field">
+              <label class="label">Promotion</label>
+              <div class="control has-icons-left has-icons-right">
+                <select class="input" ref="promotion" :value="user.promotionId" required>
+                  <option v-for="promotion in promotions" :key="promotion.id" :value="promotion.id">{{ promotion.name }}
+                  </option>
+                </select>
+                <span class="icon is-small is-left">
           <i class="fas fa-graduation-cap"></i>
               </span>
-        </div>
-      </div>
+              </div>
+            </div>
 
 
-      <div class="field">
-        <label class="label">Email</label>
-        <div class="control has-icons-left has-icons-right">
-          <input class="input" type="email" placeholder="arthur.dent@etu.umontpellier.fr" ref="mail" :value="user.mail"  required>
-          <span class="icon is-small is-left">
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="email" placeholder="arthur.dent@etu.umontpellier.fr" ref="mail"
+                       :value="user.mail" required>
+                <span class="icon is-small is-left">
           <i class="fas fa-envelope"></i>
         </span>
+              </div>
+            </div>
+
+            <input type="submit" class="button is-primary" v-on:click="this.updateUser" value="Save">
+          </form>
+          <notification-component :sent="sent" :sentMessage="sentMessage"></notification-component>
         </div>
       </div>
-
-      <input type="submit" class="button is-primary" v-on:click="this.updateUser" value="Save">
-    </form>
-    <notification-component :sent="sent" :sentMessage="sentMessage"></notification-component>
+    </div>
   </div>
 </template>
 
@@ -125,7 +135,7 @@ export default {
           })
     },
 
-    fetchPastries(){
+    fetchPastries() {
       fetch("/api/pastry/all", {
         method: 'GET',
         mode: 'cors',
@@ -191,9 +201,8 @@ export default {
 
 <style scoped>
 
-.box {
-  margin: 0 auto;
-  width: 40%;
+.column{
+  max-width: 750px;
 }
 
 </style>

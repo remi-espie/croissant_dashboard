@@ -158,7 +158,7 @@ export default {
           .then(resp => {
             if (resp.status === 401) {
               this.sentMessage = "Invalid credentials";
-            } else if (resp.status === 200) {
+            } else if (resp.status === 201) {
               this.sentMessage = "Profile created !";
             } else {
               this.sentMessage = "Error " + resp.status + " : " + resp.statusText;
