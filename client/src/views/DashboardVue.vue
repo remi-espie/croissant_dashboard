@@ -34,7 +34,7 @@ export default {
       fetch("/api/promotion/" + this.$route.params.id, {
         mode: 'cors',
         headers: {
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/'
         }
       })
           .catch(err => {

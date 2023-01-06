@@ -111,7 +111,7 @@ export default {
         method: 'POST',
         mode: 'cors',
         headers: {
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(id),
@@ -149,7 +149,7 @@ export default {
         method: 'PATCH',
         mode: 'cors',
         headers: {
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(id),

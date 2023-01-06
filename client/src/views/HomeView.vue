@@ -15,7 +15,7 @@ import PromotionComponent from "@/components/dashboard/promotionComponent.vue";
   <main class="center is-fullwidth is-flex is-flex-direction-column m-auto">
 
     <h2 class="title is-2 has-text-centered">
-      <router-link to="login">Log-in</router-link>
+      <router-link to="login/login">Log-in</router-link> or <router-link to="login/signup">Sign up</router-link>
     </h2>
 
     <hr style="width: 60%" class="ml-auto mr-auto">
@@ -45,7 +45,7 @@ export default {
       fetch("/api/promotion/all", {
         mode: 'cors',
         headers: {
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/'
         }
       })
           .catch(err => console.error(err))

@@ -45,7 +45,7 @@ export default {
       fetch(this.url_schedule, {
         mode: 'cors',
         headers: {
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/',
           'Content-type': 'text/calendar'
         },
       })
