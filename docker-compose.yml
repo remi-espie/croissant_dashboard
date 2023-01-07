@@ -20,7 +20,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`cluster-2022-2.dopolytech.fr`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.api.entrypoints=web"
+#      - "traefik.http.routers.api.entrypoints=web"
       - "traefik.http.routers.api.entrypoints=web-secure"
       - "traefik.http.routers.api.tls.certresolver=myresolver"
 
@@ -36,7 +36,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.client.rule=Host(`cluster-2022-2.dopolytech.fr`)"
-      - "traefik.http.routers.client.entrypoints=web"
+#      - "traefik.http.routers.client.entrypoints=web"
       - "traefik.http.routers.client.entrypoints=web-secure"
       - "traefik.http.routers.client.tls.certresolver=myresolver"
 
@@ -56,18 +56,20 @@ services:
     image: traefik:v2.9
     container_name: traefik
     command:
-      - "--api.insecure=true"
+#      - "--api.insecure=true"
       - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web-secure.address=:443"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=remi.espie@etu.umontpellier.fr"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+#      - "8080:8080"
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
