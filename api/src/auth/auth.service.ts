@@ -23,7 +23,7 @@ export class AuthService {
         const token = this._createToken(user);
         //const expireDate = new Date(process.env.EXPIRESIN)
 
-        res.setCookie('auth-cookie', token,{httpOnly:true,signed:false, maxAge:100000000000,path:"/"});
+        res.setCookie('auth-cookie', token,{httpOnly:true,signed:false, maxAge:100000000000, sameSite:"strict", secure:true, path:"/"});
 
         return user
     }

@@ -24,6 +24,8 @@ export class PastriesController {
 
     // Create pastry -> POST /pastry
     @Post()
+    @UseGuards(JwtAuthGuard, AdminGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     async createPastry(
         @Body() pastryData: PastriesDto
     ): Promise<PastriesDto> {
@@ -43,9 +45,9 @@ export class PastriesController {
         return this.pastriesService.getAllPastry();
     }
 
-    // Update pastry data -> PUT /pastry/:id
+    // Update pastry data -> PATCH /pastry/:id
     @Patch("/:id")
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async updatePastry(
         @Body() pastryData: PastriesDto,

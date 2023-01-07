@@ -47,7 +47,7 @@ export class QuoteController {
         return this.quoteService.getRandomQuote();
     }
 
-    // Update quote data -> PUT /quote/:id
+    // Update quote data -> PATCH /quote/:id
     @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     @Patch("/:id")

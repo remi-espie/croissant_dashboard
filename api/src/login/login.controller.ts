@@ -12,6 +12,7 @@ import {login} from "@prisma/client";
 import {LoginService} from "./login.service";
 import {LoginDto, LoginDtoId} from "./login.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
+import {StudentGuard} from "../auth/student-guard";
 
 @Controller("login")
 export class LoginController {
@@ -28,7 +29,7 @@ export class LoginController {
     //
     // Get login data -> GET /login/:id
     @Get()
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, StudentGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async profile(@Req() request): Promise<login> {
         return request.user;
@@ -40,8 +41,8 @@ export class LoginController {
     //     return this.loginService.getAllLogin();
     // }
 
-    // Update login data -> PUT /login/:id
-    @UseGuards(JwtAuthGuard)
+    // Update login data -> PATCH /login/:id
+    @UseGuards(JwtAuthGuard, StudentGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     @Patch("/:id")
     async updateLogin(

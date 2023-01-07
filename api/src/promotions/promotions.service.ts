@@ -13,37 +13,57 @@ export class PromotionsService {
     }
 
     async promotionId(id): Promise<promotion | null> {
-        return await this.prisma.promotion.findFirst({
+        const promotionExists = await this.prisma.promotion.findFirst({
             where: {id},
         });
+
+        if (!promotionExists) {
+            throw new HttpException("Promotion does not exists", HttpStatus.NOT_FOUND);
+        }
+        return promotionExists;
     }
 
     async promotionName(name): Promise<promotion | null> {
-        return await this.prisma.promotion.findFirst({
+        const promotionExists = await this.prisma.promotion.findFirst({
             where: {name},
         });
+
+        if (!promotionExists) {
+            throw new HttpException("Promotion does not exists", HttpStatus.NOT_FOUND);
+        }
+        return promotionExists;
     }
 
     async promotionStudentId(id): Promise<promotion[] | null> {
-        return await this.prisma.promotion.findMany({
+        const promotionExists = await this.prisma.promotion.findMany({
             where: {id},
             include: {
                 student: true
             }
         });
+
+        if (!promotionExists) {
+            throw new HttpException("Promotion does not exists", HttpStatus.NOT_FOUND);
+        }
+        return promotionExists;
     }
 
     async promotionStudentName(name): Promise<promotion[] | null> {
-        return await this.prisma.promotion.findMany({
+        const promotionExists = await this.prisma.promotion.findMany({
             where: {name},
             include: {
                 student: true
             }
         });
+
+        if (!promotionExists) {
+            throw new HttpException("Promotion does not exists", HttpStatus.NOT_FOUND);
+        }
+        return promotionExists;
     }
 
     async promotionCroissantedId(id): Promise<promotion[] | null> {
-        return await this.prisma.promotion.findMany({
+        const promotionExists = await this.prisma.promotion.findMany({
             where: {id},
             include: {
                 student: {
@@ -55,10 +75,15 @@ export class PromotionsService {
                 }
             }
         });
+
+        if (!promotionExists) {
+            throw new HttpException("Promotion does not exists", HttpStatus.NOT_FOUND);
+        }
+        return promotionExists;
     }
 
     async promotionCroissantedName(name): Promise<promotion[] | null> {
-        return await this.prisma.promotion.findMany({
+        const promotionExists = await this.prisma.promotion.findMany({
             where: {name},
             include: {
                 student: {
@@ -70,10 +95,15 @@ export class PromotionsService {
                 }
             }
         });
+
+        if (!promotionExists) {
+            throw new HttpException("Promotion does not exists", HttpStatus.NOT_FOUND);
+        }
+        return promotionExists;
     }
 
     async promotionCroissantedAllId(id): Promise<promotion[] | null> {
-        return await this.prisma.promotion.findMany({
+        const promotionExists = await this.prisma.promotion.findMany({
             where: {id},
             include: {
                 student: {
@@ -83,10 +113,15 @@ export class PromotionsService {
                 }
             }
         });
+
+        if (!promotionExists) {
+            throw new HttpException("Promotion does not exists", HttpStatus.NOT_FOUND);
+        }
+        return promotionExists;
     }
 
     async promotionCroissantedAllName(name): Promise<promotion[] | null> {
-        return await this.prisma.promotion.findMany({
+        const promotionExists = await this.prisma.promotion.findMany({
             where: {name},
             include: {
                 student: {
@@ -96,6 +131,11 @@ export class PromotionsService {
                 }
             }
         });
+
+        if (!promotionExists) {
+            throw new HttpException("Promotion does not exists", HttpStatus.NOT_FOUND);
+        }
+        return promotionExists;
     }
 
     async createPromotion(data: Prisma.promotionCreateInput): Promise<promotion> {
@@ -133,6 +173,10 @@ export class PromotionsService {
             where: {name},
         });
 
+        if (!promo) {
+            throw new HttpException("Promotion does not exists", HttpStatus.NOT_FOUND);
+        }
+
         return this.getSchedule(answer, promo);
     }
 
@@ -140,6 +184,10 @@ export class PromotionsService {
         const promo = await this.prisma.promotion.findFirst({
             where: {id},
         });
+
+        if (!promo) {
+            throw new HttpException("Promotion does not exists", HttpStatus.NOT_FOUND);
+        }
 
         return this.getSchedule(answer, promo);
     }

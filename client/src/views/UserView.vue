@@ -6,8 +6,10 @@
 
     <header>
       <div
-          class="container is-block-tablet is-flex-desktop is-flex-direction-row is-justify-content-space-evenly is-align-items-center">
+          class="container is-block-mobile is-flex-tablet is-flex-direction-row is-justify-content-space-evenly is-align-items-center has-text-centered">
+        <div class="m-5 is-flex is-align-items-center is-justify-content-center">
         <img alt="Croissant logo" class="image is-128x128 m-5" src="@/assets/icon.png"/>
+        </div>
         <h2 class="title is-2 m-5">
           <router-link to="/">Home</router-link>
         </h2>
@@ -85,7 +87,7 @@
 
     <danger-component v-if="isActive === 'danger'" :login="login"></danger-component>
 
-    <admin-component v-if="login.admin"></admin-component>
+    <admin-component v-if="login.admin && isActive === 'admin'"></admin-component>
   </main>
 </template>
 
@@ -125,7 +127,7 @@ export default {
     fetch('/api/login')
         .then(resp => {
           if (resp.status !== 200) {
-            this.$router.replace('/login')
+            this.$router.replace({name: 'login'});
           }
         }).then(() => {
       const tabs = ['croissanted', 'quote', 'shopping', 'stats', 'user', 'danger', 'admin'];
@@ -144,7 +146,7 @@ export default {
       })
           .then(() => {
             this.cookies.remove("authenticated");
-            this.$router.replace('/');
+            this.$router.replace({name: 'home'});
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -213,5 +215,12 @@ export default {
 </script>
 
 <style scoped>
+
+@media (max-width: 1220px) {
+  .title.is-2 {
+    font-size: 1.8rem;
+  }
+
+}
 
 </style>

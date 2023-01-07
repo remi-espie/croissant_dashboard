@@ -9,9 +9,6 @@ export class LoginDto{
     @IsNotEmpty()
     password: string
 
-    @IsBoolean()
-    @IsOptional()
-    admin: boolean
 }
 
 export class LoginDtoId extends LoginDto{
@@ -19,11 +16,16 @@ export class LoginDtoId extends LoginDto{
         super();
         this.login = login.login;
         this.password = login.password;
-        this.admin = login.admin;
+        this.admin = false;
         this.id = id;
     }
 
     @IsString()
     @IsNotEmpty()
     public id: string
+
+
+    @IsBoolean()
+    @IsOptional()
+    admin: boolean
 }

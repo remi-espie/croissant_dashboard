@@ -8,13 +8,13 @@
         <div class="tabs is-large is-toggle">
           <ul>
             <li :class="{ 'is-active': isActive === 'login' }">
-              <a v-on:click="isActive = 'login'; this.$router.replace('/login/login')">
+              <a v-on:click="isActive = 'login'; this.$router.replace({name: 'loginTab', params: {tab: isActive} })">
                 <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
                 <span>Login</span>
               </a>
             </li>
             <li :class="{ 'is-active': isActive === 'signup' }">
-              <a v-on:click="isActive = 'signup'; this.$router.replace('/login/signup')">
+              <a v-on:click="isActive = 'signup'; this.$router.replace({name: 'loginTab', params: { tab: isActive} })">
                 <span class="icon"><i class="fas fa-user-plus"></i></span>
                 <span>Sign up</span>
               </a>
@@ -76,7 +76,6 @@ export default {
 
     fetch('/api/login')
         .then(resp => {
-          console.log(resp)
 
           if (resp.status === 200) {
             this.$router.push({name: "user"})
@@ -99,23 +98,37 @@ export default {
 main {
   min-height: 100vh;
   display: flex;
+  width: 80%;
+  margin: auto;
 }
 
 main * {
   margin: 0 auto;
 }
 
-#title {
-  width: 60%;
+.container{
+  margin: auto;
 }
 
 .notification {
-  width: 30%;
   margin: auto;
 }
 
 .box {
   background-color: white;
+}
+
+
+@media (max-width: 768px) {
+  main{
+    width: 80%;
+    margin: 0;
+  }
+
+  .title.is-2 {
+    font-size: 2rem;
+  }
+
 }
 
 </style>

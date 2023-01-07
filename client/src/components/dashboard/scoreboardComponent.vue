@@ -61,7 +61,7 @@ export default {
       fetch(url, {
         mode: 'cors',
         headers: {
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': 'https://cluster-2022-2.dopolytech.fr/'
         }
       })
           .catch(err => {
@@ -94,7 +94,7 @@ export default {
         return b.croissanted.length - a.croissanted.length
       })
 
-      json.slice(0, 3)
+      json = json.slice(0, 3)
 
       if (json.length !== 0) {
         this.scoreboardLocal = json

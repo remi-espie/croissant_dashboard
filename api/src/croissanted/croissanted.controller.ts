@@ -4,9 +4,8 @@ import {
     Controller,
     Delete,
     Get,
-    Param,
+    Param, Patch,
     Post,
-    Put,
     UseGuards,
     UseInterceptors
 } from "@nestjs/common";
@@ -57,8 +56,8 @@ export class CroissantedController {
         return this.croissantedService.getScoreboardCroissanted();
     }
 
-    // Update croissanted data -> PUT /croissanted/:id
-    @Put("/:id")
+    // Update croissanted data -> PATCH /croissanted/:id
+    @Patch("/:id")
     @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async updateCroissanted(

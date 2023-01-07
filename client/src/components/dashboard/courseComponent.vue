@@ -119,8 +119,9 @@ export default {
 }
 
 .hour {
-  /*background-color: #821982;*/
+  background-color: white;
   color: red;
+  z-index: 5;
 }
 
 .hour:after {

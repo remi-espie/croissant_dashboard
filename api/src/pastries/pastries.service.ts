@@ -10,15 +10,27 @@ export class PastriesService {
     }
 
     async pastryId(id): Promise<pastry | null> {
-        return await this.prisma.pastry.findFirst({
+        const pastry = await this.prisma.pastry.findFirst({
             where: {id},
         });
+
+        if (!pastry) {
+            throw new HttpException("Pastry does not exists", HttpStatus.NOT_FOUND);
+        }
+
+        return pastry;
     }
 
     async pastryName(name): Promise<pastry | null> {
-        return await this.prisma.pastry.findFirst({
+        const pastry = await this.prisma.pastry.findFirst({
             where: {name},
         });
+
+        if (!pastry) {
+            throw new HttpException("Pastry does not exists", HttpStatus.NOT_FOUND);
+        }
+
+        return pastry;
     }
 
     async createPastry(data: Prisma.pastryCreateInput): Promise<pastry> {

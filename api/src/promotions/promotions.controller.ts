@@ -73,7 +73,7 @@ export class PromotionsController {
         else return this.promotionService.promotionCroissantedAllName(String(id));
     }
 
-    // Update promotion data -> PUT /promotion/:id
+    // Update promotion data -> PATCH /promotion/:id
     @Patch("/:id")
     @UseGuards(JwtAuthGuard, AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
