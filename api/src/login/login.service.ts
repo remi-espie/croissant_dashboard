@@ -13,14 +13,21 @@ export class LoginService {
     }
 
     async getLoginId(id): Promise<login | null> {
-        const login = await this.getLogin(id, id)
+        const user = await this.prisma.login.findFirst({
+            where: {id}
+        });
+        if (!user) throw new HttpException("Invalid credentials", HttpStatus.UNAUTHORIZED)
+        delete user.password;
+        return user;
+    }
 
-
-        if (!login) {
-            throw new HttpException("login does not exists", HttpStatus.NOT_FOUND);
-        }
-
-        return login;
+    async getLoginMail(login): Promise<login | null> {
+        const user = await this.prisma.login.findFirst({
+            where: {login}
+        });
+        if (!user) throw new HttpException("Invalid credentials", HttpStatus.UNAUTHORIZED)
+        delete user.password;
+        return user;
     }
 
     async login(loginDto: LoginDto): Promise<login | null> {

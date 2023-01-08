@@ -44,12 +44,12 @@ export class LoginController {
     // Update login data -> PATCH /login/:id
     @UseGuards(JwtAuthGuard, StudentGuard)
     @UseInterceptors(ClassSerializerInterceptor)
-    @Patch("/:id")
+    @Patch("/:mail")
     async updateLogin(
         @Body() loginData: LoginDto,
-        @Param("id") id
+        @Param("mail") mail
     ): Promise<LoginDto> {
-        const login = await this.loginService.getLogin(id, id);
+        const login = await this.loginService.getLoginMail(mail);
         const loginDto = new LoginDtoId(loginData, login.id)
         return this.loginService.updateLogin(loginDto);
     }
