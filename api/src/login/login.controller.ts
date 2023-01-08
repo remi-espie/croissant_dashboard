@@ -29,7 +29,7 @@ export class LoginController {
     //
     // Get login data -> GET /login/:id
     @Get()
-    @UseGuards(JwtAuthGuard, StudentGuard)
+    @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     async profile(@Req() request): Promise<login> {
         return request.user;
@@ -49,8 +49,9 @@ export class LoginController {
         @Body() loginData: LoginDto,
         @Param("id") id
     ): Promise<LoginDto> {
-        const login = new LoginDtoId(loginData, id);
-        return this.loginService.updateLogin(login);
+        const login = await this.loginService.getLogin(id, id);
+        const loginDto = new LoginDtoId(loginData, login.id)
+        return this.loginService.updateLogin(loginDto);
     }
 
     // Delete login -> DELETE /login/:id

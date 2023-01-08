@@ -228,7 +228,7 @@ export default {
         "password": this.$refs.password.value
       }
 
-      fetch("/api/login/" + login.id, {
+      fetch("/api/login/" + login.login, {
         method: 'PATCH',
         mode: 'cors',
         headers: {
