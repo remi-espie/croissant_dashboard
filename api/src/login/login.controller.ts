@@ -13,20 +13,13 @@ import {LoginService} from "./login.service";
 import {LoginDto, LoginDtoId} from "./login.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {StudentGuard} from "../auth/student-guard";
+import {PasswordProvider} from "../provider/password";
 
 @Controller("login")
 export class LoginController {
-    constructor(private readonly loginService: LoginService) {
+    constructor(private readonly loginService: LoginService, private readonly passwordProvider: PasswordProvider) {
     }
 
-    // // Create login -> POST /login
-    // @Post()
-    // async createLogin(
-    //     @Body() loginData: LoginDto
-    // ): Promise<LoginDto> {
-    //     return this.loginService.createLogin(loginData);
-    // }
-    //
     // Get login data -> GET /login/:id
     @Get()
     @UseGuards(JwtAuthGuard, StudentGuard)
@@ -34,12 +27,6 @@ export class LoginController {
     async profile(@Req() request): Promise<login> {
         return request.user;
     }
-    //
-    // // Get all logins data
-    // @Get("/all")
-    // async getAllLogin() {
-    //     return this.loginService.getAllLogin();
-    // }
 
     // Update login data -> PATCH /login/:id
     @UseGuards(JwtAuthGuard, StudentGuard)
@@ -49,6 +36,7 @@ export class LoginController {
         @Body() loginData: LoginDto,
         @Param("id") id
     ): Promise<LoginDto> {
+        loginData.password = await this.passwordProvider.hashPassword(loginData.password)
         const login = new LoginDtoId(loginData, id);
         return this.loginService.updateLogin(login);
     }
